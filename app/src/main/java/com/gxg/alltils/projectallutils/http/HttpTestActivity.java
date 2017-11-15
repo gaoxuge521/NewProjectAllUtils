@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -30,15 +29,21 @@ public class HttpTestActivity extends BaseActivity {
     Retrofit retrofit;
     private MovieSubject mMovieSubject;
 
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_http_test;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_http_test);
-        ButterKnife.bind(this);
 
         getDataByError();
 
     }
+
+
 
     @Override
     protected void initView() {

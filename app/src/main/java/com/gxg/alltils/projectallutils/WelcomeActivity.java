@@ -23,7 +23,7 @@ public class WelcomeActivity extends Activity {
                int count = (int) SharedPreferencesUtils.get(WelcomeActivity.this,LOGIN_COUNT,0);
 
                 //是第一次登陆进入导航页
-                if(count==0){
+                if(count<10){
                     intent = new Intent(WelcomeActivity.this,LoadingViewpageActivity.class);
                 }else{
                     //不是第一次进入首页

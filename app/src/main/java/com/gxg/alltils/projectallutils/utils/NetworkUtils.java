@@ -7,8 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
-import com.elvishew.xlog.XLog;
 import com.gxg.alltils.projectallutils.application.BaseApplication;
 
 import java.lang.reflect.Method;
@@ -92,10 +92,10 @@ public class NetworkUtils {
         ShellUtils.CommandResult result = ShellUtils.execCmd(String.format("ping -c 1 %s", ip), false);
         boolean ret = result.result == 0;
         if (result.errorMsg != null) {
-            XLog.d("NetworkUtils", "isAvailableByPing() called" + result.errorMsg);
+            Log.d("NetworkUtils", "isAvailableByPing() called" + result.errorMsg);
         }
         if (result.successMsg != null) {
-            XLog.d("NetworkUtils", "isAvailableByPing() called" + result.successMsg);
+            Log.d("NetworkUtils", "isAvailableByPing() called" + result.successMsg);
         }
         return ret;
     }

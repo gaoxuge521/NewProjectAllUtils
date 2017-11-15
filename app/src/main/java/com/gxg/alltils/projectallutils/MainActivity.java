@@ -1,23 +1,72 @@
 package com.gxg.alltils.projectallutils;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.gxg.alltils.projectallutils.adapter.MainViewPagerAdapter;
 import com.gxg.alltils.projectallutils.base.BaseActivity;
-import com.gxg.alltils.projectallutils.http.HttpTestActivity;
+import com.gxg.alltils.projectallutils.medel.find.FindFragment;
+import com.gxg.alltils.projectallutils.medel.home.HomeFragment;
+import com.gxg.alltils.projectallutils.medel.other.OtherFragment;
+import com.gxg.alltils.projectallutils.medel.shop.ShopFragment;
+import com.gxg.alltils.projectallutils.medel.user.UserFragment;
+import com.gxg.alltils.projectallutils.widght.NoSlidingViewPager;
+import com.socks.library.KLog;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 
 public class MainActivity extends BaseActivity {
 
+    @Bind(R.id.vp)
+    NoSlidingViewPager vp;
+    @Bind(R.id.rbOne)
+    RadioButton rbOne;
+    @Bind(R.id.rbTwo)
+    RadioButton rbTwo;
+    @Bind(R.id.rbThree)
+    RadioButton rbThree;
+    @Bind(R.id.rbFour)
+    RadioButton rbFour;
+    @Bind(R.id.rbFive)
+    RadioButton rbFive;
+    @Bind(R.id.rg)
+    RadioGroup rg;
+
+    List<Fragment> fragments = new ArrayList<>();
+    private HomeFragment homeFragment;
+    private FindFragment findFragment;
+    private ShopFragment shopFragment;
+    private OtherFragment otherFragment;
+    private UserFragment userFragment;
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        getData();
 
-
-        openActivity(HttpTestActivity.class);
-        //设置按两次退出
-//        setBackExit(true);
     }
 
+
+    /**
+     * 获取数据
+     */
+    private void getData() {
+
+    }
 
     @Override
     protected void initView() {
@@ -26,11 +75,76 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        fragments.clear();
+        homeFragment = HomeFragment.newInstance("1");
+        findFragment = FindFragment.newInstance("2");
+        shopFragment = ShopFragment.newInstance("3");
+        otherFragment = OtherFragment.newInstance("4");
+        userFragment = UserFragment.newInstance("5");
+
+        fragments.add(homeFragment);
+        fragments.add(findFragment);
+        fragments.add(shopFragment);
+        fragments.add(otherFragment);
+        fragments.add(userFragment);
+
+        vp.setScanScroll(false);
+        MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager(),fragments);
+        vp.setAdapter(adapter);
 
     }
 
     @Override
     protected void initListener() {
-
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.rbOne:
+                        vp.setCurrentItem(0);
+                        break;
+                    case R.id.rbTwo:
+                        vp.setCurrentItem(1);
+                        break;
+                    case R.id.rbThree:
+                        vp.setCurrentItem(2);
+                        break;
+                    case R.id.rbFour:
+                        vp.setCurrentItem(3);
+                        break;
+                    case R.id.rbFive:
+                        vp.setCurrentItem(4);
+                        break;
+                }
+            }
+        });
     }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        KLog.e("onNewIntent","onNewIntent");
+    }
+
+    private long exitTime;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                        Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+                return true;
+            } else {
+                System.exit(0);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }

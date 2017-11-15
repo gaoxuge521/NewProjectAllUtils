@@ -1,23 +1,35 @@
 package com.gxg.alltils.projectallutils.utils;
 
 import android.app.Activity;
-import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * 作者：Administrator on 2017/11/14 15:04
  * 邮箱：android_gaoxuge@163.com
+ * 整个应用级别的activity堆栈式管理
  */
 public class ActivityManage {
-    private static Stack<Activity> activityStack;
     private static ActivityManage instance;
 
+    // 记录Activity
+    private static Map<String, Activity> activityMap;
+    private static List<Activity> activityList = new ArrayList<>();
+
+    private static LinkedList<String> tagLists;
+    /** 是否是远程的打开 */
+    private boolean mIsPending;
+    private ActivityManage() {
+
+    }
     /**
-     * 单例模式 创建单一实例
-     * @return
+     * 单一实例
      */
     public static ActivityManage getAppManager() {
         if (instance == null) {
@@ -25,110 +37,116 @@ public class ActivityManage {
         }
         return instance;
     }
-
-    /**
-     * 初始化Stack<Activity>
-     */
-    private void initActivityStack() {
-        if (activityStack == null) {
-            activityStack = new Stack<Activity>();
+    public boolean isPending() {
+        return mIsPending;
+    }
+    public void setmIsPending(boolean mIsPending) {
+        this.mIsPending = mIsPending;
+    }
+    public synchronized void addActivity(Activity activity) {
+        activityList.add(activity);
+        if(tagLists == null){
+            tagLists = new LinkedList<>();
+        }
+        if (activityMap == null) {
+            activityMap = new HashMap<>();
+        }
+        String tag = activity.getClass().getSimpleName();
+        if(tagLists.contains(tag)){
+            tag = tag + UUID.randomUUID().toString();	// 避免相同键覆盖
+            tagLists.add(tag);
+            activityMap.put(tag, activity);
+        }else {
+            tagLists.add(tag);
+            activityMap.put(tag, activity);
         }
     }
 
-    /**
-     * 添加Activity到堆栈
-     * @param activity
-     */
-    public void addActivity(Activity activity) {
-        initActivityStack();
-        activityStack.add(activity);
-    }
-
-    /**
-     * 获取当前Activity（堆栈中最后一个压入的）
-     * @return
-     */
-    public Activity currentActivity() {
-        Activity activity = activityStack.lastElement();
-        return activity;
-    }
-
-    /**
-     * 结束指定的Activity
-     */
-    public void finishActivity(Activity activity) {
-        if (activity != null) {
-            activityStack.remove(activity);
-            activity.finish();
-            activity = null;
+    public Activity getActivity(Class<?> cls){
+        if (activityMap != null && activityMap.size() > 0) {
+            return activityMap.get(cls.getSimpleName());
+        }else{
+            return null;
         }
     }
-
-    /**
-     * 结束当前Activity（堆栈中最后一个压入的）
-     */
+    public Activity getActivity(){
+        if (activityMap.size() > 0 && tagLists.size() > 0 && tagLists.size() == activityMap.size()) {
+            return activityMap.get(tagLists.getLast());
+        }else
+            return null;
+    }
     public void finishActivity() {
-        //获取到当前Activity
-        Activity activity = activityStack.lastElement();
-        //结束指定Activity
-        finishActivity(activity);
-    }
-
-    /**
-     * 结束指定类名的Activity
-     */
-    public void finishActivity(Class<?> cls) {
-        List<Activity> activities = new ArrayList<Activity>();
-        for (Activity activity : activityStack) {
-            if (activity.getClass().equals(cls)) {
-                // finishActivity(activity);
-                activities.add(activity);
-            }
-        }
-        // 结束所有类名相同activity
-        activityStack.removeAll(activities);
-        for (Activity activity : activities) {
-            finishActivity(activity);
+        if (activityMap.size() > 0 && tagLists.size() > 0 && tagLists.size() == activityMap.size()) {
+            finishActivity(tagLists.getLast());
         }
     }
-
-    /**
-     * 结束所有Activity
-     */
-    public void finishAllActivity() {
-        for (int i = 0, size = activityStack.size(); i < size; i++) {
-            if (null != activityStack.get(i)) {
-                Activity activity = activityStack.get(i);
-                if (!activity.isFinishing()) {
+    public void finishActivity(String tag) {
+        try {
+            if (activityMap.size() > 0) {
+                Activity activity = activityMap.remove(tag);
+                if (activityList.contains(activity)){
+                    activityList.remove(activity);
+                }
+                if(activity!=null){
+                    tagLists.remove(tag);
                     activity.finish();
+                    activity = null;
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        activityStack.clear();
     }
 
+    public void finishActivity(Class<?> cls){
+        finishActivity(cls.getSimpleName());
+    }
 
+    public void finishAllActivityExcept(Class<?> cls){
+        finishAllActivityExcept(cls.getSimpleName());
+    }
+
+    public void finishAllActivityExcept(String activityTag){
+        ArrayList<String> tags = getActivityTags();
+        for(String tag : tags){
+            if(!tag.equals(activityTag)){
+                finishActivity(tag);
+            }
+        }
+    }
 
     /**
-     * 退出应用程序
-     * 这里关闭的是所有的Activity，没有关闭Activity之外的其他组件;
-     * android.os.Process.killProcess(android.os.Process.myPid())
-     * 杀死进程关闭了整个应用的所有资源，有时候是不合理的，通常是用
-     * 堆栈管理Activity;System.exit(0)杀死了整个进程，这时候活动所占的
-     * 资源也会被释放,它会执行所有通过Runtime.addShutdownHook注册的shutdown hooks.
-     * 它能有效的释放JVM之外的资源,执行清除任务，运行相关的finalizer方法终结对象，
-     * 而finish只是退出了Activity。
+     * 关闭所有的activity
      */
-    public void AppExit(Context context) {
+    public void finishAllActivity() {
+        if (activityMap.size() > 0) {
+            ArrayList<String> tags = getActivityTags();
+            for(String tag : tags){
+                finishActivity(tag);
+            }
+        }
+    }
+
+    /**
+     * 返回所有的activity的tag
+     */
+    private ArrayList<String> getActivityTags(){
+        Set<String> tags = activityMap.keySet();
+        ArrayList<String> tagList = new ArrayList<>();
+        tagList.addAll(tags);
+        return tagList;
+    }
+    /**
+     * 退出应用程序
+     */
+    public void AppExit() {
         try {
             finishAllActivity();
-            //DalvikVM的本地方法
-            // 杀死该应用进程
-            //android.os.Process.killProcess(android.os.Process.myPid());
-            //System.exit(0);
-            //这些方法如果是放到主Activity就可以退出应用，如果不是主Activity
-            //就是退出当前的Activity
+            // 杀掉该应用进程
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -26,10 +26,8 @@ public class SubjectAdapter extends BaseQuickAdapter<MovieSubject.SubjectsBean,B
 
         ImageView imageView = helper.getView(R.id.iv_img);
 
-        ImageLoader.Builder builder = new ImageLoader.Builder();
-        ImageLoader img = builder.url(item.getImages().getSmall())
-                .imgView(imageView).strategy(ImageLoaderUtil.LOAD_STRATEGY_ONLY_WIFI).build();
-        new ImageLoaderUtil().loadImage(mContext, img);
+        new ImageLoaderUtil().loadImage(mContext, new ImageLoader.Builder().url(item.getImages().getSmall())
+                .imgView(imageView).strategy(ImageLoaderUtil.LOAD_STRATEGY_ONLY_WIFI).build());
 
         helper.setText(R.id.tv_title,item.getTitle());
         helper.setText(R.id.tv_name,item.getOriginal_title());

@@ -2,10 +2,10 @@ package com.gxg.alltils.projectallutils.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.elvishew.xlog.XLog;
 import com.gxg.alltils.projectallutils.application.BaseApplication;
 
 /**
@@ -98,7 +98,7 @@ public class KeyboardUtils {
      * <p>参照以下注释代码</p>
      */
     public static void clickBlankArea2HideSoftInput() {
-        XLog.e("tips", "U should copy the following code.");
+        Log.e("tips", "U should copy the following code.");
         /*
         @Override
         public boolean dispatchTouchEvent(MotionEvent ev) {

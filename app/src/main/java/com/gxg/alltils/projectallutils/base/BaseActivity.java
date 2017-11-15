@@ -2,9 +2,10 @@ package com.gxg.alltils.projectallutils.base;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -12,14 +13,16 @@ import android.widget.Toast;
 
 import com.gxg.alltils.projectallutils.utils.ActivityManage;
 
+import butterknife.ButterKnife;
+
 /**
  * 作者：Administrator on 2017/11/14 15:01
  * 邮箱：android_gaoxuge@163.com
  */
-public abstract class BaseActivity extends Activity implements View.OnClickListener {
+public abstract class BaseActivity extends FragmentActivity implements View.OnClickListener {
 
-    private long exitTime;
-    private boolean isBackExit;
+
+    public Activity mActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,20 +30,27 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         // 设置activity为无标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ActivityManage.getAppManager().addActivity(this);
 
+        if(getLayoutId() != 0) {
+            setContentView(getLayoutId());
+        }
+        ButterKnife.bind(this);
         initView();
         initData();
         initListener();
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityManage.getAppManager().finishActivity(this);
+        ButterKnife.unbind(this);
+        ActivityManage.getAppManager().finishActivity(this.getClass());
     }
 
+    protected abstract int getLayoutId();
     // 初始化ui
     protected abstract void initView();
 
@@ -105,30 +115,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     }
 
 
-    /**
-     * [是否连续两次返回退出]
-     */
-    public void setBackExit(boolean isBackExit) {
-        this.isBackExit = isBackExit;
-    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (isBackExit) {
-                if ((System.currentTimeMillis() - exitTime) > 2000) {
-                    Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                            Toast.LENGTH_SHORT).show();
-                    exitTime = System.currentTimeMillis();
-                } else {
-                    System.exit(0);
-                }
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
     @Override
     public void onClick(View v) {

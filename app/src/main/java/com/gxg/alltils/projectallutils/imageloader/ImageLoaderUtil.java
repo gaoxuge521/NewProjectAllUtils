@@ -10,6 +10,9 @@ import android.text.TextUtils;
  * Created by Anthony on 2016/3/3.
  * Class Note:
  * use this class to load image,single instance
+ *
+             *    new ImageLoaderUtil().loadImage(mContext, new ImageLoader.Builder().url(item.getImages().getSmall())
+             .imgView(imageView).strategy(ImageLoaderUtil.LOAD_STRATEGY_ONLY_WIFI).build());
  */
 public class ImageLoaderUtil {
 
@@ -45,6 +48,15 @@ public class ImageLoaderUtil {
 //        return mInstance;
 //    }
 
+    /**
+     * 加载圆形图片
+     * @param context
+     * @param img
+     * @param radio
+     */
+    public void loadCircleImg(Context context, ImageLoader img,int radio){
+        mStrategy.loadCircleImage(context,img,radio);
+    }
 
     public void loadImage(Context context, ImageLoader img) {
         mStrategy.loadImage(context, img);

@@ -47,4 +47,5 @@
     <color name="c_3394FD">#3394FD</color>
     <drawable name="white">#FFFFFFFF</drawable>
     <color name="c_DCDCDC">#DCDCDC</color>
+    <color name="transparent">#00000000</color>
 </resources>

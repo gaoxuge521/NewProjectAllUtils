@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
+    <!--主步局-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:text="home"/>
+    </LinearLayout>
+
+    <!--侧滑布局-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:gravity="center"
+        android:layout_gravity="start">
+        <TextView
+            android:id="@+id/tv_left_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="侧滑布局" />
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

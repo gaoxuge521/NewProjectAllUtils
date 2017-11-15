@@ -17,6 +17,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         mInstance = this;
 
+
     }
 
     public static Context getmInstance(){

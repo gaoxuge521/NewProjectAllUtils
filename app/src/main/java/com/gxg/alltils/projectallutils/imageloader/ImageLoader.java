@@ -4,6 +4,8 @@ import android.widget.ImageView;
 
 import com.gxg.alltils.projectallutils.R;
 
+import java.io.File;
+
 
 /**
  * Created by Anthony on 2016/3/3.
@@ -21,6 +23,7 @@ public class ImageLoader {
     private int placeHolder; //placeholder when fail to load pics
     private ImageView imgView; //ImageView instantce
     private int wifiStrategy;//load strategy ,wheather under wifi
+    private File imgFile;
 
     private ImageLoader(Builder builder) {
         this.type = builder.type;
@@ -28,6 +31,7 @@ public class ImageLoader {
         this.placeHolder = builder.placeHolder;
         this.imgView = builder.imgView;
         this.wifiStrategy = builder.wifiStrategy;
+        this.imgFile = builder.imgFile;
     }
 
     public int getType() {
@@ -56,6 +60,7 @@ public class ImageLoader {
         private int placeHolder;
         private ImageView imgView;
         private int wifiStrategy;
+        private File imgFile;
 
         public Builder() {
             this.type = ImageLoaderUtil.PIC_SMALL;
@@ -63,6 +68,7 @@ public class ImageLoader {
             this.placeHolder = R.mipmap.prj_default_pic_big;
             this.imgView = null;
             this.wifiStrategy = ImageLoaderUtil.LOAD_STRATEGY_NORMAL;
+            this.imgFile = null;
         }
 
         public Builder type(int type) {
@@ -70,6 +76,10 @@ public class ImageLoader {
             return this;
         }
 
+        public Builder file(File file){
+            this.imgFile =file;
+            return this;
+        }
         public Builder url(String url) {
             this.url = url;
             return this;
