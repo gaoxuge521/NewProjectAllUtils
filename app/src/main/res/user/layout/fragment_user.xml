@@ -105,7 +105,7 @@
 
                     <View
                         android:id="@+id/v_user_info_divider_one"
-                        android:layout_width="0.5dip"
+                        android:layout_width="1dip"
                         android:layout_height="38.0dip"
                         android:background="@color/white" />
 
@@ -138,7 +138,7 @@
 
                     <View
                         android:id="@+id/v_user_info_divider_two"
-                        android:layout_width="0.5dip"
+                        android:layout_width="1dip"
                         android:layout_height="38.0dip"
                         android:background="@color/white" />
 
@@ -310,6 +310,94 @@
                 android:background="@color/foodseptalsparent"
                 android:layout_height="15dp"/>
 
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/msg"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="消息通知"/>
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/lixian"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="离线"/>
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/huodong"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="活动"/>
+
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/shop"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="商城"/>
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/msg"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="消息通知"/>
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/lixian"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="离线"/>
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/huodong"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="活动"/>
+
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/shop"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/to_right2"
+                android:text="商城"/>
             <TextView
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"

@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+//获取产品的名字
+def getProductName() {
+    return "projectallutils"
+}
+//获取当前系统的时间
+def packagingTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -12,11 +21,25 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+
+        debug {
+            debuggable true
             minifyEnabled false
+            zipAlignEnabled true
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        disable 'MissingTranslation'
+        abortOnError false
+    }
+
 
 //    自定义资源文件夹  ,每个模块的资源放在相应的文件夹下，方便增删改查
     sourceSets {
@@ -27,6 +50,19 @@ android {
             res.srcDir "src/main/res/shop"
             res.srcDir "src/main/res/user"
             res.srcDir "src/main/res/other"
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            def apkName
+            if (variant.buildType.name.equals('release')) {
+                apkName = getProductName() + "_v${defaultConfig.versionName}_${packagingTime()}_" + 'release.apk'
+            } else if (variant.buildType.name.equals('debug')) {
+                apkName = getProductName() + "_v${defaultConfig.versionName}_" + 'debug.apk'
+            }
+            output.outputFile = new File(oldFile.parent, apkName)
         }
     }
 }
@@ -41,8 +77,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'jp.wasabeef:glide-transformations:2.0.1'
+//    compile 'com.github.bumptech.glide:glide:3.7.0'
+//    compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
@@ -56,4 +92,7 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     testCompile 'junit:junit:4.12'
     compile project(':takephoto_library')
+
+
+
 }

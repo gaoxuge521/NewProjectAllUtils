@@ -2,14 +2,17 @@ package com.gxg.alltils.projectallutils.medel.user;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
+import com.gxg.alltils.projectallutils.imageloader.GlideCircleTransform;
 import com.gxg.alltils.projectallutils.medel.loginregister.InformationActivity;
 import com.gxg.alltils.projectallutils.medel.loginregister.LoginActivity;
-import com.socks.library.KLog;
+import com.gxg.alltils.projectallutils.utils.ScreenSizeUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,6 +32,8 @@ public class UserFragment extends BaseFragment {
     LinearLayout layout_user_info;//个人信息
     @Bind(R.id.img_avatar)
     ImageView img_avatar;//头像
+    @Bind(R.id.layout_count)
+    LinearLayout layout_count;//关注、粉丝、访客数的父容器
 
 
 
@@ -40,7 +45,23 @@ public class UserFragment extends BaseFragment {
     @Override
     public void setupViews(View view) {
         String id = getArguments().getString("id", "");
-        KLog.e(id);
+
+
+        //手动给容器赋值，防止随着头部的下拉而放大
+        int screenWidth = ScreenSizeUtil.getScreenWidth(getActivity());
+        ViewGroup.LayoutParams layoutParams = layout_count.getLayoutParams();
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        layoutParams.width = screenWidth-(ScreenSizeUtil.Dp2Px(getActivity(),50));
+        layout_count.setLayoutParams(layoutParams);
+
+
+        Glide.with(getActivity()).load(R.drawable.ic_my_avatar).bitmapTransform(new GlideCircleTransform(getActivity(),ScreenSizeUtil.Dp2Px(getActivity(),40),getResources().getColor(R.color.white))).into(img_avatar);
+//        KLog.e(screenWidth);
+        setData();
+    }
+
+    private void setData() {
+
     }
 
 

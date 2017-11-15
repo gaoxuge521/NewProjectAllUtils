@@ -33,12 +33,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.gxg.alltils.projectallutils.R.id.img_avatar;
+
 /**
  * 个人信息
  */
 public class InformationActivity extends TakePhotoActivity {
 
-    @Bind(R.id.img_avatar)
+    @Bind(img_avatar)
     ImageView imgAvatar;
     @Bind(R.id.tv_username)
     TextView tvUsername;
@@ -71,6 +73,8 @@ public class InformationActivity extends TakePhotoActivity {
 
     protected void initView() {
         mPhoto = getTakePhoto();
+        Glide.with(this).load(R.drawable.ic_my_avatar).transform(new GlideCircleTransform(this)).into(imgAvatar);
+//        Glide.with(this).load(R.drawable.ic_my_avatar).bitmapTransform(new GlideCircleTransform(this, ScreenSizeUtil.Dp2Px(this,30),getResources().getColor(R.color.white))).into(imgAvatar);
     }
 
     protected void initData() {
@@ -84,10 +88,10 @@ public class InformationActivity extends TakePhotoActivity {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.img_avatar, R.id.tv_username, R.id.tv_sex, R.id.tv_phone, R.id.tv_email})
+    @OnClick({img_avatar, R.id.tv_username, R.id.tv_sex, R.id.tv_phone, R.id.tv_email})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.img_avatar://重新选择头像
+            case img_avatar://重新选择头像
                 showSelectDialog();
                 break;
             case R.id.tv_username:
