@@ -1,9 +1,13 @@
 package com.gxg.alltils.projectallutils.medel.loginregister;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +17,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.gxg.alltils.projectallutils.R;
+import com.gxg.alltils.projectallutils.bean.JsonBean;
 import com.gxg.alltils.projectallutils.imageloader.GlideCircleTransform;
+import com.gxg.alltils.projectallutils.utils.GetJsonDataUtil;
+import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
+import com.gxg.alltils.projectallutils.utils.WeakHandler;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.compress.CompressConfig;
@@ -26,8 +38,13 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
 import com.socks.library.KLog;
 
+import org.json.JSONArray;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,14 +67,46 @@ public class InformationActivity extends TakePhotoActivity {
     TextView tvPhone;
     @Bind(R.id.tv_email)
     TextView tvEmail;
+    @Bind(R.id.tv_address)
+    TextView tvAddress;
+    @Bind(R.id.tv_time)
+    TextView tvTime;
     private Dialog mCameraDialog;//底部弹框
-
+    private String IMG_AVATAR = "img_avatar";//保存图片的key
     private TakePhoto mPhoto;
     private int limit = 1;//最多选择几张
     //裁剪时的宽高
     int height = 200;
     int width = 200;
     private Uri mImageUri;
+    private static final int MSG_LOAD_DATA = 0x0001;//获取城市列表的数据
+    private Thread thread;
+    private WeakHandler handler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
+            switch (msg.what){
+                case MSG_LOAD_DATA:
+                    if (thread==null){//如果已创建就不再重新创建子线程了
+
+                        Toast.makeText(InformationActivity.this,"Begin Parse Data",Toast.LENGTH_SHORT).show();
+                        thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 写子线程中的操作,解析省市区数据
+                                initJsonData();
+                            }
+                        });
+                        thread.start();
+                    }
+
+                    break;
+            }
+
+            return true;
+        }
+    });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +122,17 @@ public class InformationActivity extends TakePhotoActivity {
 
     protected void initView() {
         mPhoto = getTakePhoto();
-        Glide.with(this).load(R.drawable.ic_my_avatar).transform(new GlideCircleTransform(this)).into(imgAvatar);
-//        Glide.with(this).load(R.drawable.ic_my_avatar).bitmapTransform(new GlideCircleTransform(this, ScreenSizeUtil.Dp2Px(this,30),getResources().getColor(R.color.white))).into(imgAvatar);
+        String img_path = SharedPreferencesUtils.get(InformationActivity.this, IMG_AVATAR, "").toString();
+        if(!TextUtils.isEmpty(img_path)){
+            Glide.with(this).load(new File(img_path)).transform(new GlideCircleTransform(this)).into(imgAvatar);
+        }else{
+            Glide.with(this).load(R.drawable.ic_my_avatar).transform(new GlideCircleTransform(this)).into(imgAvatar);
+        }
     }
 
     protected void initData() {
-
+        initTimePicker();//初始化时间选择器
+        handler.sendEmptyMessage(MSG_LOAD_DATA);//获取省市选择列表的数据
     }
 
 
@@ -88,9 +142,15 @@ public class InformationActivity extends TakePhotoActivity {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({img_avatar, R.id.tv_username, R.id.tv_sex, R.id.tv_phone, R.id.tv_email})
+    @OnClick({R.id.tv_time,R.id.tv_address,R.id.img_avatar, R.id.tv_username, R.id.tv_sex, R.id.tv_phone, R.id.tv_email})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_address://选择地址
+                ShowPickerView();
+                break;
+            case R.id.tv_time://时间选择
+                pvTime.show();
+                break;
             case img_avatar://重新选择头像
                 showSelectDialog();
                 break;
@@ -104,8 +164,161 @@ public class InformationActivity extends TakePhotoActivity {
                 break;
         }
     }
+    /**
+     * -------------------------------------------------------------时间选择相关-------------------------------------------------------------------
+     */
+    private TimePickerView pvTime;
+    private void initTimePicker() {
+        //控制时间范围(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
+        //因为系统Calendar的月份是从0-11的,所以如果是调用Calendar的set方法来设置时间,月份的范围也要是从0-11
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2013, 0, 23);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2030, 11, 28);
+        //时间选择器
+        pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+                // 这里回调过来的v,就是show()方法里面所添加的 View 参数，如果show的时候没有添加参数，v则为null
+                /*btn_Time.setText(getTime(date));*/
+                tvTime.setText(getTime(date));
+//                Button btn = (Button) v;
+//                btn.setText(getTime(date));
+            }
+        })
+                //年月日时分秒 的显示与否，不设置则默认全部显示
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("", "", "", "", "", "")
+                .isCenterLabel(false)
+                .setDividerColor(Color.DKGRAY)
+                .setContentSize(21)
+                .setDate(selectedDate)
+                .setRangDate(startDate, endDate)
+//                .setBackgroundId(0x00FFFFFF) //设置外部遮罩颜色
+                .setDecorView(null)
+                .build();
+    }
+    private String getTime(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
+    }
+
+    /**
+     * -------------------------------------------------------------城市选择相关-------------------------------------------------------------------
+     */
+
+    private ArrayList<JsonBean> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private void ShowPickerView() {// 弹出选择器
+
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String tx = options1Items.get(options1).getPickerViewText()+
+                        options2Items.get(options1).get(options2)+
+                        options3Items.get(options1).get(options2).get(options3);
+
+                tvAddress.setText(tx);
+                Toast.makeText(InformationActivity.this,tx,Toast.LENGTH_SHORT).show();
+            }
+        })
+
+                .setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+
+        /*pvOptions.setPicker(options1Items);//一级选择器
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
+        pvOptions.setPicker(options1Items, options2Items,options3Items);//三级选择器
+        pvOptions.show();
+    }
+
+    //解析数据
+    private void initJsonData() {
+
+        /**
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         *
+         * */
+        String JsonData = new GetJsonDataUtil().getJson(this,"province.json");//获取assets目录下的json文件数据
+
+        ArrayList<JsonBean> jsonBean = parseData(JsonData);//用Gson 转成实体
+
+        /**
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+
+        for (int i=0;i<jsonBean.size();i++){//遍历省份
+            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c=0; c<jsonBean.get(i).getCityList().size(); c++){//遍历该省份的所有城市
+                String CityName = jsonBean.get(i).getCityList().get(c).getName();
+                CityList.add(CityName);//添加城市
+
+                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCityList().get(c).getArea() == null
+                        ||jsonBean.get(i).getCityList().get(c).getArea().size()==0) {
+                    City_AreaList.add("");
+                }else {
+
+                    for (int d=0; d < jsonBean.get(i).getCityList().get(c).getArea().size(); d++) {//该城市对应地区所有数据
+                        String AreaName = jsonBean.get(i).getCityList().get(c).getArea().get(d);
+
+                        City_AreaList.add(AreaName);//添加该城市所有地区数据
+                    }
+                }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+            }
+
+            /**
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+
+            /**
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
+
+        KLog.e("sss省市列表读取成功");
+
+    }
+
+    //Gson 解析
+    public ArrayList<JsonBean> parseData(String result) {
+        ArrayList<JsonBean> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                JsonBean entity = gson.fromJson(data.optJSONObject(i).toString(), JsonBean.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            KLog.e("sss转换失败"+e.toString());
+        }
+        return detail;
+    }
 
 
+    /**
+     * -------------------------------------------------------------相机相册相关-------------------------------------------------------------------
+     */
 
     /**
      * 从相机进带裁剪
@@ -145,23 +358,15 @@ public class InformationActivity extends TakePhotoActivity {
         File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
         mImageUri = Uri.fromFile(file);
-        configCompress(mPhoto);
-        configTakePhotoOption(mPhoto);
-    }
-    //设置
-    private void configTakePhotoOption(TakePhoto takePhoto) {
+
         TakePhotoOptions.Builder builder = new TakePhotoOptions.Builder();
 
         //使用takephoto自带相册//false使用系统的
         builder.setWithOwnGallery(true);
         //纠正拍照的照片的旋转角度
         builder.setCorrectImage(true);
-        takePhoto.setTakePhotoOptions(builder.create());
+        mPhoto.setTakePhotoOptions(builder.create());
 
-    }
-
-    //压缩的配置
-    private void configCompress(TakePhoto takePhoto) {
         //不压缩
 //        takePhoto.onEnableCompress(null,false);
 //        return ;
@@ -191,16 +396,16 @@ public class InformationActivity extends TakePhotoActivity {
 //        config=CompressConfig.ofLuban(option);
 //        config.enableReserveRaw(enableRawFile);
 
-        takePhoto.onEnableCompress(config, showProgressBar);
+        mPhoto.onEnableCompress(config, showProgressBar);
+
+
     }
 
     //设置裁剪功能的属性
     private CropOptions getCropOptions() {
         CropOptions.Builder builder = new CropOptions.Builder();
-
 //        builder.setAspectX(width).setAspectY(height);//宽*高
         builder.setOutputX(width).setOutputY(height);//宽/高
-
         builder.setWithOwnCrop(true);//true使用takephoto自带的裁剪工具  false使用系统的裁剪工具
         return builder.create();
 
@@ -225,22 +430,16 @@ public class InformationActivity extends TakePhotoActivity {
         showImg(result.getImages());
     }
 
+
     private void showImg(ArrayList<TImage> images) {
         KLog.e("sss", images.toString());
         KLog.e("sss", images.size() + "  ");
 
         if (images.size() == 1) {
             KLog.e("sss", "size==1");
-//            new ImageLoaderUtil().loadImage(InformationActivity.this, new ImageLoader.Builder().url(images.get(0))
-//                    .imgView(imageView).strategy(ImageLoaderUtil.LOAD_STRATEGY_ONLY_WIFI).build());
-//            mIvImg.setVisibility(View.VISIBLE);
-//            mRvPicture.setVisibility(View.GONE);
+            SharedPreferencesUtils.put(InformationActivity.this,IMG_AVATAR,images.get(0).getCompressPath());
             Glide.with(InformationActivity.this).load(new File(images.get(0).getCompressPath())).bitmapTransform(new GlideCircleTransform(InformationActivity.this)).into(imgAvatar);
-
         } else if (images.size() > 1) {
-//            mIvImg.setVisibility(View.GONE);
-//            mRvPicture.setVisibility(View.VISIBLE);
-//            mAdapter.setNewData(images);
             KLog.e("sss", "size>1");
         } else {
             KLog.e("sss", "........");
