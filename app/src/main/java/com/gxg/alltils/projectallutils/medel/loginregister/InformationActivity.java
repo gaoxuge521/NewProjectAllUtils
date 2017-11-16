@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.bean.JsonBean;
 import com.gxg.alltils.projectallutils.imageloader.GlideCircleTransform;
+import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.GetJsonDataUtil;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
 import com.gxg.alltils.projectallutils.utils.WeakHandler;
@@ -51,6 +52,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.gxg.alltils.projectallutils.R.id.img_avatar;
+import static com.gxg.alltils.projectallutils.utils.Contants.IMG_AVATAR;
 
 /**
  * 个人信息
@@ -72,7 +74,6 @@ public class InformationActivity extends TakePhotoActivity {
     @Bind(R.id.tv_time)
     TextView tvTime;
     private Dialog mCameraDialog;//底部弹框
-    private String IMG_AVATAR = "img_avatar";//保存图片的key
     private TakePhoto mPhoto;
     private int limit = 1;//最多选择几张
     //裁剪时的宽高
@@ -124,9 +125,9 @@ public class InformationActivity extends TakePhotoActivity {
         mPhoto = getTakePhoto();
         String img_path = SharedPreferencesUtils.get(InformationActivity.this, IMG_AVATAR, "").toString();
         if(!TextUtils.isEmpty(img_path)){
-            Glide.with(this).load(new File(img_path)).transform(new GlideCircleTransform(this)).into(imgAvatar);
+            Glide.with(this).load(new File(img_path)).bitmapTransform(new GlideCircleTransform(this,5,getResources().getColor(R.color.white))).into(imgAvatar);
         }else{
-            Glide.with(this).load(R.drawable.ic_my_avatar).transform(new GlideCircleTransform(this)).into(imgAvatar);
+            Glide.with(this).load(R.drawable.ic_my_avatar).bitmapTransform(new GlideCircleTransform(this,5,getResources().getColor(R.color.white))).into(imgAvatar);
         }
     }
 
@@ -437,8 +438,8 @@ public class InformationActivity extends TakePhotoActivity {
 
         if (images.size() == 1) {
             KLog.e("sss", "size==1");
-            SharedPreferencesUtils.put(InformationActivity.this,IMG_AVATAR,images.get(0).getCompressPath());
-            Glide.with(InformationActivity.this).load(new File(images.get(0).getCompressPath())).bitmapTransform(new GlideCircleTransform(InformationActivity.this)).into(imgAvatar);
+            SharedPreferencesUtils.put(InformationActivity.this,Contants.IMG_AVATAR,images.get(0).getCompressPath());
+            Glide.with(InformationActivity.this).load(new File(images.get(0).getCompressPath())).bitmapTransform(new GlideCircleTransform(InformationActivity.this,5,getResources().getColor(R.color.white))).into(imgAvatar);
         } else if (images.size() > 1) {
             KLog.e("sss", "size>1");
         } else {

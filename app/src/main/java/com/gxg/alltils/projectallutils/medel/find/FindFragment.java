@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
+import com.gxg.alltils.projectallutils.utils.RegexUtils;
 import com.socks.library.KLog;
 
 /**
@@ -20,9 +21,18 @@ public class FindFragment extends BaseFragment {
     @Override
     public void setupViews(View view) {
         String id = getArguments().getString("id", "");
+
         KLog.e(id);
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
 
+        }else{
+
+        }
+    }
     public static FindFragment newInstance(String id) {
 
         Bundle args = new Bundle();

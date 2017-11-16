@@ -1,7 +1,6 @@
 package com.gxg.alltils.projectallutils.imageloader;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -23,20 +22,25 @@ public class GlideCircleTransform  extends BitmapTransformation {
     private float mBorderWidth;
 
     public GlideCircleTransform(Context context) {
-        super(context);
+        this(context,0,0);
     }
 
     public GlideCircleTransform(Context context, int borderWidth, int borderColor) {
         super(context);
-        mBorderWidth = Resources.getSystem().getDisplayMetrics().density * borderWidth;
+//        mBorderWidth = Resources.getSystem().getDisplayMetrics().density * borderWidth;
+        mBorderWidth = borderWidth;
+        KLog.e("sss1111    "+borderWidth+"    "+mBorderWidth);
+        if(borderColor==0 && borderWidth==0){
 
-        KLog.e("sss1111");
-        mBorderPaint = new Paint();
-        mBorderPaint.setDither(true);
-        mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setColor(borderColor);
-        mBorderPaint.setStyle(Paint.Style.STROKE);
-        mBorderPaint.setStrokeWidth(mBorderWidth);
+        }else{
+            mBorderPaint = new Paint();
+            mBorderPaint.setDither(true);
+            mBorderPaint.setAntiAlias(true);
+            mBorderPaint.setColor(borderColor);
+            mBorderPaint.setStyle(Paint.Style.STROKE);
+            mBorderPaint.setStrokeWidth(mBorderWidth);
+        }
+
     }
 
 

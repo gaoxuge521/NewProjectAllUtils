@@ -16,6 +16,7 @@ import com.gxg.alltils.projectallutils.medel.home.HomeFragment;
 import com.gxg.alltils.projectallutils.medel.other.OtherFragment;
 import com.gxg.alltils.projectallutils.medel.shop.ShopFragment;
 import com.gxg.alltils.projectallutils.medel.user.UserFragment;
+import com.gxg.alltils.projectallutils.utils.BarUtils;
 import com.gxg.alltils.projectallutils.widght.NoSlidingViewPager;
 import com.socks.library.KLog;
 
@@ -102,18 +103,23 @@ public class MainActivity extends BaseActivity {
                 switch (checkedId){
                     case R.id.rbOne:
                         vp.setCurrentItem(0);
+                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.purpletextColor));
                         break;
                     case R.id.rbTwo:
                         vp.setCurrentItem(1);
+                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.red));
                         break;
                     case R.id.rbThree:
                         vp.setCurrentItem(2);
+                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.blue));
                         break;
                     case R.id.rbFour:
                         vp.setCurrentItem(3);
+                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.orange));
                         break;
                     case R.id.rbFive:
                         vp.setCurrentItem(4);
+                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.c_663333));
                         break;
                 }
             }
