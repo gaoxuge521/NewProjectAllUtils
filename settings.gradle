@@ -11,3 +11,6 @@ include ':dropmenulibrary'
 include ':permission'
 //6.0权限
 //https://github.com/yanzhenjie/AndPermission
+
+//二维码扫描
+//https://github.com/bingoogolapple/BGAQRCode-Android

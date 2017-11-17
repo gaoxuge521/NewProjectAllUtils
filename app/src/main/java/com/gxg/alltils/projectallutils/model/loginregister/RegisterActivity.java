@@ -1,4 +1,4 @@
-package com.gxg.alltils.projectallutils.medel.loginregister;
+package com.gxg.alltils.projectallutils.model.loginregister;
 
 import android.os.Bundle;
 
@@ -6,9 +6,9 @@ import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseActivity;
 
 /**
- * 登陆
+ * 注册
  */
-public class LoginActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_login;
+        return R.layout.activity_register;
     }
 
     @Override

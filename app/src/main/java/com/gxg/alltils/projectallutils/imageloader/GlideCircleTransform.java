@@ -29,7 +29,6 @@ public class GlideCircleTransform  extends BitmapTransformation {
         super(context);
 //        mBorderWidth = Resources.getSystem().getDisplayMetrics().density * borderWidth;
         mBorderWidth = borderWidth;
-        KLog.e("sss1111    "+borderWidth+"    "+mBorderWidth);
         if(borderColor==0 && borderWidth==0){
 
         }else{
@@ -45,14 +44,11 @@ public class GlideCircleTransform  extends BitmapTransformation {
 
 
     protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        KLog.e("sss2222");
         return circleCrop(pool, toTransform);
     }
 
     private Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        KLog.e("sss3333");
         if (source == null) return null;
-        KLog.e("sss44444");
         int size = (int) (Math.min(source.getWidth(), source.getHeight()) - (mBorderWidth / 2));
         int x = (source.getWidth() - size) / 2;
         int y = (source.getHeight() - size) / 2;
@@ -71,7 +67,6 @@ public class GlideCircleTransform  extends BitmapTransformation {
         KLog.e(mBorderPaint);
         if (mBorderPaint != null) {
             float borderRadius = r - mBorderWidth / 2;
-            KLog.e("sss"+"   "+mBorderWidth+"   "+borderRadius);
             canvas.drawCircle(r, r, borderRadius, mBorderPaint);
         }
         return result;

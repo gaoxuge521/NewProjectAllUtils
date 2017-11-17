@@ -2,13 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gxg.alltils.projectallutils">
 
+    <!-- 网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- WIFI相关 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--震动权限-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- sd卡读取 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".application.BaseApplication"
@@ -33,9 +37,10 @@
         </activity>
         <activity android:name=".LoadingViewpageActivity" />
         <activity android:name=".http.HttpTestActivity" />
-        <activity android:name=".medel.loginregister.LoginActivity" />
-        <activity android:name=".medel.loginregister.RegisterActivity" />
-        <activity android:name=".medel.loginregister.InformationActivity"></activity>
+        <activity android:name=".model.loginregister.LoginActivity" />
+        <activity android:name=".model.loginregister.RegisterActivity" />
+        <activity android:name=".model.loginregister.InformationActivity" />
+        <activity android:name=".model.ZxingActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.gxg.alltils.projectallutils.medel.user;
+package com.gxg.alltils.projectallutils.model.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,9 @@ import com.bumptech.glide.Glide;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
 import com.gxg.alltils.projectallutils.imageloader.GlideCircleTransform;
-import com.gxg.alltils.projectallutils.medel.loginregister.InformationActivity;
-import com.gxg.alltils.projectallutils.medel.loginregister.LoginActivity;
+import com.gxg.alltils.projectallutils.model.ZxingActivity;
+import com.gxg.alltils.projectallutils.model.loginregister.InformationActivity;
+import com.gxg.alltils.projectallutils.model.loginregister.LoginActivity;
 import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.ScreenSizeUtil;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
@@ -161,6 +162,8 @@ public class UserFragment extends BaseFragment {
             if(requestCode == 200) {
                 // TODO ...
                 KLog.e("权限申请成功");
+
+                openActivity(ZxingActivity.class);
             }
         }
 
@@ -174,15 +177,15 @@ public class UserFragment extends BaseFragment {
                 if (!AndPermission.hasAlwaysDeniedPermission(getActivity(), deniedPermissions)) {
                     KLog.e("权限申请失败222222");
                     // 第一种：用AndPermission默认的提示语。
-                    AndPermission.defaultSettingDialog(getActivity(), 400).show();
+//                    AndPermission.defaultSettingDialog(getActivity(), 400).show();
 
 //                    // 第二种：用自定义的提示语。
-//                    AndPermission.defaultSettingDialog(getActivity(), 400)
-//                            .setTitle("权限申请失败")
-//                            .setMessage("您拒绝了我们必要的一些权限，已经没法愉快的玩耍了，请在设置中授权！")
-//                            .setPositiveButton("好，去设置")
-//                            .show();
-//
+                    AndPermission.defaultSettingDialog(getActivity(), 400)
+                            .setTitle("权限申请失败")
+                            .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
+                            .setPositiveButton("好，去设置")
+                            .show();
+
 //                    // 第三种：自定义dialog样式。
 //                    SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
 //                    // 你的dialog点击了确定调用：

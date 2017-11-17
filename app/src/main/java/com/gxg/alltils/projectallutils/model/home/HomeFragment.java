@@ -1,4 +1,4 @@
-package com.gxg.alltils.projectallutils.medel.home;
+package com.gxg.alltils.projectallutils.model.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
-import com.gxg.alltils.projectallutils.utils.BarUtils;
 import com.socks.library.KLog;
 
 import butterknife.Bind;
@@ -29,7 +28,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void setupViews(View view) {
         String id = getArguments().getString("id", "");
-        KLog.e("sss  setupViews");
         KLog.e(id);
         initView();
         initData();
@@ -39,20 +37,17 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-       KLog.e("sss  onActivityCreated");
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        KLog.e("sss  onViewCreated");
     }
 
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        KLog.e("sss  setUserVisibleHint");
         if(isVisibleToUser){
 
         }else{

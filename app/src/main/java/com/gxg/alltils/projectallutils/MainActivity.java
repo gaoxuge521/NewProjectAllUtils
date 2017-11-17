@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import com.gxg.alltils.projectallutils.adapter.MainViewPagerAdapter;
 import com.gxg.alltils.projectallutils.base.BaseActivity;
-import com.gxg.alltils.projectallutils.medel.find.FindFragment;
-import com.gxg.alltils.projectallutils.medel.home.HomeFragment;
-import com.gxg.alltils.projectallutils.medel.other.OtherFragment;
-import com.gxg.alltils.projectallutils.medel.shop.ShopFragment;
-import com.gxg.alltils.projectallutils.medel.user.UserFragment;
+import com.gxg.alltils.projectallutils.model.find.FindFragment;
+import com.gxg.alltils.projectallutils.model.home.HomeFragment;
+import com.gxg.alltils.projectallutils.model.other.OtherFragment;
+import com.gxg.alltils.projectallutils.model.shop.ShopFragment;
+import com.gxg.alltils.projectallutils.model.user.UserFragment;
 import com.gxg.alltils.projectallutils.utils.BarUtils;
 import com.gxg.alltils.projectallutils.widght.NoSlidingViewPager;
 import com.socks.library.KLog;
