@@ -25,7 +25,6 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.bean.JsonBean;
-import com.gxg.alltils.projectallutils.imageloader.GlideCircleTransform;
 import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.GetJsonDataUtil;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
@@ -90,7 +89,6 @@ public class InformationActivity extends TakePhotoActivity {
                 case MSG_LOAD_DATA:
                     if (thread==null){//如果已创建就不再重新创建子线程了
 
-                        Toast.makeText(InformationActivity.this,"Begin Parse Data",Toast.LENGTH_SHORT).show();
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -125,9 +123,9 @@ public class InformationActivity extends TakePhotoActivity {
         mPhoto = getTakePhoto();
         String img_path = SharedPreferencesUtils.get(InformationActivity.this, IMG_AVATAR, "").toString();
         if(!TextUtils.isEmpty(img_path)){
-            Glide.with(this).load(new File(img_path)).bitmapTransform(new GlideCircleTransform(this,5,getResources().getColor(R.color.white))).into(imgAvatar);
+            Glide.with(this).load(new File(img_path)).into(imgAvatar);
         }else{
-            Glide.with(this).load(R.drawable.ic_my_avatar).bitmapTransform(new GlideCircleTransform(this,5,getResources().getColor(R.color.white))).into(imgAvatar);
+            Glide.with(this).load(R.drawable.ic_my_avatar).into(imgAvatar);
         }
     }
 
@@ -437,9 +435,9 @@ public class InformationActivity extends TakePhotoActivity {
         KLog.e("sss", images.size() + "  ");
 
         if (images.size() == 1) {
-            KLog.e("sss", "size==1");
+            KLog.e("sss", "size==1"+images.get(0).getCompressPath());
             SharedPreferencesUtils.put(InformationActivity.this,Contants.IMG_AVATAR,images.get(0).getCompressPath());
-            Glide.with(InformationActivity.this).load(new File(images.get(0).getCompressPath())).bitmapTransform(new GlideCircleTransform(InformationActivity.this,5,getResources().getColor(R.color.white))).into(imgAvatar);
+            Glide.with(InformationActivity.this).load(new File(images.get(0).getCompressPath())).into(imgAvatar);
         } else if (images.size() > 1) {
             KLog.e("sss", "size>1");
         } else {

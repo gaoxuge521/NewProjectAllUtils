@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -12,13 +13,13 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
-import com.gxg.alltils.projectallutils.imageloader.GlideCircleTransform;
 import com.gxg.alltils.projectallutils.model.ZxingActivity;
 import com.gxg.alltils.projectallutils.model.loginregister.InformationActivity;
 import com.gxg.alltils.projectallutils.model.loginregister.LoginActivity;
 import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.ScreenSizeUtil;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
+import com.gxg.alltils.projectallutils.widght.ZoomInScrollView;
 import com.socks.library.KLog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -30,7 +31,20 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/**
+ * ░░░░░░░░░░░░░░░░░░░░░░░░▄░░
+ * ░░░░░░░░░▐█░░░░░░░░░░░▄▀▒▌░
+ * ░░░░░░░░▐▀▒█░░░░░░░░▄▀▒▒▒▐
+ * ░░░░░░░▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐
+ * ░░░░░▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐
+ * ░░░▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌
+ * ░░▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒
+ * ░░▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐
+ * ░▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄
+ * ░▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒
+ * ▀▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒
+ * 单身狗就这样默默地看着你，一句话也不说。
+ */
 /**
  * 作者：Administrator on 2017/11/14 17:45
  * 邮箱：android_gaoxuge@163.com
@@ -51,6 +65,11 @@ public class UserFragment extends BaseFragment {
     ImageView ivScanning;
     @Bind(R.id.rl_scanning)
     RelativeLayout rlScanning;
+    @Bind(R.id.scroll)
+    ZoomInScrollView scroll;
+    @Bind(R.id.fm_head)
+    FrameLayout fmHead;
+    private int height;
 
 
     @Override
@@ -61,41 +80,65 @@ public class UserFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
+        if (isVisibleToUser) {
 
-        }else{
+        } else {
 
         }
     }
 
     @Override
     public void setupViews(View view) {
-        String id = getArguments().getString("id", "");
-
-
         //手动给容器赋值，防止随着头部的下拉而放大
         int screenWidth = ScreenSizeUtil.getScreenWidth(getActivity());
         ViewGroup.LayoutParams layoutParams = layout_count.getLayoutParams();
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        layoutParams.width = screenWidth-(ScreenSizeUtil.Dp2Px(getActivity(),50));
+        layoutParams.width = screenWidth - (ScreenSizeUtil.Dp2Px(getActivity(), 50));
         layout_count.setLayoutParams(layoutParams);
 
 
-
         String avatar = SharedPreferencesUtils.get(getActivity(), Contants.IMG_AVATAR, "").toString();
-        if(!TextUtils.isEmpty(avatar)){
-            Glide.with(getActivity()).load(new File(avatar)).bitmapTransform(new GlideCircleTransform(getActivity(),5,getResources().getColor(R.color.white))).into(img_avatar);
+        KLog.e(avatar);
+        if (!TextUtils.isEmpty(avatar)) {
+            Glide.with(getActivity()).load(new File(avatar)).into(img_avatar);
 
-        }else{
-            Glide.with(getActivity()).load(R.drawable.ic_my_avatar).bitmapTransform(new GlideCircleTransform(getActivity(),5,getResources().getColor(R.color.white))).into(img_avatar);
+        } else {
+            Glide.with(getActivity()).load(R.drawable.ic_my_avatar).into(img_avatar);
 
         }
-      //        KLog.e(screenWidth);
+
         setData();
+
+        initListener();
+    }
+
+    /**
+     * 添加各种监听事件
+     */
+    private void initListener() {
+        rlScanning.post(new Runnable() {
+            @Override
+            public void run() {
+                height = rlScanning.getBottom();
+            }
+        });
+
+        scroll.setOnScrollListener(new ZoomInScrollView.OnScrollListener() {
+            @Override
+            public void onScroll(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(scrollY>height){
+                    rlScanning.setVisibility(View.GONE);
+                }else{
+                    rlScanning.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setData() {
         // where this is an Activity instance
+
+
     }
 
 
@@ -109,27 +152,26 @@ public class UserFragment extends BaseFragment {
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_scanning,R.id.img_avatar, R.id.img_register})
+    @OnClick({R.id.iv_scanning, R.id.img_avatar, R.id.img_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_avatar:
                 Bundle bundle = new Bundle();
-                bundle.putString("id","10");
-                openActivity( InformationActivity.class,bundle);
+                bundle.putString("id", "10");
+                openActivity(InformationActivity.class, bundle);
                 break;
             case R.id.img_register:
                 openActivity(LoginActivity.class);
                 break;
             case R.id.iv_scanning:
                 AndPermission.with(UserFragment.this)
-                    .requestCode(200)
+                        .requestCode(200)
                         .permission(
                                 // 申请多个权限组方式：
                                 Permission.CAMERA,
@@ -141,8 +183,8 @@ public class UserFragment extends BaseFragment {
 //
 //                        }
 //                    })
-                    .callback(listener)
-                    .start();
+                        .callback(listener)
+                        .start();
 
                 break;
         }
@@ -159,7 +201,7 @@ public class UserFragment extends BaseFragment {
 
             // 这里的requestCode就是申请时设置的requestCode。
             // 和onActivityResult()的requestCode一样，用来区分多个不同的请求。
-            if(requestCode == 200) {
+            if (requestCode == 200) {
                 // TODO ...
                 KLog.e("权限申请成功");
 
@@ -170,9 +212,9 @@ public class UserFragment extends BaseFragment {
         @Override
         public void onFailed(int requestCode, List<String> deniedPermissions) {
             // 权限申请失败回调。
-            if(requestCode == 200) {
+            if (requestCode == 200) {
                 // TODO ...
-                KLog.e("权限申请失败"+deniedPermissions.toString());
+                KLog.e("权限申请失败" + deniedPermissions.toString());
                 // 是否有不再提示并拒绝的权限。
                 if (!AndPermission.hasAlwaysDeniedPermission(getActivity(), deniedPermissions)) {
                     KLog.e("权限申请失败222222");
@@ -209,4 +251,6 @@ public class UserFragment extends BaseFragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

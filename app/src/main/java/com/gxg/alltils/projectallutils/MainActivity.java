@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,6 +18,7 @@ import com.gxg.alltils.projectallutils.model.other.OtherFragment;
 import com.gxg.alltils.projectallutils.model.shop.ShopFragment;
 import com.gxg.alltils.projectallutils.model.user.UserFragment;
 import com.gxg.alltils.projectallutils.utils.BarUtils;
+import com.gxg.alltils.projectallutils.utils.PhoneSystemManager;
 import com.gxg.alltils.projectallutils.widght.NoSlidingViewPager;
 import com.socks.library.KLog;
 
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity {
 
@@ -41,6 +44,8 @@ public class MainActivity extends BaseActivity {
     RadioButton rbFive;
     @Bind(R.id.rg)
     RadioGroup rg;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     List<Fragment> fragments = new ArrayList<>();
     private HomeFragment homeFragment;
@@ -54,6 +59,7 @@ public class MainActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +73,21 @@ public class MainActivity extends BaseActivity {
      */
     private void getData() {
 
+        boolean pushStopped = JPushInterface.isPushStopped(this);
+        KLog.e("sss"+pushStopped);
     }
 
     @Override
     protected void initView() {
 
+        String telPhoneSystem = PhoneSystemManager.getTelPhoneSystem();
+        KLog.e("现在使用的手机是" + telPhoneSystem);
+
+        if (telPhoneSystem.equals(PhoneSystemManager.SYS_EMUI)) {//华为手机
+
+            int virtualBarHeigh = PhoneSystemManager.AndroidWorkaround.getVirtualBarHeigh(MainActivity.this);
+            KLog.e("虚拟导航栏高度11111：" + virtualBarHeigh);
+        }
     }
 
     @Override
@@ -90,7 +106,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(userFragment);
 
         vp.setScanScroll(false);
-        MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager(),fragments);
+        MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         vp.setAdapter(adapter);
 
     }
@@ -100,26 +116,33 @@ public class MainActivity extends BaseActivity {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rbOne:
                         vp.setCurrentItem(0);
-                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.purpletextColor));
+                        //打开手势滑动
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                        BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.purpletextColor));
                         break;
                     case R.id.rbTwo:
                         vp.setCurrentItem(1);
-                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.red));
+                        //禁止手势滑动
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.red));
                         break;
                     case R.id.rbThree:
                         vp.setCurrentItem(2);
-                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.blue));
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.blue));
                         break;
                     case R.id.rbFour:
                         vp.setCurrentItem(3);
-                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.orange));
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.orange));
                         break;
                     case R.id.rbFive:
                         vp.setCurrentItem(4);
-                        BarUtils.setStatusBarColor(MainActivity.this,getResources().getColor(R.color.c_663333));
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.c_663333));
                         break;
                 }
             }
@@ -130,7 +153,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        KLog.e("onNewIntent","onNewIntent");
+        KLog.e("onNewIntent", "onNewIntent");
     }
 
     private long exitTime;

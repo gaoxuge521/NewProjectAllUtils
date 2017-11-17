@@ -9,10 +9,12 @@
     tools:context="com.gxg.alltils.projectallutils.model.loginregister.InformationActivity">
 
 
-    <ImageView
+    <com.gxg.alltils.projectallutils.widght.CircleImageView
         android:id="@+id/img_avatar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:civ_border_width="4dp"
+        app:civ_border_color="@color/white"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:src="@drawable/ic_my_avatar" />
