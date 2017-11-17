@@ -52,7 +52,10 @@ public abstract class BaseFragment extends Fragment {
     public void showToastLong(String text) {
         Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     }
-
+    // long吐司
+    public void showToastShort(String text) {
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+    }
     public void openActivityAndCloseThis(Class<?> targetActivityClass) {
         openActivity(targetActivityClass);
         getActivity().finish();

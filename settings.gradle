@@ -14,3 +14,9 @@ include ':permission'
 
 //二维码扫描
 //https://github.com/bingoogolapple/BGAQRCode-Android
+
+//大神的动态改变retrofit的baseurl
+//https://github.com/JessYanCoding/RetrofitUrlManager
+
+//轮播图
+//https://github.com/saiwu-bigkoo/Android-ConvenientBanner

@@ -1,7 +1,7 @@
 package com.gxg.alltils.projectallutils.http;
 
-import android.util.Log;
-
+import com.gxg.alltils.projectallutils.bean.HomeListBean;
+import com.gxg.alltils.projectallutils.http.bean.HomeBean;
 import com.gxg.alltils.projectallutils.http.bean.MovieSubject;
 import com.gxg.alltils.projectallutils.http.result.HttpResult;
 import com.gxg.alltils.projectallutils.http.service.MovieService;
@@ -28,10 +28,12 @@ public class RetrofitServiceManager {
     public static final int DEFAULE_TIME_OUT = 5; //超时时间5s
     public static final int DEFAULT_READ_OUT = 10;
 
-    public static final String BASEURL = "https://api.douban.com/v2/movie/";
-
+//    public   String BASEURL = "https://api.douban.com/v2/movie/";
+    private String BASEURL = "https://www.trfxm.com";
     private Retrofit retrofit;
     private MovieService movieService;
+
+
 
     public static class SingletonHolder {
         private static final RetrofitServiceManager INSTANCE = new RetrofitServiceManager();
@@ -59,6 +61,43 @@ public class RetrofitServiceManager {
     }
 
 
+    /**
+     * 获取首页头部数据
+     * @param subscriber
+     * @param request
+     */
+    public void getHomeData(Subscriber<HomeBean> subscriber, Map<String, Object> request){
+        //统一处理数据，可以通过HttpResultFunc来实现
+//        Observable<MovieSubject> map = movieService.rxPostData(request).map(new HttpResultFunc<MovieSubject>());
+        Observable<HomeBean> map = movieService.getHomeData(request);
+        toSubscribe(map,subscriber);
+    }
+
+    /**
+     * 获取首页列表数据
+     * @param subscriber
+     * @param request
+     */
+    public void getHomeList(Subscriber<HomeListBean> subscriber, Map<String, Object> request){
+        //统一处理数据，可以通过HttpResultFunc来实现
+//        Observable<MovieSubject> map = movieService.rxPostData(request).map(new HttpResultFunc<MovieSubject>());
+        Observable<HomeListBean> map = movieService.getHomeList(request);
+        toSubscribe(map,subscriber);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
@@ -83,13 +122,14 @@ public class RetrofitServiceManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
     }
-
     private void init() {
         //创建httpclient
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER) ;//SSL证书
         builder.connectTimeout(DEFAULE_TIME_OUT, TimeUnit.SECONDS);//连接超时时间
         builder.writeTimeout(DEFAULT_READ_OUT,TimeUnit.SECONDS);//写操作的超级时间
         builder.readTimeout(DEFAULT_READ_OUT,TimeUnit.SECONDS);//读取的超时时间
+        builder.retryOnConnectionFailure(true);//失败重连
 
         /**
          * 在实际项目中，每个接口都有一些基本的相同的参数，

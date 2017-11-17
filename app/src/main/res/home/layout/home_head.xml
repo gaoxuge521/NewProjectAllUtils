@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroud_all">
+    
+    <com.bigkoo.convenientbanner.ConvenientBanner
+        android:id="@+id/banner_home"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:background="@color/c_DCDCDC">
+
+    </com.bigkoo.convenientbanner.ConvenientBanner>
+
+
+    <!--cacheColorHint去掉拖动时的背景色-->
+    <!--horizontalSpacing列之间的间隔-->
+    <!--listSelector点击时按下的效果-->
+    <!--stretchMode作用是设置GridView中的条目以什么缩放模式去填充剩余空间-->
+    <!--verticalSpacing grid元素之间的水平间隔-->
+    <!--商品类别-->
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/rv_shop_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:visibility="visible"
+    >
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/event"
+        android:paddingLeft="15dp"
+        android:drawablePadding="10dp"
+        android:id="@+id/tv_change"
+        android:background="@color/white"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/tv_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="有机蔬菜暂时下架调整，择日上架"/>
+
+    <!--9个分类功能-->
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:id="@+id/rv_abzy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--秒杀特价。。。-->
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:id="@+id/rv_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--值得买-->
+    <LinearLayout
+        android:id="@+id/ll_zd_group"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/backgroud_all">
+        <TextView
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/zhidemai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/orange"
+            android:text="值得买"/>
+        <RelativeLayout
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--动态设置宽度为屏幕的1/3-->
+            <ImageView
+                android:scaleType="fitXY"
+                android:layout_marginRight="2dp"
+                android:background="@color/white"
+                android:id="@+id/iv_zd_one"
+                android:layout_width="150dp"
+                android:layout_height="260dp" />
+            <ImageView
+                android:scaleType="fitXY"
+                android:background="@color/white"
+                android:id="@+id/iv_zd_two"
+                android:layout_toRightOf="@id/iv_zd_one"
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                />
+            <LinearLayout
+                android:layout_marginTop="2dp"
+
+                android:layout_below="@id/iv_zd_two"
+                android:layout_toRightOf="@id/iv_zd_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/iv_zd_one">
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:background="@color/white"
+                    android:id="@+id/iv_zd_three"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    />
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:background="@color/white"
+                    android:layout_marginLeft="2dp"
+                    android:id="@+id/iv_zd_four"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--口腔相关-->
+    <LinearLayout
+        android:id="@+id/ll_kq_group"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:background="@color/backgroud_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/iv_kq_one"
+                android:scaleType="fitXY"
+                android:background="@color/white"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/iv_kq_two"
+                android:scaleType="fitXY"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="202dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_kq_three"
+                        android:scaleType="fitXY"
+                        android:background="@color/white"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp" />
+                    <ImageView
+                        android:id="@+id/iv_kq_four"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="2dp"
+                        android:background="@color/white"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_kq_five"
+                        android:scaleType="fitXY"
+                        android:background="@color/white"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp" />
+                    <ImageView
+                        android:id="@+id/iv_kq_six"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="2dp"
+                        android:background="@color/white"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp" />
+                </LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_kq_seven"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="2dp"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="202dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--热门推荐-->
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ll_rm_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/zhidemai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/orange"
+            android:text="热门推荐"/>
+
+        <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/iv_rm_one"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/iv_rm_two"
+                android:layout_marginLeft="2dp"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/iv_rm_three"
+                android:layout_marginLeft="2dp"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/iv_rm_four"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/iv_rm_five"
+                android:layout_marginLeft="2dp"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/iv_rm_six"
+                android:layout_marginLeft="2dp"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

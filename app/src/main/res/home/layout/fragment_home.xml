@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroud_all"
   >
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:gravity="center"
+   <include
+       layout="@layout/title_bar"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:layout_gravity="center"
-            android:text="home"/>
-    </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_head"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
-
-</RelativeLayout>
+</LinearLayout>

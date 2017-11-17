@@ -1,8 +1,9 @@
 package com.gxg.alltils.projectallutils.http.service;
 
 
+import com.gxg.alltils.projectallutils.bean.HomeListBean;
+import com.gxg.alltils.projectallutils.http.bean.HomeBean;
 import com.gxg.alltils.projectallutils.http.bean.MovieSubject;
-import com.gxg.alltils.projectallutils.http.result.HttpResult;
 
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public interface MovieService {
      * get请求，配合rxjava
      */
     @GET("top250")
-    Observable<HttpResult<MovieSubject>> rxGetData(@QueryMap Map<String, Object> map);
+    Observable<MovieSubject> rxGetData(@QueryMap Map<String, Object> map);
 
 //    @FormUrlEncoded
 //    @POST("top250")
@@ -37,6 +38,18 @@ public interface MovieService {
     Observable<MovieSubject> rxPostData(@FieldMap Map<String, Object> map);
 
 
+    /**
+     * get请求，获取首页头部数据
+     */
+    @GET("/appServiceApi/index.php")
+    Observable<HomeBean> getHomeData(@QueryMap Map<String, Object> map);
+
+
+    /**
+     * get请求，获取首页头部数据
+     */
+    @GET("/appServiceApi/index.php")
+    Observable<HomeListBean> getHomeList(@QueryMap Map<String, Object> map);
 
 
 

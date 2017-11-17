@@ -48,4 +48,5 @@
     <drawable name="white">#FFFFFFFF</drawable>
     <color name="c_DCDCDC">#DCDCDC</color>
     <color name="transparent">#00000000</color>
+    <color name="tv_color">#888888</color>
 </resources>
