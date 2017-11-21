@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
  */
 public class RetrofitServiceManager {
 
-    public static final int DEFAULE_TIME_OUT = 5; //超时时间5s
+    public static final int DEFAULE_TIME_OUT = 10; //超时时间5s
     public static final int DEFAULT_READ_OUT = 10;
 
 //    public   String BASEURL = "https://api.douban.com/v2/movie/";

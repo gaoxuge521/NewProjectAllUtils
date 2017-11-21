@@ -499,6 +499,29 @@ public class HomeBean extends BaseBean {
             public void setTarget(Object target) {
                 this.target = target;
             }
+
+            @Override
+            public String toString() {
+                return "ScareBean{" +
+                        "auto_id='" + auto_id + '\'' +
+                        ", optionid='" + optionid + '\'' +
+                        ", site_id='" + site_id + '\'' +
+                        ", content_name='" + content_name + '\'' +
+                        ", content_no='" + content_no + '\'' +
+                        ", content_type='" + content_type + '\'' +
+                        ", content_width='" + content_width + '\'' +
+                        ", content_height='" + content_height + '\'' +
+                        ", content_simg='" + content_simg + '\'' +
+                        ", content_value='" + content_value + '\'' +
+                        ", content_style='" + content_style + '\'' +
+                        ", content_link='" + content_link + '\'' +
+                        ", content_txt='" + content_txt + '\'' +
+                        ", series='" + series + '\'' +
+                        ", create_user='" + create_user + '\'' +
+                        ", create_time='" + create_time + '\'' +
+                        ", target=" + target +
+                        '}';
+            }
         }
 
         public static class ProctgBean {

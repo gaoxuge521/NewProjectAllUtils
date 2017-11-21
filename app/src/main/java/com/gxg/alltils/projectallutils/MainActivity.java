@@ -74,7 +74,6 @@ public class MainActivity extends BaseActivity {
     private void getData() {
 
         boolean pushStopped = JPushInterface.isPushStopped(this);
-        KLog.e("sss"+pushStopped);
     }
 
     @Override

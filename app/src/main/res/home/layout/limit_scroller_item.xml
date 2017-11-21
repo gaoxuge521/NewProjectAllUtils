@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    >
+    <ImageView
+        android:layout_marginLeft="15dp"
+        android:visibility="visible"
+        android:id="@+id/iv_icon"
+        android:layout_width="25dip"
+        android:layout_height="25dip"
+        android:src="@drawable/event"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_notice_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="用户名 * 线下体验店即将开业 "
+            android:textSize="14sp"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/tv_notice_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#6D6D6D"
+            android:text="久囍结婚体验店开业啦！欢迎前来免费…"
+            android:textSize="14sp"
+            android:lines="1"
+            android:ellipsize="end"/>
+
+    </LinearLayout>
+
+</LinearLayout>

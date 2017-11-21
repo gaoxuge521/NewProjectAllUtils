@@ -5,20 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="5dp"
-    android:background="@color/white">
+    android:background="@color/backgroud_all">
+    <LinearLayout
+        android:layout_margin="1dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/iv_home_abzy"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:scaleType="fitXY" />
 
-    <ImageView
-        android:id="@+id/iv_home_abzy"
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
-    <TextView
-        android:id="@+id/tv_home_abzy"
-        tools:text="买药品"
-        android:textSize="14sp"
-        android:textColor="@color/textColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_home_abzy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="6dp"
+            android:text="买药品"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
+import com.gxg.alltils.projectallutils.application.BaseApplication;
+
 /**
  * 获取屏幕尺寸
  *
@@ -45,6 +47,15 @@ public class ScreenSizeUtil {
     }
 
     /**
+     * 获取屏幕宽度
+     *
+     * @return
+     */
+    public static int getScreenWidth() {
+        return getDisplayMetrics(BaseApplication.getmInstance()).widthPixels;
+    }
+
+    /**
      * 获取屏幕高度
      *
      * @param context
@@ -73,7 +84,10 @@ public class ScreenSizeUtil {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dp * scale + 0.5f);
     }
-
+    public static int Dp2Px( float dp) {
+        final float scale = BaseApplication.getmInstance().getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
     public static int Px2Dp(Context context, float px) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (px / scale + 0.5f);

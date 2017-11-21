@@ -21,7 +21,6 @@ public class FindFragment extends BaseFragment {
     public void setupViews(View view) {
         String id = getArguments().getString("id", "");
 
-        KLog.e(id);
     }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

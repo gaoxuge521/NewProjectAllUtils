@@ -8,6 +8,9 @@ include ':pickerview'
 include ':dropmenulibrary'
 //dropmenulibrary 一个实用的多条件筛选菜单
 // https://github.com/dongjunkun/DropDownMenu
+//倒计时控件
+//https://github.com/iwgang/CountdownView
+
 include ':permission'
 //6.0权限
 //https://github.com/yanzhenjie/AndPermission
