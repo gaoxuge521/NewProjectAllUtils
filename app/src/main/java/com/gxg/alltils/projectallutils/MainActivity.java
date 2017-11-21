@@ -28,6 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import cn.jpush.android.api.JPushInterface;
 
+
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.vp)
@@ -107,6 +108,7 @@ public class MainActivity extends BaseActivity {
         vp.setScanScroll(false);
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         vp.setAdapter(adapter);
+        vp.setOffscreenPageLimit(fragments.size());
 
     }
 

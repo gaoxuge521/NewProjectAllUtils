@@ -49,4 +49,23 @@
     <color name="c_DCDCDC">#DCDCDC</color>
     <color name="transparent">#00000000</color>
     <color name="tv_color">#888888</color>
+    <color name="color000">#000000</color>
+
+
+    <!--图片背景颜色-->
+    <color name="img_bg0">#d8c1b1</color>
+    <color name="img_bg1">#958874</color>
+    <color name="img_bg2">#ffc5e4</color>
+    <color name="img_bg3">#b7ffe6</color>
+    <color name="img_bg4">#97adbe</color>
+    <color name="img_bg5">#00776c</color>
+
+    <color name="img_bg6">#71424b</color>
+    <color name="img_bg7">#334c86</color>
+    <color name="img_bg8">#ada55d</color>
+    <color name="img_bg9">#968a85</color>
+
+    <color name="hx_msg_num_color">#f95c5e</color>
+    <color name="color_f74467">#f74467</color>
+
 </resources>

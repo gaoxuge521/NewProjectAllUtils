@@ -1,9 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroud_all"
     tools:context="com.gxg.alltils.projectallutils.model.loginregister.LoginActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <com.gxg.alltils.projectallutils.widght.ReboundScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/login_frame"
+                android:drawableLeft="@drawable/icon_phone"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:hint="请输入手机号"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:padding="10dp"
+
+                android:text=""
+                android:textColor="#222222"
+                android:textSize="15sp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/login_frame"
+                android:layout_height="40dp"
+                android:gravity="center_vertical">
+                <com.gxg.alltils.projectallutils.widght.ClearEditText
+                    android:id="@+id/et_psw"
+                    android:maxLength="50"
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:drawableLeft="@drawable/icon_lock"
+                    android:drawablePadding="5dp"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:hint="请输入密码" />
+                <ImageButton
+                    android:paddingBottom="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:src="@drawable/icon_yanjing_biyan"
+                    android:background="@color/transparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:id="@+id/ib_login_biyan"
+                    android:visibility="gone"
+                   />
+            </LinearLayout>
+
+
+
+            <com.gxg.alltils.projectallutils.widght.ClearEditText
+
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:maxLength="50"
+                android:singleLine="true"
+                android:background="@drawable/login_frame"
+                android:drawableLeft="@drawable/icon_lock"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_auto_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+
+                <!--<CheckBox-->
+                    <!--android:id="@+id/cx_box"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:button="@drawable/auto_loading_cx"-->
+                    <!--android:checked="true"-->
+                    <!--android:text="  自动登录"-->
+                    <!--android:textColor="#999999"-->
+                    <!--android:textSize="16sp" />-->
+
+
+                <TextView
+                    android:id="@+id/tv_pwd_forget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="忘记密码?"
+                    android:textColor="#FE2828" />
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_shape"
+                android:gravity="center"
+                android:text="立即登录"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+    </com.gxg.alltils.projectallutils.widght.ReboundScrollView>
+</RelativeLayout>

@@ -92,7 +92,7 @@
                 app:isShowHour="true"
                 app:isShowMinute="true"
                 app:isShowSecond="true"
-                app:isShowMillisecond="true"
+                app:isShowMillisecond="false"
                 app:timeTextColor="#000000"
                 app:timeTextSize="10sp"
                 app:isTimeTextBold="true"
@@ -104,88 +104,6 @@
                 app:suffixMinute="分"
                 app:suffixSecond="秒"
                />
-            <!--<Countd-->
-                <!--android:id="@+id/countdownview"-->
-                <!--android:layout_marginTop="40dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-            <!--</com.gxg.alltils.projectallutils.widght.CountdownView>-->
-            <!--<RelativeLayout-->
-                <!--android:layout_marginTop="40dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center">-->
-
-
-                <!--<TextView-->
-                    <!--android:id="@+id/hours_tv"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_toLeftOf="@+id/colon1"-->
-                    <!--android:background="#000000"-->
-                    <!--android:gravity="center"-->
-                    <!--android:paddingLeft="2dp"-->
-                    <!--android:paddingRight="2dp"-->
-                    <!--android:text="23"-->
-                    <!--android:textColor="#ffffff"-->
-                    <!--android:textSize="13sp" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/colon1"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="3.0dip"-->
-                    <!--android:layout_marginRight="3.0dip"-->
-                    <!--android:layout_toLeftOf="@+id/minutes_tv"-->
-                    <!--android:text=":"-->
-                    <!--android:textColor="#FF0000"-->
-                    <!--android:textSize="10sp"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/minutes_tv"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_toLeftOf="@+id/colon2"-->
-                    <!--android:background="#000000"-->
-                    <!--android:gravity="center"-->
-                    <!--android:paddingLeft="2dp"-->
-                    <!--android:paddingRight="2dp"-->
-                    <!--android:text="59"-->
-                    <!--android:textColor="#ffffff"-->
-                    <!--android:textSize="13sp" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/colon2"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="3.0dip"-->
-                    <!--android:layout_marginRight="3.0dip"-->
-                    <!--android:layout_toLeftOf="@+id/seconds_tv"-->
-                    <!--android:text=":"-->
-                    <!--android:textColor="#FF0000"-->
-                    <!--android:textSize="10sp"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/seconds_tv"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:background="#000000"-->
-                    <!--android:gravity="center"-->
-                    <!--android:paddingLeft="2dp"-->
-                    <!--android:paddingRight="2dp"-->
-                    <!--android:text="59"-->
-                    <!--android:textColor="#ffffff"-->
-                    <!--android:textSize="13sp" />-->
-            <!--</RelativeLayout>-->
         </RelativeLayout>
 
 
@@ -336,7 +254,7 @@
                 <LinearLayout
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -360,7 +278,7 @@
                 <LinearLayout
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 

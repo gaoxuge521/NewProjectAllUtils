@@ -44,5 +44,21 @@
         <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
     </style>
 
+    <!--一个自定义的圆环进度条可适用于上传下载-->
+    <declare-styleable name="RingProgressBar">
+        <attr name="ringColor" format="color" />
+        <attr name="ringProgressColor" format="color" />
+        <attr name="ringWidth" format="dimension" />
+        <attr name="ringTextColor" format="color" />
+        <attr name="ringTextSize" format="dimension" />
+        <attr name="max" format="integer" />
+        <attr name="textIsShow" format="boolean" />
+        <attr name="style">
+            <enum name="STROKE" value="0" />
+            <enum name="FILL" value="1" />
+        </attr>
+    </declare-styleable>
+
+
 
 </resources>
