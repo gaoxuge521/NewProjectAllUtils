@@ -20,7 +20,6 @@ import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.EasyUtils;
-import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -136,7 +135,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragment.E
     @Override
     protected void setUpView() {
 
-        KLog.e("sss    "+toChatUsername+"   "+chatType);
+//        KLog.e("sss    "+toChatUsername+"   "+chatType);
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(toChatUsername, EaseCommonUtils.getConversationType(chatType), true);
         int msgCount = conversation.getAllMsgCount();
 

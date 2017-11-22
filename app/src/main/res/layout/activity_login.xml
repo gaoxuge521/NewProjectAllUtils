@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroud_all"
+    android:orientation="vertical"
     tools:context="com.gxg.alltils.projectallutils.model.loginregister.LoginActivity">
 
+    <include
+        layout="@layout/title_bar"/>
     <com.gxg.alltils.projectallutils.widght.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -22,7 +27,7 @@
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/login_frame"
                 android:drawableLeft="@drawable/icon_phone"
                 android:drawablePadding="5dp"
@@ -31,11 +36,12 @@
                 android:inputType="phone"
                 android:maxLines="1"
                 android:padding="10dp"
-
                 android:text=""
                 android:textColor="#222222"
                 android:textSize="15sp" />
             <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -44,6 +50,7 @@
                 android:gravity="center_vertical">
                 <com.gxg.alltils.projectallutils.widght.ClearEditText
                     android:id="@+id/et_psw"
+
                     android:maxLength="50"
                     android:singleLine="true"
                     android:inputType="textPassword"
@@ -101,6 +108,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
 
+                <TextView
+                    android:padding="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/tv_register"
+                    android:text="创建新账号"
+                    android:textColor="@color/textColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
 
                 <!--<CheckBox-->
                     <!--android:id="@+id/cx_box"-->
@@ -114,6 +130,7 @@
 
 
                 <TextView
+                    android:padding="5dp"
                     android:id="@+id/tv_pwd_forget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,4 +161,4 @@
 
         </LinearLayout>
     </com.gxg.alltils.projectallutils.widght.ReboundScrollView>
-</RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99000000"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tv_delet_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#ebebeb"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="确定要删除订单么?"
+        android:textColor="#666666"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_make_sure"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="确定"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/shape_login_name_pwd_line" />
+
+    <Button
+        android:id="@+id/btn_give_up"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="取消"
+        android:textColor="#666666"
+        android:textSize="16sp" />
+</LinearLayout>

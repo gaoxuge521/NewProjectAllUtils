@@ -8,5 +8,7 @@ package com.gxg.alltils.projectallutils.utils;
 public class Contants {
     public static final String IMG_AVATAR = "img_avatar";//保存头像图片的key
     public static final String USER_NAME = "user_name";//保存用户名
-    public static final String TOKEN = "token";//保存用户名
+    public static final String TOKEN = "token";//是否登陆
+
+    public static final String LOGIN_COUNT = "login_count";//登陆次数
 }

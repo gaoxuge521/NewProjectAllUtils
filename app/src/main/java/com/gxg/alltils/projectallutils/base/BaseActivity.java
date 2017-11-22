@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.utils.ActivityManage;
 
 import butterknife.ButterKnife;
@@ -92,6 +93,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
             intent.putExtras(bundle);
         }
         startActivity(intent);
+        overridePendingTransition(R.anim.activity_in,R.anim.activity_on);
     }
 
     /**

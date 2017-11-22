@@ -110,10 +110,8 @@ public class TimeButton extends AppCompatButton implements OnClickListener {
 
         if (mOnclickListener != null)
             mOnclickListener.onClick(v);
-
         if(!enabled)
             return;
-
         initTimer();
         this.setText(String.format(textAfter, time / 1000));
         this.setTextColor(Color.parseColor("#f74467"));

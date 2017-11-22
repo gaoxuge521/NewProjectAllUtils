@@ -24,6 +24,8 @@ import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import cn.jpush.android.api.JPushInterface;
@@ -161,20 +163,31 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN) {
-
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                        Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-                return true;
-            } else {
-                System.exit(0);
-            }
+        if (keyCode == KeyEvent.KEYCODE_BACK /* && isHome */) {
+            exitBy2Click();
         }
-        return super.onKeyDown(keyCode, event);
+        return false;
     }
+    private  Boolean isExit = false;
+    /**
+     * 双击返回键退出函数（退出程序）
+     */
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
 
-
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
 }

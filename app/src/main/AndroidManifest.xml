@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.gxg.alltils.projectallutils">
 
@@ -38,9 +37,8 @@
     <!-- 允许应用获取网络信息状态，如当前的网络连接是否有效。 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".application.BaseApplication"
@@ -68,18 +66,14 @@
         <activity android:name=".model.loginregister.LoginActivity" />
         <activity android:name=".model.loginregister.RegisterActivity" />
         <activity android:name=".model.loginregister.InformationActivity" />
-        <activity android:name=".model.ZxingActivity"></activity>
-        <activity android:name=".huanxin.ui.ChatActivity"/>
-
-
-
+        <activity android:name=".model.ZxingActivity" />
+        <activity android:name=".huanxin.ui.ChatActivity" />
 
         <!-- 百度地图定位用 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote">
-        </service>
+            android:process=":remote"></service>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -190,6 +184,7 @@
             android:name="JPUSH_APPKEY"
             android:value="242354b8456ec35f0860aae5" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- 极光========================================================================================================================相关 -->
+        <activity android:name=".model.user.activity.SettingActivity"></activity>
     </application>
 
 </manifest>

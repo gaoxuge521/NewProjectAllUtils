@@ -16,6 +16,7 @@ import com.gxg.alltils.projectallutils.base.BaseFragment;
 import com.gxg.alltils.projectallutils.model.ZxingActivity;
 import com.gxg.alltils.projectallutils.model.loginregister.InformationActivity;
 import com.gxg.alltils.projectallutils.model.loginregister.LoginActivity;
+import com.gxg.alltils.projectallutils.model.user.activity.SettingActivity;
 import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.ScreenSizeUtil;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
@@ -31,6 +32,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 /**
  * ░░░░░░░░░░░░░░░░░░░░░░░░▄░░
  * ░░░░░░░░░▐█░░░░░░░░░░░▄▀▒▌░
@@ -69,6 +71,10 @@ public class UserFragment extends BaseFragment {
     ZoomInScrollView scroll;
     @Bind(R.id.fm_head)
     FrameLayout fmHead;
+    @Bind(R.id.iv_setting)
+    ImageView iv_setting;
+
+
     private int height;
 
 
@@ -81,12 +87,34 @@ public class UserFragment extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-
-        } else {
-
+            setUserStatus();
         }
     }
 
+
+    //判断登陆状态显示不同的布局
+    private void setUserStatus() {
+        if(SharedPreferencesUtils.isLogin(getActivity())){
+            layout_user_info.setVisibility(View.VISIBLE);
+            layout_login.setVisibility(View.GONE);
+            String avatar = SharedPreferencesUtils.get(getActivity(), Contants.IMG_AVATAR, "").toString();
+            KLog.e(avatar);
+            if (!TextUtils.isEmpty(avatar)) {
+                Glide.with(getActivity()).load(new File(avatar)).into(img_avatar);
+            } else {
+                Glide.with(getActivity()).load(R.drawable.ic_my_avatar).into(img_avatar);
+            }
+        }else{
+            layout_user_info.setVisibility(View.GONE);
+            layout_login.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUserStatus();
+    }
     @Override
     public void setupViews(View view) {
         //手动给容器赋值，防止随着头部的下拉而放大
@@ -97,15 +125,6 @@ public class UserFragment extends BaseFragment {
         layout_count.setLayoutParams(layoutParams);
 
 
-        String avatar = SharedPreferencesUtils.get(getActivity(), Contants.IMG_AVATAR, "").toString();
-        KLog.e(avatar);
-        if (!TextUtils.isEmpty(avatar)) {
-            Glide.with(getActivity()).load(new File(avatar)).into(img_avatar);
-
-        } else {
-            Glide.with(getActivity()).load(R.drawable.ic_my_avatar).into(img_avatar);
-
-        }
 
         setData();
 
@@ -158,7 +177,7 @@ public class UserFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_scanning, R.id.img_avatar, R.id.img_register})
+    @OnClick({R.id.iv_setting,R.id.iv_scanning, R.id.img_avatar, R.id.img_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_avatar:
@@ -169,25 +188,34 @@ public class UserFragment extends BaseFragment {
             case R.id.img_register:
                 openActivity(LoginActivity.class);
                 break;
-            case R.id.iv_scanning:
-                AndPermission.with(UserFragment.this)
-                        .requestCode(200)
-                        .permission(
-                                // 申请多个权限组方式：
-                                Permission.CAMERA,
-                                Permission.STORAGE
-                        )
+            case R.id.iv_scanning://二维码
+                scanning();
+                break;
+            case R.id.iv_setting:
+                openActivity(SettingActivity.class);
+                break;
+        }
+    }
+
+    /**
+     * 二维码扫描，先判断权限
+     */
+    private void scanning() {
+        AndPermission.with(UserFragment.this)
+                .requestCode(200)
+                .permission(
+                        // 申请多个权限组方式：
+                        Permission.CAMERA,
+                        Permission.STORAGE
+                )
 //                    .rationale(new RationaleListener() {//自定义对话框
 //                        @Override
 //                        public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
 //
 //                        }
 //                    })
-                        .callback(listener)
-                        .start();
-
-                break;
-        }
+                .callback(listener)
+                .start();
     }
 
 
@@ -240,6 +268,7 @@ public class UserFragment extends BaseFragment {
     };
 
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -251,6 +280,7 @@ public class UserFragment extends BaseFragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 
 
 }

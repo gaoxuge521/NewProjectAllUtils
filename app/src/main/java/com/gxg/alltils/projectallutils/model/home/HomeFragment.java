@@ -95,6 +95,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
         initListener();
         //请求数据
         getHomeData();
+
     }
 
 
@@ -254,6 +255,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
     private void initData() {
 
+
         HXController.loginHX("15735804834", "123456", new EMCallBack() {
             @Override
             public void onSuccess() {
@@ -271,6 +273,10 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
             }
         });
 
+        //关闭越界回弹
+        refresh.setEnableOverScrollBounce(false);
+
+
         //获取屏幕的宽度
         mWidth = ScreenSizeUtil.getScreenWidth(getActivity());
 
@@ -282,6 +288,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
         homeAdapter = new HomeAdapter(new ArrayList<HomeListBean.DatalistBean.RecommendBean>());
         homeAdapter.addHeaderView(getHeadView());
         rvHead.setAdapter(homeAdapter);
+
 
 
         //商品分类列表的adapter
