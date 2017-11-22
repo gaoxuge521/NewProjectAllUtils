@@ -1,6 +1,8 @@
 package com.gxg.alltils.projectallutils.model.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +31,11 @@ import com.gxg.alltils.projectallutils.utils.ScreenSizeUtil;
 import com.gxg.alltils.projectallutils.widght.NoticeView;
 import com.hyphenate.EMCallBack;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.socks.library.KLog;
 
@@ -51,7 +57,6 @@ import rx.Subscriber;
 public class HomeFragment extends BaseFragment implements CountdownView.OnCountdownEndListener {
 
 
-
     @Bind(R.id.rv_head)
     RecyclerView rvHead;
     @Bind(R.id.refresh)
@@ -62,6 +67,8 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
     RelativeLayout rlHeaderCenter;
     @Bind(R.id.rl_header_right)
     RelativeLayout rlHeaderRight;
+    @Bind(R.id.top_home)
+    LinearLayout top_home;
     private HomeAdapter homeAdapter;
     private HomeBean mHomeBean;
     private HomeShopAdapter homeShopAdapter;
@@ -101,6 +108,8 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
         }
     }
 
+//    private boolean pullingFlag = false;
+
     private void initListener() {
         homeAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -115,15 +124,132 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
         refresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                page=1;
+                page = 1;
                 getHomeData();
             }
         });
 
 
+        refresh.setOnMultiPurposeListener(new OnMultiPurposeListener() {
+            @Override
+            public void onHeaderPulling(RefreshHeader header, float percent, int offset, int headerHeight, int extendHeight) {
+            }
+
+            @Override
+            public void onHeaderReleasing(RefreshHeader header, float percent, int offset, int headerHeight, int extendHeight) {
+            }
+
+            @Override
+            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int extendHeight) {
+            }
+
+            @Override
+            public void onHeaderFinish(RefreshHeader header, boolean success) {
+            }
+
+            @Override
+            public void onFooterPulling(RefreshFooter footer, float percent, int offset, int footerHeight, int extendHeight) {
+            }
+
+            @Override
+            public void onFooterReleasing(RefreshFooter footer, float percent, int offset, int footerHeight, int extendHeight) {
+            }
+
+            @Override
+            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int extendHeight) {
+            }
+
+            @Override
+            public void onFooterFinish(RefreshFooter footer, boolean success) {
+            }
+
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+            }
+
+            @Override
+            public void onStateChanged(RefreshLayout refreshLayout, RefreshState oldState, RefreshState newState) {
+                //小拉一下，不刷新  PullDownToRefresh   PullDownCanceled  None
+                //下拉刷新  PullDownToRefresh  ReleaseToRefresh  Refreshing  RefreshFinish  None
+
+//                PullDownToRefresh  标题栏隐藏   None标题栏显示
+                switch (newState) {
+                    case None:
+                        KLog.e("sssddd  None");
+                        top_home.setVisibility(View.VISIBLE);
+                        break;
+                    case PullDownToRefresh:
+                        top_home.setVisibility(View.GONE);
+                        KLog.e("sssddd PullDownToRefresh 下拉开始刷新");
+                        break;
+                    case Refreshing:
+                        KLog.e("sssddd  Refreshing正在刷新");
+                        break;
+                    case ReleaseToRefresh:
+                        KLog.e("sssddd  ReleaseToRefresh释放完立即刷新");
+                        break;
+                    case RefreshFinish:
+                        KLog.e("sssddd  RefreshFinish");
+                        break;
+                    case PullDownCanceled:
+                        KLog.e("sssddd  PullDownCanceled");
+                        break;
+
+                }
+            }
+        });
+
+        rvHead.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                        int position = layoutManager.findFirstVisibleItemPosition();
+                        if (position > 0) {
+                            top_home.setBackgroundColor(Color.argb(220, 243, 152,
+                                    0));
+                        } else {
+                            View firstView = layoutManager.findViewByPosition(position);
+                            int top = Math.abs(firstView.getTop());
+
+                            int mHeight = getHeight();
+                            int mPrecent = top * 220 / mHeight;
+                            if (mPrecent <= 220 && mPrecent > 0) {
+                                top_home.setBackgroundColor(Color.argb(mPrecent, 243,
+                                        152, 0));
+                            } else if (mPrecent <= 0) {
+                                top_home.setBackgroundColor(Color.argb(0, 243, 152, 0));
+                            } else {
+                                top_home.setBackgroundColor(Color.argb(220, 243, 152,
+                                        0));
+                            }
+
+                        }
+                    }
+                });
+            }
+        });
 
 
+    }
 
+    /**
+     * 获取顶部view的高度
+     */
+    private int getHeight() {
+        return top_home.getHeight();
     }
 
     private void initData() {
@@ -136,7 +262,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
             @Override
             public void onError(int i, String s) {
-                KLog.e("登陆失败"+s);
+                KLog.e("登陆失败" + s);
             }
 
             @Override
@@ -403,7 +529,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                 }
 
 
-                if(refresh.isRefreshing()){
+                if (refresh.isRefreshing()) {
                     refresh.finishRefresh();
                 }
 //                if (homeBean.getDatalist().getRecommend().size() == 0 || homeBean.getDatalist().getRecommend().size() < 10) {
@@ -502,7 +628,6 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
     }
 
 
-
     @OnClick({R.id.rl_header_left, R.id.rl_header_center, R.id.rl_header_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -514,19 +639,19 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                 break;
             case R.id.rl_header_right://消息
 
-                if(HXController.hXIsLogin()){
-                    ChatActivity.startChatActivity(getActivity(),ChatActivity.JX_SERVER_USERNAME_2);
-                }else{
+                if (HXController.hXIsLogin()) {
+                    ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_2);
+                } else {
                     HXController.loginHX("15735804834", "123456", new EMCallBack() {
                         @Override
                         public void onSuccess() {
                             KLog.e("登陆成功");
-                            ChatActivity.startChatActivity(getActivity(),ChatActivity.JX_SERVER_USERNAME_2);
+                            ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_2);
                         }
 
                         @Override
                         public void onError(int i, String s) {
-                            KLog.e("登陆失败"+s);
+                            KLog.e("登陆失败" + s);
                         }
 
                         @Override
