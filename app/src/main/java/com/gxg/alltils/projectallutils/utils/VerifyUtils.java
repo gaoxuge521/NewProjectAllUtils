@@ -10,7 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author yuliuyue
+ * @author gaoxuge
+ * 各种验证的正则表达式
  */
 public class VerifyUtils {
 

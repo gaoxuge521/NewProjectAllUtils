@@ -122,7 +122,7 @@ public class InformationActivity extends TakePhotoActivity {
     protected void initView() {
         mPhoto = getTakePhoto();
         String img_path = SharedPreferencesUtils.get(InformationActivity.this, IMG_AVATAR, "").toString();
-        if(!TextUtils.isEmpty(img_path)){
+        if(!TextUtils.isEmpty(img_path)&& new File(img_path).exists() && new File(img_path).length()>0){
             Glide.with(this).load(new File(img_path)).into(imgAvatar);
         }else{
             Glide.with(this).load(R.drawable.ic_my_avatar).into(imgAvatar);

@@ -99,7 +99,8 @@ public class UserFragment extends BaseFragment {
             layout_login.setVisibility(View.GONE);
             String avatar = SharedPreferencesUtils.get(getActivity(), Contants.IMG_AVATAR, "").toString();
             KLog.e(avatar);
-            if (!TextUtils.isEmpty(avatar)) {
+           KLog.e( new File(avatar).exists()+"    "+ new File(avatar).length());
+            if (!TextUtils.isEmpty(avatar) && new File(avatar).exists() && new File(avatar).length()>0) {
                 Glide.with(getActivity()).load(new File(avatar)).into(img_avatar);
             } else {
                 Glide.with(getActivity()).load(R.drawable.ic_my_avatar).into(img_avatar);

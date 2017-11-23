@@ -49,8 +49,8 @@ android {
             res.srcDir "src/main/res/shop"
             res.srcDir "src/main/res/user"
             res.srcDir "src/main/res/other"
-            res.srcDir "src/main/res/huanxin"
-            res.srcDir "src/main/res/popanddialog"
+            res.srcDir "src/main/res/huanxin"//环信相关
+            res.srcDir "src/main/res/popanddialog"//所有弹框之类的布局全放这里
         }
     }
 

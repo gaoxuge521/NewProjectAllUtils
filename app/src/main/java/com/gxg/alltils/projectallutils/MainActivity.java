@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.gxg.alltils.projectallutils.adapter.MainViewPagerAdapter;
 import com.gxg.alltils.projectallutils.base.BaseActivity;
+import com.gxg.alltils.projectallutils.event.ShowHomeEvent;
+import com.gxg.alltils.projectallutils.http.utils.RxBus;
 import com.gxg.alltils.projectallutils.model.find.FindFragment;
 import com.gxg.alltils.projectallutils.model.home.HomeFragment;
 import com.gxg.alltils.projectallutils.model.other.OtherFragment;
@@ -29,6 +31,8 @@ import java.util.TimerTask;
 
 import butterknife.Bind;
 import cn.jpush.android.api.JPushInterface;
+import rx.Subscription;
+import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity {
@@ -56,6 +60,7 @@ public class MainActivity extends BaseActivity {
     private ShopFragment shopFragment;
     private OtherFragment otherFragment;
     private UserFragment userFragment;
+    private Subscription showHomeSubscribe;
 
 
     @Override
@@ -67,9 +72,40 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getData();
+        //注册Rxbus
+         registerRxBus();
 
     }
 
+    private void registerRxBus() {
+
+        //显示homeframg
+        showHomeSubscribe = RxBus.getDefault().toObserverable(ShowHomeEvent.class)
+                .subscribe(new Action1<ShowHomeEvent>() {
+                    @Override
+                    public void call(ShowHomeEvent showHomeEvent) {
+                        vp.setCurrentItem(0);
+                        rbOne.setChecked(true);
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        //显示homeframg
+        if(showHomeSubscribe!=null && showHomeSubscribe.isUnsubscribed()){
+            showHomeSubscribe.unsubscribe();
+            showHomeSubscribe =null;
+        }
+        super.onDestroy();
+
+    }
 
     /**
      * 获取数据

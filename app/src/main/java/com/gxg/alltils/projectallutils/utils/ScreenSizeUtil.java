@@ -64,7 +64,13 @@ public class ScreenSizeUtil {
     public static int getScreenHeight(Context context) {
         return getDisplayMetrics(context).heightPixels;
     }
-
+    /**
+     * 获取屏幕高度
+     *
+     */
+    public static int getScreenHeight() {
+        return getDisplayMetrics(BaseApplication.getmInstance()).heightPixels;
+    }
 
     /**
      * 获取屏幕密度

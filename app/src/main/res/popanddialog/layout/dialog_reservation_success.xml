@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:layout_marginTop="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/img_success"/>
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:textColor="#83f46f"
+        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:text="预约成功"/>
+
+    <TextView
+        android:layout_marginTop="9.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:text="稍后会有管家与您联系"/>
+
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="match_parent"
+        android:background="#f74467"
+        android:layout_marginTop="31dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:text="确定"/>
+
+</LinearLayout>

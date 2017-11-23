@@ -23,7 +23,7 @@ public class BaseApplication extends Application {
         mInstance = this;
 
         //极光推送
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
 
         //环信初始化

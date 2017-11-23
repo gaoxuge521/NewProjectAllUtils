@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
 import com.gxg.alltils.projectallutils.utils.WeakHandler;
+import com.socks.library.KLog;
 
 public class WelcomeActivity extends Activity {
     private int MSG_INIT_OK = 1;
@@ -24,6 +25,7 @@ public class WelcomeActivity extends Activity {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == MSG_INIT_OK) {
+                countDownTimer.cancel();
                 mHandler.removeCallbacks(timeOutTask);
                 Intent intent;
                 int count = (int) SharedPreferencesUtils.getLogin(WelcomeActivity.this, Contants.LOGIN_COUNT, 0);
@@ -86,6 +88,7 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
 
         initView();
+        KLog.e("onCreate");
         initSystem();
 
     }

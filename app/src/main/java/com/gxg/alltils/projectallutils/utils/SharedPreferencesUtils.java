@@ -318,6 +318,10 @@ public class SharedPreferencesUtils {
         return sp.contains(Contants.TOKEN);
     }
 
+    /**
+     * 退出登陆清除token
+     * @param context
+     */
     public static void removeToken(Context context){
         SharedPreferences sp = context.getSharedPreferences(LOGIN,
                 Context.MODE_PRIVATE);

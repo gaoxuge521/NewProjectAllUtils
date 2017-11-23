@@ -59,6 +59,64 @@
         </attr>
     </declare-styleable>
 
+    <!--PopupWindowHelper相关-->
+    <style name="AnimationUpPopup">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_from_bottom</item>
+    </style>
 
+    <style name="AnimationFromButtom" >
+        <item name="android:windowEnterAnimation">@anim/popup_form_bottom</item>
+        <item name="android:windowExitAnimation">@anim/drop_down_to_bottom</item>
+    </style>
+
+    <style name="AnimationFromTop" >
+        <item name="android:windowEnterAnimation">@anim/drop_down_from_top</item>
+        <item name="android:windowExitAnimation">@anim/hide_to_top</item>
+    </style>
+    <!--PopupWindowHelper相关-->
+
+    <style name="share_style" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/share_dialog_enter</item>
+        <!-- 进入时的动画 -->
+        <item name="@android:windowExitAnimation">@anim/share_dialog_exit</item>
+        <!-- 退出时的动画 -->
+    </style>
+
+    <!-- //进入时的动画  //退出时的动画 -->
+    <style name="mystyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+
+
+    <style name="custome_dialog_style" parent="@android:style/Theme.Dialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:maxHeight">280dp</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="Transparent" parent="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar">
+        <item name="android:windowBackground">@color/trans</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+<!--仿支付宝加载成功的控件，圆形旋转到对号-->
+    <declare-styleable name="AnimCheckBox">
+        <attr name="stroke_width" format="dimension"/>
+        <attr name="stroke_color" format="color"/>
+        <attr name="circle_color" format="color"/>
+    </declare-styleable>
 
 </resources>
