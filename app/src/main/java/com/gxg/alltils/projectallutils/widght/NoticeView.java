@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.gxg.alltils.projectallutils.R;
-import com.gxg.alltils.projectallutils.http.bean.HomeBean;
+import com.gxg.alltils.projectallutils.bean.HomeBean;
 
 import java.util.List;
 

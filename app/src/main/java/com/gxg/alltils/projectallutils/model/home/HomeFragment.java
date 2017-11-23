@@ -18,12 +18,13 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
+import com.gxg.alltils.projectallutils.bean.HomeBean;
 import com.gxg.alltils.projectallutils.bean.HomeListBean;
 import com.gxg.alltils.projectallutils.http.RetrofitServiceManager;
-import com.gxg.alltils.projectallutils.http.bean.HomeBean;
 import com.gxg.alltils.projectallutils.huanxin.controller.HXController;
 import com.gxg.alltils.projectallutils.huanxin.ui.ChatActivity;
 import com.gxg.alltils.projectallutils.model.LocalImageHolderView;
+import com.gxg.alltils.projectallutils.model.home.activity.SearchActivity;
 import com.gxg.alltils.projectallutils.model.home.adapter.HomeAbzyAdapter;
 import com.gxg.alltils.projectallutils.model.home.adapter.HomeAdapter;
 import com.gxg.alltils.projectallutils.model.home.adapter.HomeShopAdapter;
@@ -643,32 +644,39 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                 break;
             case R.id.rl_header_center://搜索
                 showToastShort("搜索");
+                openActivity(SearchActivity.class);
                 break;
             case R.id.rl_header_right://消息
+                //跳转环信聊天界面
+                goHX();
+                break;
+        }
+    }
 
-                if (HXController.hXIsLogin()) {
+    /**
+     * 跳转环信聊天界面
+     */
+    private void goHX() {
+        if (HXController.hXIsLogin()) {
+            ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_2);
+        } else {
+            HXController.loginHX("15735804834", "123456", new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    KLog.e("登陆成功");
                     ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_2);
-                } else {
-                    HXController.loginHX("15735804834", "123456", new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            KLog.e("登陆成功");
-                            ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_2);
-                        }
-
-                        @Override
-                        public void onError(int i, String s) {
-                            KLog.e("登陆失败" + s);
-                        }
-
-                        @Override
-                        public void onProgress(int i, String s) {
-
-                        }
-                    });
                 }
 
-                break;
+                @Override
+                public void onError(int i, String s) {
+                    KLog.e("登陆失败" + s);
+                }
+
+                @Override
+                public void onProgress(int i, String s) {
+
+                }
+            });
         }
     }
 }

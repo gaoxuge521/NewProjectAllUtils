@@ -6,12 +6,15 @@ RxBus
 
 
 
+-----------------------------------------设置过滤表情和200字限制--------------------------------------------
+ //设置过滤表情和200字限制
+ etCommit.setFilters(new InputFilter[]{new EmojiFilter(),new LengthFilter(400)});
+
+-----------------------------------------设置过滤表情和200字限制--------------------------------------------
 
 
 
-
-
-
+-----------------------------------------第三方类库--------------------------------------------
 takephoto_library  TakePhoto是一款用于在Android设备上获取照片（拍照或从相册、文件中选择）、裁剪图片、压缩图片的开源工具库
  https://github.com/crazycodeboy/TakePhoto/
 
@@ -35,6 +38,10 @@ https://github.com/dongjunkun/DropDownMenu
 
 //轮播图
 //https://github.com/saiwu-bigkoo/Android-ConvenientBanner
+-----------------------------------------第三方类库--------------------------------------------
+
+
+
 
 -----------------------------------弹框工具类CustomDialog--------------------------------------
 确定取消的底部pop都可以使用user/layout/layout_popupview_dialog_delete.xml布局

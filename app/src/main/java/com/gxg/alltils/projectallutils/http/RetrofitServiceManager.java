@@ -1,8 +1,7 @@
 package com.gxg.alltils.projectallutils.http;
 
 import com.gxg.alltils.projectallutils.bean.HomeListBean;
-import com.gxg.alltils.projectallutils.http.bean.HomeBean;
-import com.gxg.alltils.projectallutils.http.bean.MovieSubject;
+import com.gxg.alltils.projectallutils.bean.HomeBean;
 import com.gxg.alltils.projectallutils.http.result.HttpResult;
 import com.gxg.alltils.projectallutils.http.service.MovieService;
 
@@ -25,11 +24,15 @@ import rx.schedulers.Schedulers;
  */
 public class RetrofitServiceManager {
 
+    public static final String BASEURL = "https://www.trfxm.com";
+    public static final String JpushHead = BASEURL + "/jpush";
+    public static final String WebHead = BASEURL + "/wapp";
+    public static final String UrlHead = BASEURL + "/appServiceApi";
+
+
+    public static final String BASEURLTITLE=UrlHead+"/index.php";
     public static final int DEFAULE_TIME_OUT = 10; //超时时间5s
     public static final int DEFAULT_READ_OUT = 10;
-
-//    public   String BASEURL = "https://api.douban.com/v2/movie/";
-    private String BASEURL = "https://www.trfxm.com";
     private Retrofit retrofit;
     private MovieService movieService;
 
@@ -45,19 +48,6 @@ public class RetrofitServiceManager {
 
     private RetrofitServiceManager() {
         init();
-    }
-
-
-    /**
-     * 进行网络请求，获取数据
-     * @param subscriber
-     * @param request
-     */
-    public void getMovieData(Subscriber<MovieSubject> subscriber, Map<String, Object> request){
-        //统一处理数据，可以通过HttpResultFunc来实现
-//        Observable<MovieSubject> map = movieService.rxPostData(request).map(new HttpResultFunc<MovieSubject>());
-        Observable<MovieSubject> map = movieService.rxPostData(request);
-        toSubscribe(map,subscriber);
     }
 
 

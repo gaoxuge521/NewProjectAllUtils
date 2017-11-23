@@ -11,4 +11,6 @@ public class Contants {
     public static final String TOKEN = "token";//是否登陆
 
     public static final String LOGIN_COUNT = "login_count";//登陆次数
+
+    public static final String HISTORY_SEARCH = "history_search";//历史搜索
 }

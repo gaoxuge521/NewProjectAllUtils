@@ -122,7 +122,7 @@ public class UserFragment extends BaseFragment {
         int screenWidth = ScreenSizeUtil.getScreenWidth(getActivity());
         ViewGroup.LayoutParams layoutParams = layout_count.getLayoutParams();
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        layoutParams.width = screenWidth - (ScreenSizeUtil.Dp2Px(getActivity(), 50));
+        layoutParams.width = screenWidth;
         layout_count.setLayoutParams(layoutParams);
 
 

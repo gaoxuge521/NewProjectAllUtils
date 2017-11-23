@@ -1,6 +1,4 @@
-package com.gxg.alltils.projectallutils.http.bean;
-
-import com.gxg.alltils.projectallutils.bean.BaseBean;
+package com.gxg.alltils.projectallutils.bean;
 
 import java.util.List;
 

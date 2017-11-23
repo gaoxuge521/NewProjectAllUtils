@@ -104,6 +104,7 @@ public class SettingActivity extends BaseActivity {
             case R.id.tv_user_agreement:
                 break;
             case R.id.tv_usermore_feedback:
+                openActivity(FeedBackActivity.class);
                 break;
             case R.id.tv_usermore_version:
                 showDialogVersion(view);

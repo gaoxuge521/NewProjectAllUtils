@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity {
                 .subscribe(new Action1<ShowHomeEvent>() {
                     @Override
                     public void call(ShowHomeEvent showHomeEvent) {
-                        vp.setCurrentItem(0);
+                        vp.setCurrentItem(0,false);
                         rbOne.setChecked(true);
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     }
@@ -119,12 +119,12 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
 
         String telPhoneSystem = PhoneSystemManager.getTelPhoneSystem();
-        KLog.e("现在使用的手机是" + telPhoneSystem);
+//        KLog.e("现在使用的手机是" + telPhoneSystem);
 
         if (telPhoneSystem.equals(PhoneSystemManager.SYS_EMUI)) {//华为手机
 
             int virtualBarHeigh = PhoneSystemManager.AndroidWorkaround.getVirtualBarHeigh(MainActivity.this);
-            KLog.e("虚拟导航栏高度11111：" + virtualBarHeigh);
+//            KLog.e("虚拟导航栏高度11111：" + virtualBarHeigh);
         }
     }
 
@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity {
         vp.setOffscreenPageLimit(fragments.size());
 
     }
-
+    //setCurrentItem后面添加false  它是直接跳转，没有滑屏效果了。
     @Override
     protected void initListener() {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -157,29 +157,29 @@ public class MainActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
                     case R.id.rbOne:
-                        vp.setCurrentItem(0);
+                        vp.setCurrentItem(0,false);
                         //打开手势滑动
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                         BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.purpletextColor));
                         break;
                     case R.id.rbTwo:
-                        vp.setCurrentItem(1);
+                        vp.setCurrentItem(1,false);
                         //禁止手势滑动
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.red));
                         break;
                     case R.id.rbThree:
-                        vp.setCurrentItem(2);
+                        vp.setCurrentItem(2,false);
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.blue));
                         break;
                     case R.id.rbFour:
-                        vp.setCurrentItem(3);
+                        vp.setCurrentItem(3,false);
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.orange));
                         break;
                     case R.id.rbFive:
-                        vp.setCurrentItem(4);
+                        vp.setCurrentItem(4,false);
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.c_663333));
                         break;

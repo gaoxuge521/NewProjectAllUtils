@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.gxg.alltils.projectallutils.model.home.activity.SearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <com.gxg.alltils.projectallutils.widght.ClearEditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/f6f6f6"
+            android:drawableLeft="@drawable/search_glass"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="您感兴趣的内容"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingBottom="7dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:paddingTop="7dp"
+            android:textColorHighlight="#afafaf"
+            android:textColorHint="#999999"
+            android:textCursorDrawable="@drawable/et_color_curson"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="取消"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_hot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:text="请选择标签"
+        android:textColor="#666666"
+        android:textSize="14sp" />
+
+    <com.gxg.alltils.projectallutils.widght.TagFlowLayout
+        android:id="@+id/fl_hot_words"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:max_select="1" />
+
+    <TextView
+        android:id="@+id/tv_search_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="30dp"
+        android:drawableRight="@drawable/icon_search_delete"
+        android:text="历史搜索"
+        android:textColor="#999999"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <com.gxg.alltils.projectallutils.widght.TagFlowLayout
+        android:id="@+id/fl_history_words"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        app:max_select="1" />
+
+
+</LinearLayout>

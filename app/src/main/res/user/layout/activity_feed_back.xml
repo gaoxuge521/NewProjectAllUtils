@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroud_all"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar" />
+
+
+    <EditText
+        android:id="@+id/et_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="130dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/et_bg_feedback"
+        android:gravity="start"
+        android:hint="请描述一下您遇到的问题"
+        android:padding="5dp"
+        android:text=""
+        android:textColor="@color/c888888"
+        android:textColorHint="#888888"
+        android:textSize="13sp" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_prompt"
+        android:layout_gravity="right"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:text="最多只能输入200字" />
+
+
+</LinearLayout>

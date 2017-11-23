@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroud_all"
+    tools:context="com.gxg.alltils.projectallutils.model.home.activity.SearchGoodResultActivity">
+
+    <com.yyydjk.library.DropDownMenu
+        android:id="@+id/dropDownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:ddmenuTextSize="13sp"
+        app:ddtextUnselectedColor="@color/drop_down_unselected"
+        app:ddtextSelectedColor="@color/drop_down_selected"
+        app:dddividerColor="@color/litleBlacktextColor"
+        app:ddunderlineColor="@color/litleBlacktextColor"
+        app:ddmenuSelectedIcon="@drawable/jiantou_shang"
+        app:ddmenuUnselectedIcon="@drawable/jiantou_xia"
+        app:ddmenuBackgroundColor="@color/white"
+        app:ddmenuMenuHeightPercent="0.5"
+        app:ddmaskColor="@color/mask_color"
+        >
+    </com.yyydjk.library.DropDownMenu>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/dropDownMenu"
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>

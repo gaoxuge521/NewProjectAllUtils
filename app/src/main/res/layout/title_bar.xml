@@ -27,6 +27,24 @@
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="标题"/>
+
+    <LinearLayout
+        android:layout_alignParentRight="true"
+        android:id="@+id/ll_right"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_marginRight="10dp"
+            android:id="@+id/tv_right"
+            android:textSize="18sp"
+            android:text="提交"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           />
+    </LinearLayout>
 
 </RelativeLayout>
