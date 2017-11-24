@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroud_all"
     android:gravity="center">
+    <include
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:layout_gravity="center"
-        android:text="find"/>
+        layout="@layout/top_layout_find"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <com.gxg.alltils.projectallutils.widght.verticaltablayout.VerticalTabLayout
+            android:id="@+id/vTabLayout"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:background="#F6F6F6"
+            app:indicator_color="#F65A5A"
+            app:indicator_gravity="left"
+            app:tab_height="53dp"
+            app:tab_mode="scrollable"
+
+            />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 </LinearLayout>

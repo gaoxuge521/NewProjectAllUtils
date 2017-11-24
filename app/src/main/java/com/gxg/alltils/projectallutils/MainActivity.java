@@ -16,7 +16,6 @@ import com.gxg.alltils.projectallutils.event.ShowHomeEvent;
 import com.gxg.alltils.projectallutils.http.utils.RxBus;
 import com.gxg.alltils.projectallutils.model.find.FindFragment;
 import com.gxg.alltils.projectallutils.model.home.HomeFragment;
-import com.gxg.alltils.projectallutils.model.other.OtherFragment;
 import com.gxg.alltils.projectallutils.model.shop.ShopFragment;
 import com.gxg.alltils.projectallutils.model.user.UserFragment;
 import com.gxg.alltils.projectallutils.utils.BarUtils;
@@ -45,8 +44,8 @@ public class MainActivity extends BaseActivity {
     RadioButton rbTwo;
     @Bind(R.id.rbThree)
     RadioButton rbThree;
-    @Bind(R.id.rbFour)
-    RadioButton rbFour;
+//    @Bind(R.id.rbFour)
+//    RadioButton rbFour;
     @Bind(R.id.rbFive)
     RadioButton rbFive;
     @Bind(R.id.rg)
@@ -58,7 +57,7 @@ public class MainActivity extends BaseActivity {
     private HomeFragment homeFragment;
     private FindFragment findFragment;
     private ShopFragment shopFragment;
-    private OtherFragment otherFragment;
+//    private OtherFragment otherFragment;
     private UserFragment userFragment;
     private Subscription showHomeSubscribe;
 
@@ -134,13 +133,13 @@ public class MainActivity extends BaseActivity {
         homeFragment = HomeFragment.newInstance("1");
         findFragment = FindFragment.newInstance("2");
         shopFragment = ShopFragment.newInstance("3");
-        otherFragment = OtherFragment.newInstance("4");
+//        otherFragment = OtherFragment.newInstance("4");
         userFragment = UserFragment.newInstance("5");
 
         fragments.add(homeFragment);
         fragments.add(findFragment);
         fragments.add(shopFragment);
-        fragments.add(otherFragment);
+//        fragments.add(otherFragment);
         fragments.add(userFragment);
 
         vp.setScanScroll(false);
@@ -173,13 +172,13 @@ public class MainActivity extends BaseActivity {
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.blue));
                         break;
-                    case R.id.rbFour:
-                        vp.setCurrentItem(3,false);
-                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                        BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.orange));
-                        break;
+//                    case R.id.rbFour:
+//                        vp.setCurrentItem(3,false);
+//                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+//                        BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.orange));
+//                        break;
                     case R.id.rbFive:
-                        vp.setCurrentItem(4,false);
+                        vp.setCurrentItem(3,false);
                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         BarUtils.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.c_663333));
                         break;

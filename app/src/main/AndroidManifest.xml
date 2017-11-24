@@ -199,7 +199,8 @@
             android:value="242354b8456ec35f0860aae5" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- 极光========================================================================================================================相关 -->
 
-        <activity android:name=".model.home.activity.SearchGoodResultActivity"></activity>
+        <activity android:name=".model.home.activity.SearchGoodResultActivity" />
+        <activity android:name=".model.home.activity.FilterActivity"></activity>
     </application>
 
 </manifest>

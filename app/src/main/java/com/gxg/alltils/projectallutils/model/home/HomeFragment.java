@@ -24,6 +24,7 @@ import com.gxg.alltils.projectallutils.http.RetrofitServiceManager;
 import com.gxg.alltils.projectallutils.huanxin.controller.HXController;
 import com.gxg.alltils.projectallutils.huanxin.ui.ChatActivity;
 import com.gxg.alltils.projectallutils.model.LocalImageHolderView;
+import com.gxg.alltils.projectallutils.model.ZxingActivity;
 import com.gxg.alltils.projectallutils.model.home.activity.SearchActivity;
 import com.gxg.alltils.projectallutils.model.home.adapter.HomeAbzyAdapter;
 import com.gxg.alltils.projectallutils.model.home.adapter.HomeAdapter;
@@ -39,6 +40,8 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.socks.library.KLog;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -181,24 +184,24 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 //                PullDownToRefresh  标题栏隐藏   None标题栏显示
                 switch (newState) {
                     case None:
-                        KLog.e("sssddd  None");
+//                        KLog.e("sssddd  None");
                         top_home.setVisibility(View.VISIBLE);
                         break;
                     case PullDownToRefresh:
                         top_home.setVisibility(View.GONE);
-                        KLog.e("sssddd PullDownToRefresh 下拉开始刷新");
+//                        KLog.e("sssddd PullDownToRefresh 下拉开始刷新");
                         break;
                     case Refreshing:
-                        KLog.e("sssddd  Refreshing正在刷新");
+//                        KLog.e("sssddd  Refreshing正在刷新");
                         break;
                     case ReleaseToRefresh:
-                        KLog.e("sssddd  ReleaseToRefresh释放完立即刷新");
+//                        KLog.e("sssddd  ReleaseToRefresh释放完立即刷新");
                         break;
                     case RefreshFinish:
-                        KLog.e("sssddd  RefreshFinish");
+//                        KLog.e("sssddd  RefreshFinish");
                         break;
                     case PullDownCanceled:
-                        KLog.e("sssddd  PullDownCanceled");
+//                        KLog.e("sssddd  PullDownCanceled");
                         break;
 
                 }
@@ -245,7 +248,11 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
         });
 
 
+        toHXpermission(false);
+
     }
+
+
 
     /**
      * 获取顶部view的高度
@@ -256,23 +263,6 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
     private void initData() {
 
-
-        HXController.loginHX("15735804834", "123456", new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                KLog.e("登陆成功");
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                KLog.e("登陆失败" + s);
-            }
-
-            @Override
-            public void onProgress(int i, String s) {
-
-            }
-        });
 
         //关闭越界回弹
         refresh.setEnableOverScrollBounce(false);
@@ -343,6 +333,8 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
         ll_rm_botton.setLayoutParams(ll_rmboton_layoutParams);
 
     }
+
+
 
     private void initView() {
 
@@ -640,7 +632,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_header_left://扫一扫
-                showToastShort("去会员里面体验");
+               toZxing();
                 break;
             case R.id.rl_header_center://搜索
                 showToastShort("搜索");
@@ -648,11 +640,80 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                 break;
             case R.id.rl_header_right://消息
                 //跳转环信聊天界面
-                goHX();
+                toHXpermission(true);
                 break;
         }
     }
 
+    /**
+     * 跳转扫描二维码页
+     */
+    private void toZxing() {
+        permissionsJudgment(new PermissionCallBack() {
+            @Override
+            public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                openActivity(ZxingActivity.class);
+            }
+
+            @Override
+            public void onFailed(int requestCode, List<String> deniedPermissions) {
+                AndPermission.defaultSettingDialog(getActivity(), 400)
+                        .setTitle("权限申请失败")
+                        .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
+                        .setPositiveButton("好，去设置")
+                        .show();
+            }
+        },Permission.CAMERA,Permission.STORAGE);
+    }
+
+
+    /**
+     * 进入环信单聊验证权限
+     * @param isToHx 是否进入环信聊天页面
+     */
+    private void toHXpermission(final  boolean isToHx) {
+        permissionsJudgment(new PermissionCallBack() {
+            @Override
+            public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                HxLogin(isToHx);
+            }
+
+            @Override
+            public void onFailed(int requestCode, List<String> deniedPermissions) {
+                AndPermission.defaultSettingDialog(getActivity(), 400)
+                        .setTitle("权限申请失败")
+                        .setMessage("登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！")
+                        .setPositiveButton("好，去设置")
+                        .show();
+            }
+        }, Permission.STORAGE);
+    }
+
+    /**
+     * 登陆环信
+     * @param isToHx 是否进聊天页面
+     */
+    private void HxLogin(final boolean isToHx) {
+        HXController.loginHX("15735804834", "123456", new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                KLog.e("登陆成功");
+                if(isToHx){
+                    goHX();
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                KLog.e("登陆失败" + s);
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
+    }
     /**
      * 跳转环信聊天界面
      */

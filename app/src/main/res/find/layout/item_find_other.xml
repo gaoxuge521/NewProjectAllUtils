@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+
+    >
+
+    <TextView
+        android:id="@+id/tv_find_other_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="家纺"
+        android:drawableRight="@drawable/to_right2"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <com.gxg.alltils.projectallutils.widght.MyGridView
+        android:id="@+id/gv_fm_find_other"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:horizontalSpacing="0dp"
+        android:listSelector="#eaeaea"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="0dp"
+        android:visibility="visible" />
+</LinearLayout>

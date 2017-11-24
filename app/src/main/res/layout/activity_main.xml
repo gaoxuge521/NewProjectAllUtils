@@ -54,12 +54,12 @@
                 android:text="购物车"
                 android:textColor="@drawable/text_selector" />
 
-            <RadioButton
-                android:id="@+id/rbFour"
-                style="@style/rg_btn_style"
-                android:drawableTop="@drawable/rb_find_btn_selector"
-                android:text="处方药清单"
-                android:textColor="@drawable/text_selector" />
+            <!--<RadioButton-->
+                <!--android:id="@+id/rbFour"-->
+                <!--style="@style/rg_btn_style"-->
+                <!--android:drawableTop="@drawable/rb_find_btn_selector"-->
+                <!--android:text="处方药清单"-->
+                <!--android:textColor="@drawable/text_selector" />-->
 
             <RadioButton
                 android:id="@+id/rbFive"

@@ -1,12 +1,23 @@
 package com.gxg.alltils.projectallutils.http;
 
-import com.gxg.alltils.projectallutils.bean.HomeListBean;
 import com.gxg.alltils.projectallutils.bean.HomeBean;
+import com.gxg.alltils.projectallutils.bean.HomeListBean;
 import com.gxg.alltils.projectallutils.http.result.HttpResult;
 import com.gxg.alltils.projectallutils.http.service.MovieService;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -25,8 +36,6 @@ import rx.schedulers.Schedulers;
 public class RetrofitServiceManager {
 
     public static final String BASEURL = "https://www.trfxm.com";
-    public static final String JpushHead = BASEURL + "/jpush";
-    public static final String WebHead = BASEURL + "/wapp";
     public static final String UrlHead = BASEURL + "/appServiceApi";
 
 
@@ -75,20 +84,6 @@ public class RetrofitServiceManager {
         toSubscribe(map,subscriber);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
      *
@@ -113,9 +108,38 @@ public class RetrofitServiceManager {
                 .subscribe(s);
     }
     private void init() {
+        X509TrustManager xtm = new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            }
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            }
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                X509Certificate[] x509Certificates = new X509Certificate[0];
+                return x509Certificates;
+            }
+        };
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, new TrustManager[]{xtm}, new SecureRandom());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+        HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
         //创建httpclient
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER) ;//SSL证书
+        builder .sslSocketFactory(sslContext.getSocketFactory());
+        builder.hostnameVerifier(DO_NOT_VERIFY) ;//SSL证书
         builder.connectTimeout(DEFAULE_TIME_OUT, TimeUnit.SECONDS);//连接超时时间
         builder.writeTimeout(DEFAULT_READ_OUT,TimeUnit.SECONDS);//写操作的超级时间
         builder.readTimeout(DEFAULT_READ_OUT,TimeUnit.SECONDS);//读取的超时时间

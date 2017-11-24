@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroud_all">
+
+    <GridView
+        android:paddingLeft="2dp"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:id="@+id/gv_fm_find_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroud_all"
+        android:cacheColorHint="#00000000"
+        android:horizontalSpacing="2dp"
+        android:listSelector="#eaeaea"
+        android:overScrollMode="never"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp"
+        android:visibility="visible">
+
+    </GridView>
+</LinearLayout>

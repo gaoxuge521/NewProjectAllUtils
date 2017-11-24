@@ -59,6 +59,8 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 
 
     protected void initView() {
+//        int screenWidth = ScreenSizeUtil.getScreenWidth();
+//        zxingView.getScanBoxView().setRectWidth(screenWidth-50);
         mPhoto = getTakePhoto();
         KLog.e("sss  打开后置摄像头开始预览  显示扫描框");
         //打开后置摄像头开始预览，但是并未开始识别
