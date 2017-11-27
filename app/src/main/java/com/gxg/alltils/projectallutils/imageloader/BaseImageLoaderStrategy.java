@@ -10,5 +10,6 @@ import android.content.Context;
  */
 public interface BaseImageLoaderStrategy {
    void loadImage(Context ctx, ImageLoader img);
-   void loadCircleImage(Context context,ImageLoader imageLoader,int radio);
+   void loadCircleImage(Context context,ImageLoader imageLoader,int borderWidth,int borderColor);
+   void loadRoundImage(Context ctx,ImageLoader img,int radius);
 }

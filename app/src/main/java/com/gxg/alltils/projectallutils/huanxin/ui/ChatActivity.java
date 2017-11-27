@@ -19,7 +19,6 @@ public class ChatActivity extends BaseActivity {
     public static final String JX_SERVER_USERNAME_1 = "sever_001";
     public static final String JX_SERVER_USERNAME_2 = "sever_002";
 
-    public static String ACTION="com.jiuxi.marriage.module.huanxin.ui.ChatActivity";
 
     @Bind(R.id.tv_title)
     TextView tvTitle;

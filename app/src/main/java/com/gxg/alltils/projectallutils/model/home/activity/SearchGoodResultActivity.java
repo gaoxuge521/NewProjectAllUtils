@@ -2,7 +2,9 @@ package com.gxg.alltils.projectallutils.model.home.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -10,10 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseActivity;
 import com.gxg.alltils.projectallutils.http.HttpHelper;
 import com.gxg.alltils.projectallutils.model.home.adapter.ListDropDownAdapter;
+import com.gxg.alltils.projectallutils.model.home.adapter.SearchGoodAdapter;
+import com.gxg.alltils.projectallutils.model.home.bean.SearchGoodBean;
+import com.gxg.alltils.projectallutils.model.home.bean.SearchGoodStoreCreditBean;
+import com.gxg.alltils.projectallutils.utils.GsonUtil;
 import com.gxg.alltils.projectallutils.utils.PopupWindowHelper;
 import com.socks.library.KLog;
 
@@ -52,17 +60,18 @@ public class SearchGoodResultActivity extends BaseActivity {
     private PopupWindowHelper popupWindowHelper;
     private ListView cityList;
     private ListDropDownAdapter listDropDownAdapter;
-    private String search_key;
-    private String order;
+    //搜索的三个关键key
+    private int curpage = 1;
+    private String search_key;//
+    private String order = "2";
+    private String key;
+    private SearchGoodBean searchGoodBean;
+    private SearchGoodAdapter searchGoodAdapter;
+    private SearchGoodStoreCreditBean searchGoodStoreCreditBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
-
     }
 
     @Override
@@ -80,6 +89,12 @@ public class SearchGoodResultActivity extends BaseActivity {
         search_key = getIntent().getStringExtra(SearchActivity.SEARCH_VALUE);
         KLog.e("sss" + search_key);
 
+        //添加数据
+        rvSearch.setLayoutManager(new LinearLayoutManager(SearchGoodResultActivity.this));
+        searchGoodAdapter = new SearchGoodAdapter(new ArrayList<SearchGoodBean.DatasBean.GoodsListBean>());
+        rvSearch.setAdapter(searchGoodAdapter);
+
+
         // 初始化排序的pop
         initCityPop();
 
@@ -92,26 +107,102 @@ public class SearchGoodResultActivity extends BaseActivity {
      * 获取搜索的数据
      */
     private void getSearchData() {
-        Map<String,Object> map = new HashMap<>();
-        map.put("act","goods");
-        map.put("op","goods_list");
-        map.put("keyword",search_key);
-        map.put("key","");
-        map.put("order",order);
-        map.put("gift","");
-        map.put("groupbuy","");
-        map.put("xianshi","");
-        map.put("own_shop","");
-        map.put("price_from","");
-        map.put("price_to","");
-        map.put("area_id","");
-        map.put("ci","");
-        map.put("curpage",1);
-        map.put("page",10);
-        HttpHelper.getInstance().request(HttpHelper.jointURL(HttpHelper.BASEURL,map), new HttpHelper.HttpCallBack() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("act", "goods");
+        map.put("op", "goods_list");
+        map.put("keyword", search_key);
+        map.put("key", key);
+        map.put("order", order);
+        map.put("gift", "");
+        map.put("groupbuy", "");
+        map.put("xianshi", "");
+        map.put("own_shop", "");
+        map.put("price_from", "");
+        map.put("price_to", "");
+        map.put("area_id", "");
+        map.put("ci", "");
+        map.put("curpage", curpage);
+        map.put("page", 10);
+        HttpHelper.getInstance().request(HttpHelper.jointURL(HttpHelper.BASEURL, map), new HttpHelper.HttpCallBack() {
             @Override
             public void onSuccess(String result) {
+                if (!TextUtils.isEmpty(result)) {
+                    searchGoodBean = GsonUtil.GsonToObject(result, SearchGoodBean.class);
+                    if (curpage == 1) {
+                        searchGoodAdapter.removeAllFooterView();
+                        searchGoodAdapter.setEnableLoadMore(true);
+                        searchGoodAdapter.setNewData(searchGoodBean.getDatas().getGoods_list());
+                    } else {
+                        searchGoodAdapter.addData(searchGoodBean.getDatas().getGoods_list());
+                        if (searchGoodBean.getDatas().getGoods_list().size() == 0 || searchGoodBean.getDatas().getGoods_list().size() < 10) {
+                            searchGoodAdapter.setEnableLoadMore(false);
+                            searchGoodAdapter.addFooterView(getFootView());
+                        }
+                    }
+                    searchGoodAdapter.loadMoreComplete();
 
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+
+            @Override
+            public void onError(String msg) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void initListener() {
+
+        searchGoodAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                rvSearch.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        curpage++;
+                        getSearchData();
+                    }
+                }, 500);
+            }
+        }, rvSearch);
+
+        rvSearch.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.tv_search_good_store_name:
+                        getStoreCredit(searchGoodAdapter.getData().get(position).getStore_id(), position);
+                        break;
+                    case R.id.ll_store_credit:
+                        searchGoodAdapter.setShowStore(null, position, false);
+                        break;
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取商店的评价信息
+     */
+    private void getStoreCredit(final String store_id, final int position) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("act", "store");
+        map.put("op", "store_credit");
+        map.put("store_id", store_id);
+
+        HttpHelper.getInstance().request(HttpHelper.BASEURL, map, new HttpHelper.HttpCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                if (!TextUtils.isEmpty(result)) {
+                    searchGoodStoreCreditBean = GsonUtil.GsonToObject(result, SearchGoodStoreCreditBean.class);
+                    searchGoodAdapter.setShowStore(searchGoodStoreCreditBean, position, true);
+                }
             }
 
             @Override
@@ -126,15 +217,9 @@ public class SearchGoodResultActivity extends BaseActivity {
         });
 
 
-
     }
 
-    @Override
-    protected void initListener() {
-
-    }
-
-    @OnClick({R.id.ll_left,R.id.tv_sorting, R.id.tv_sales, R.id.tv_filter, R.id.iv_more})
+    @OnClick({R.id.ll_left, R.id.tv_sorting, R.id.tv_sales, R.id.tv_filter, R.id.iv_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_sorting://排序
@@ -147,6 +232,10 @@ public class SearchGoodResultActivity extends BaseActivity {
                 listDropDownAdapter.setCheckItem(0);
                 tvSales.setTextColor(getResources().getColor(R.color.red));
                 tvSorting.setTextColor(getResources().getColor(R.color.black));
+                curpage = 1;
+                key = "1";
+                order = "2";
+                getSearchData();
 
                 break;
             case R.id.tv_filter://筛选
@@ -160,6 +249,7 @@ public class SearchGoodResultActivity extends BaseActivity {
                 break;
         }
     }
+
     /**
      * 初始化排序的pop
      */
@@ -184,7 +274,39 @@ public class SearchGoodResultActivity extends BaseActivity {
                 tvSorting.setText(listDropDownAdapter.getItem(position).toString());
                 listDropDownAdapter.setCheckItem(position);
                 popupWindowHelper.dismiss();
+
+                switch (position) {
+                    case 0:
+                        curpage = 1;
+                        key = "";
+                        order = "2";
+                        getSearchData();
+                        break;
+                    case 1:
+                        curpage = 1;
+                        key = "3";
+                        order = "2";
+                        getSearchData();
+                        break;
+                    case 2:
+                        curpage = 1;
+                        key = "3";
+                        order = "1";
+                        getSearchData();
+                        break;
+                    case 3:
+                        curpage = 1;
+                        key = "2";
+                        order = "2";
+                        getSearchData();
+                        break;
+
+                }
             }
         });
+    }
+
+    public View getFootView() {
+        return View.inflate(this, R.layout.not_loading, null);
     }
 }

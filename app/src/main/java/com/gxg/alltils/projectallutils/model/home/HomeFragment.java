@@ -719,13 +719,13 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
      */
     private void goHX() {
         if (HXController.hXIsLogin()) {
-            ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_2);
+            ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_1);
         } else {
             HXController.loginHX("15735804834", "123456", new EMCallBack() {
                 @Override
                 public void onSuccess() {
                     KLog.e("登陆成功");
-                    ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_2);
+                    ChatActivity.startChatActivity(getActivity(), ChatActivity.JX_SERVER_USERNAME_1);
                 }
 
                 @Override

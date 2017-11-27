@@ -235,7 +235,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragment.E
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
         super.onMessageReceived(messages);
-//        LogUtils.e("sss","收到消息"+messages.toString());
+//        Log.e("sss","收到消息"+messages.toString());
     }
 
     /**

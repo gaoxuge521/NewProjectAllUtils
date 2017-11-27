@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +20,11 @@ import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.bean.JsonBean;
+import com.gxg.alltils.projectallutils.imageloader.ImageLoader;
+import com.gxg.alltils.projectallutils.imageloader.ImageLoaderUtil;
 import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.GetJsonDataUtil;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
@@ -122,11 +122,9 @@ public class InformationActivity extends TakePhotoActivity {
     protected void initView() {
         mPhoto = getTakePhoto();
         String img_path = SharedPreferencesUtils.get(InformationActivity.this, IMG_AVATAR, "").toString();
-        if(!TextUtils.isEmpty(img_path)&& new File(img_path).exists() && new File(img_path).length()>0){
-            Glide.with(this).load(new File(img_path)).into(imgAvatar);
-        }else{
-            Glide.with(this).load(R.drawable.ic_my_avatar).into(imgAvatar);
-        }
+
+        new ImageLoaderUtil().loadCircleImg(this,new ImageLoader.Builder().imgView(imgAvatar).url(new File(img_path)).errorHolder(R.drawable.ic_me_touxiang).placeHolder(R.drawable.ic_me_touxiang).build(),2,getResources().getColor(R.color.white));
+
     }
 
     protected void initData() {
@@ -437,7 +435,7 @@ public class InformationActivity extends TakePhotoActivity {
         if (images.size() == 1) {
             KLog.e("sss", "size==1"+images.get(0).getCompressPath());
             SharedPreferencesUtils.put(InformationActivity.this,Contants.IMG_AVATAR,images.get(0).getCompressPath());
-            Glide.with(InformationActivity.this).load(new File(images.get(0).getCompressPath())).into(imgAvatar);
+            new ImageLoaderUtil().loadCircleImg(this,new ImageLoader.Builder().imgView(imgAvatar).url(new File(images.get(0).getCompressPath())).errorHolder(R.drawable.ic_me_touxiang).placeHolder(R.drawable.ic_me_touxiang).build(),2,getResources().getColor(R.color.white));
         } else if (images.size() > 1) {
             KLog.e("sss", "size>1");
         } else {

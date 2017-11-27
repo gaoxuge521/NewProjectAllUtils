@@ -25,13 +25,12 @@
             android:textSize="17sp" />
 
         <ImageView
+            android:layout_marginLeft="15dp"
             android:id="@+id/iv_finish"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingEnd="15dp"
-            android:paddingStart="15dp"
             android:src="@drawable/icon_back2" />
 
         <ImageView

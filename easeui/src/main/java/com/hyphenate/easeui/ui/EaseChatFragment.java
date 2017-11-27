@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -585,7 +586,7 @@ public class  EaseChatFragment extends EaseBaseFragment implements EMMessageList
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
 
-//        Log.e("sss", "onMessageReceived: 接受消息");
+        Log.e("sss", "onMessageReceived: 接受消息");
 
         for (EMMessage message : messages) {
 

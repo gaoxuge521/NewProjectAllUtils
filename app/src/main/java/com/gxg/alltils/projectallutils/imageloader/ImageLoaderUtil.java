@@ -33,29 +33,14 @@ public class ImageLoaderUtil {
         mStrategy = new GlideImageLoaderStrategy();
     }
 
-//    private static ImageLoaderUtil mInstance;
-
-//single instance
-//    public static ImageLoaderUtil getInstance(){
-//        if(mInstance ==null){
-//            synchronized (ImageLoaderUtil.class){
-//                if(mInstance == null){
-//                    mInstance = new ImageLoaderUtil();
-//                    return mInstance;
-//                }
-//            }
-//        }
-//        return mInstance;
-//    }
-
     /**
      * 加载圆形图片
      * @param context
      * @param img
-     * @param radio
+     * @param borderWidth 边框宽度
      */
-    public void loadCircleImg(Context context, ImageLoader img,int radio){
-        mStrategy.loadCircleImage(context,img,radio);
+    public void loadCircleImg(Context context, ImageLoader img,int borderWidth,int borderColor){
+        mStrategy.loadCircleImage(context,img,borderWidth,borderColor);
     }
 
     public void loadImage(Context context, ImageLoader img) {

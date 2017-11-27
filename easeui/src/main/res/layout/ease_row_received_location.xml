@@ -31,16 +31,12 @@
             android:id="@+id/bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_chat_activity"
             android:layout_toRightOf="@id/iv_userhead"
             android:layout_below="@+id/tv_userid"
-            android:background="@drawable/msg_bg_left" >
+            android:background="@drawable/ease_chatfrom_bg" >
 
             <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="10dp"
+                android:padding="5dp"
                 android:id="@+id/tv_location"
                 style="@style/chat_content_date_style"
                 android:layout_width="140dp"

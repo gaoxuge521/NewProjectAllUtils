@@ -52,10 +52,10 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:layout_toLeftOf="@id/iv_userhead"
-            android:background="@drawable/msg_bg_right">
+            android:background="@drawable/ease_chatto_bg">
 
             <TextView
-                android:paddingTop="7dp"
+                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:id="@+id/tv_chatcontent"
                 android:layout_width="wrap_content"
@@ -66,9 +66,9 @@
                 android:lineSpacingExtra="2dp"
                 android:maxWidth="225.0dip"
                 android:minHeight="38dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="33dp"
-                android:text=" "
+                android:paddingRight="6dp"
+                android:paddingLeft="1dp"
+                android:text=" 哈哈大发ifhiu安徽覅死符合我啊诶阿法尔  "
                 android:textColor="#000000"
                 android:textSize="15sp" />
         </RelativeLayout>

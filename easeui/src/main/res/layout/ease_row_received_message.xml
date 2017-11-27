@@ -36,9 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_userid"
-            android:layout_marginLeft="@dimen/margin_chat_activity"
             android:layout_toRightOf="@id/iv_userhead"
-            android:background="@drawable/msg_bg_left"
+            android:background="@drawable/ease_chatfrom_bg"
 
              >
 
@@ -51,8 +50,8 @@
                 android:autoLink="web"
                 android:layout_centerInParent="true"
                 android:gravity="center|left"
-                android:paddingLeft="33dp"
-                android:paddingRight="12.5dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="1dp"
                 android:lineSpacingExtra="2dp"
                 android:minHeight="38dp"
                 tools:text="ddddddfdddddddd的点点滴滴规范的广告的非官方 士大夫撒发生防守打法方法是否摄氏度法发送司法 "

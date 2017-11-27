@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.gxg.alltils.projectallutils.huanxin.ui.ChatActivity;
 import com.hyphenate.EMCallBack;
@@ -22,7 +23,6 @@ import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.NetUtils;
-import com.socks.library.KLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,26 +36,28 @@ import static com.hyphenate.easeui.utils.EaseUserUtils.getUserInfo;
  */
 public class HXController {
 
+    private static EaseUI instance;
+
     /**
      * 初始化环信
      *
      * @param context 上下文
      */
     public static void init(final Context context) {
-        KLog.e("环信初始化22222222");
+        instance = EaseUI.getInstance();
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
         //开启自动登录
         options.setAutoLogin(false);
         //初始化EaseUI
-        EaseUI.getInstance().init(context, options);
+        instance.init(context, options);
 
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
 //        EMClient.getInstance().setDebugMode(true);
 
 
-        EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+        instance.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
             @Override
             public EaseUser getUser(String username) {
 
@@ -73,7 +75,7 @@ public class HXController {
 //                    currentUser.setAvatar(GlobalVar.getUser().getPhoto());
                     //如果是官方客服
                 } else if (TextUtils.equals(ChatActivity.JX_SERVER_USERNAME_1, username) || TextUtils.equals(ChatActivity.JX_SERVER_USERNAME_2, username)) {
-                    currentUser.setNickname("久囍客服");
+                    currentUser.setNickname("客服");
                     currentUser.setAvatar("http://images.9xi.com/727c05dc-c4b6-4968-9a0c-fa0f181064b4.png");
                     //其他人
                     // FIXME: 2017/3/21  头像和昵称的处理
@@ -82,7 +84,7 @@ public class HXController {
                     SharedPreferences user = context.getSharedPreferences(username, Context.MODE_PRIVATE);
 
                     String string = user.getString(EaseConstant.USERPHONE, "");
-                    String name = user.getString(EaseConstant.USERNAME, "久囍管家");
+                    String name = user.getString(EaseConstant.USERNAME, "管家");
                     currentUser.setNickname(name);
                     currentUser.setAvatar(string);
 
@@ -112,8 +114,9 @@ public class HXController {
      */
     private static void setNotificationConfig(final Context context) {
 
-
-        EaseUI.getInstance().getNotifier().setNotificationInfoProvider(new EaseNotifier.EaseNotificationInfoProvider() {
+//        KLog.e("sss111"+EaseUI.getInstance());
+//        KLog.e("sss222"+EaseUI.getInstance().getNotifier());
+        instance.getNotifier().setNotificationInfoProvider(new EaseNotifier.EaseNotificationInfoProvider() {
             @Override
             public String getDisplayedText(EMMessage message) {
             // 设置状态栏的消息提示，可以根据message的类型做相应提示
@@ -179,7 +182,7 @@ public class HXController {
      * 消息提醒的配置
      */
     private static void setSettingConfig() {
-        EaseUI.getInstance().setSettingsProvider(new EaseUI.EaseSettingsProvider() {
+        instance.setSettingsProvider(new EaseUI.EaseSettingsProvider() {
             @Override
             public boolean isMsgNotifyAllowed(EMMessage message) {
                 return true;
@@ -263,7 +266,7 @@ public class HXController {
             public void onMessageReceived(List<EMMessage> messages) {
                 for (EMMessage message : messages) {
 
-//                    LogUtils.e("sss","onMessageReceived id : " + message.getMsgId());
+                    Log.e("sss","onMessageReceived id : " + message.getMsgId());
                     //接收处理扩展消息
                     String em_name=message.getStringAttribute("name","");
                     String em_picturl=message.getStringAttribute("picturl","");
@@ -328,17 +331,17 @@ public class HXController {
 
             @Override
             public void onMessageRead(List<EMMessage> messages) {
-//                LogUtils.e("sss","收到已读回执");
+                Log.e("sss","收到已读回执");
             }
 
             @Override
             public void onMessageDelivered(List<EMMessage> message) {
-//                LogUtils.e("sss","收到已送达回执");
+                Log.e("sss","收到已送达回执");
             }
 
             @Override
             public void onMessageChanged(EMMessage message, Object change) {
-//                LogUtils.e("sss","消息状态变动");
+                Log.e("sss","消息状态变动");
 
             }
         };

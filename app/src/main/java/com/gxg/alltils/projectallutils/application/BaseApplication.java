@@ -28,10 +28,8 @@ public class BaseApplication extends Application {
 
         //环信初始化
         try {
-            KLog.e("环信初始化111111111");
             HXController.init(this);
         } catch (Exception e) {
-            KLog.e("环信初始化11111111   1"+e.toString());
             e.printStackTrace();
         }
     }

@@ -49,6 +49,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--配置glie的相关信息-->
+        <meta-data
+            android:name="com.gxg.alltils.projectallutils.imageloader.util.SimpleGlideModule"
+            android:value="GlideModule" />
+
         <!-- 主页 -->
         <activity
             android:name=".MainActivity"

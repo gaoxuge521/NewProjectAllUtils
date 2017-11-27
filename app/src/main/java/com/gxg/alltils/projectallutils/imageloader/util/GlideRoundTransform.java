@@ -1,4 +1,4 @@
-package com.gxg.alltils.projectallutils.imageloader;
+package com.gxg.alltils.projectallutils.imageloader.util;
 
 import android.content.Context;
 import android.content.res.Resources;

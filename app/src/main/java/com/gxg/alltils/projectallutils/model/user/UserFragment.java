@@ -1,7 +1,6 @@
 package com.gxg.alltils.projectallutils.model.user;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -9,9 +8,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
+import com.gxg.alltils.projectallutils.imageloader.ImageLoader;
+import com.gxg.alltils.projectallutils.imageloader.ImageLoaderUtil;
 import com.gxg.alltils.projectallutils.model.ZxingActivity;
 import com.gxg.alltils.projectallutils.model.loginregister.InformationActivity;
 import com.gxg.alltils.projectallutils.model.loginregister.LoginActivity;
@@ -99,11 +99,7 @@ public class UserFragment extends BaseFragment {
             String avatar = SharedPreferencesUtils.get(getActivity(), Contants.IMG_AVATAR, "").toString();
             KLog.e(avatar);
            KLog.e( new File(avatar).exists()+"    "+ new File(avatar).length());
-            if (!TextUtils.isEmpty(avatar) && new File(avatar).exists() && new File(avatar).length()>0) {
-                Glide.with(getActivity()).load(new File(avatar)).into(img_avatar);
-            } else {
-                Glide.with(getActivity()).load(R.drawable.ic_my_avatar).into(img_avatar);
-            }
+            new ImageLoaderUtil().loadCircleImg(getActivity(),new ImageLoader.Builder().imgView(img_avatar).url(new File(avatar)).errorHolder(R.drawable.ic_me_touxiang).placeHolder(R.drawable.ic_me_touxiang).build(),2,getResources().getColor(R.color.white));
         }else{
             KLog.e("sss  没有登陆过"+SharedPreferencesUtils.isLogin(getActivity()));
             layout_user_info.setVisibility(View.GONE);

@@ -102,6 +102,10 @@ public class HttpHelper {
     public void request(String url, HttpCallBack callBack) {
         request(0, url, null, callBack);
     }
+
+    public void request(String url,Map<String,Object> map, HttpCallBack callBack) {
+        request(0, jointURL(HttpHelper.BASEURL,map), null, callBack);
+    }
     public void request(String url, RequestBody requestBody, HttpCallBack callBack) {
         request(1, url, requestBody, callBack);
     }

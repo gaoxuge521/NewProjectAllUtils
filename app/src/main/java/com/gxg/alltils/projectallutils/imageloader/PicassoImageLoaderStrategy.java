@@ -15,7 +15,14 @@ public class PicassoImageLoaderStrategy implements BaseImageLoaderStrategy {
     }
 
     @Override
-    public void loadCircleImage(Context context, ImageLoader imageLoader, int radio) {
+    public void loadCircleImage(Context context, ImageLoader imageLoader, int borderWidth, int borderColor) {
 
     }
+
+    @Override
+    public void loadRoundImage(Context ctx, ImageLoader img, int radius) {
+
+    }
+
+
 }
