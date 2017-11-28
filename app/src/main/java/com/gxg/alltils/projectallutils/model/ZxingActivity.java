@@ -9,10 +9,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gxg.alltils.projectallutils.R;
+import com.gxg.alltils.projectallutils.utils.WeakHandler;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.compress.CompressConfig;
@@ -35,14 +36,17 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 
     @Bind(R.id.zxing_view)
     ZXingView zxingView;
-    @Bind(R.id.title_bar)
-    RelativeLayout titleBar;
+
     @Bind(R.id.cx_sgd)
     CheckBox cxSgd;
     @Bind(R.id.cx_xc)
     CheckBox cxXc;
     @Bind(R.id.ll_other)
     LinearLayout llOther;
+    @Bind(R.id.ll_left)
+    LinearLayout llLeft;
+    @Bind(R.id.title)
+    TextView title;
     private TakePhoto mPhoto;
 
     @Override
@@ -57,10 +61,8 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
     }
 
 
-
     protected void initView() {
-//        int screenWidth = ScreenSizeUtil.getScreenWidth();
-//        zxingView.getScanBoxView().setRectWidth(screenWidth-50);
+        title.setText("二维码扫描");
         mPhoto = getTakePhoto();
         KLog.e("sss  打开后置摄像头开始预览  显示扫描框");
         //打开后置摄像头开始预览，但是并未开始识别
@@ -79,13 +81,16 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
         zxingView.setDelegate(this);
     }
 
-    @OnClick({R.id.cx_sgd, R.id.cx_xc})
+    @OnClick({R.id.ll_left,R.id.cx_sgd, R.id.cx_xc})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
             case R.id.cx_sgd:
-                if(cxSgd.isChecked()){
+                if (cxSgd.isChecked()) {
                     zxingView.openFlashlight();
-                }else{
+                } else {
                     zxingView.closeFlashlight();
                 }
                 break;
@@ -98,6 +103,7 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
                 break;
         }
     }
+
 
     @Override
     protected void onStart() {
@@ -125,7 +131,7 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 
         ButterKnife.unbind(this);
         //销毁二维码扫描控件
-        if(zxingView!=null){
+        if (zxingView != null) {
             zxingView.onDestroy();
         }
 
@@ -134,7 +140,7 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-        Toast.makeText(ZxingActivity.this,"扫描成功" + result,Toast.LENGTH_SHORT).show();
+        Toast.makeText(ZxingActivity.this, "扫描成功" + result, Toast.LENGTH_SHORT).show();
         vibrate();
         //延迟1.5秒后开始识别
         zxingView.startSpot();
@@ -176,6 +182,7 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 //        //从相机进不带裁剪
 ////        mPhoto.onPickFromCapture(mImageUri);
 //    }
+
     /**
      * 进相册
      */
@@ -199,6 +206,7 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
         //从相册选择不带裁剪
         mPhoto.onPickFromGallery();
     }
+
     //设置公共的属性
     public void setAllParmeter() {
         File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
@@ -256,12 +264,25 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 //        return builder.create();
 //
 //    }
+
     /**
      *
      */
     @Override
     public void takeCancel() {
         super.takeCancel();
+        KLog.e("关闭了相册");
+        //延时重新打开摄像头，避免摄像头自动对焦失败
+        new WeakHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                zxingView.startCamera();
+                //显示扫描框
+                zxingView.showScanRect();
+
+                zxingView.startSpotAndShowRect();
+            }
+        },500);
 
     }
 
@@ -287,7 +308,7 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 //            这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
 //            请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
              */
-                //打开摄像头开始识别
+            //打开摄像头开始识别
             zxingView.startCamera();
             zxingView.startSpotAndShowRect();
 
@@ -312,5 +333,6 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
             KLog.e("sss", "........");
         }
     }
+
 
 }

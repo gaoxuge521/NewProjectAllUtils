@@ -7,22 +7,26 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
 import com.gxg.alltils.projectallutils.imageloader.ImageLoader;
 import com.gxg.alltils.projectallutils.imageloader.ImageLoaderUtil;
 import com.gxg.alltils.projectallutils.model.ZxingActivity;
-import com.gxg.alltils.projectallutils.model.loginregister.InformationActivity;
+import com.gxg.alltils.projectallutils.model.user.activity.InformationActivity;
 import com.gxg.alltils.projectallutils.model.loginregister.LoginActivity;
+import com.gxg.alltils.projectallutils.model.user.activity.AddressManagementActivity;
 import com.gxg.alltils.projectallutils.model.user.activity.SettingActivity;
 import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.ScreenSizeUtil;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
+import com.gxg.alltils.projectallutils.widght.CustomDialog;
 import com.gxg.alltils.projectallutils.widght.ZoomInScrollView;
 import com.socks.library.KLog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.SettingService;
 
 import java.io.File;
 import java.util.List;
@@ -71,9 +75,12 @@ public class UserFragment extends BaseFragment {
     FrameLayout fmHead;
     @Bind(R.id.iv_setting)
     ImageView iv_setting;
+    @Bind(R.id.tv_address)
+    TextView tv_address;
 
 
     private int height;
+    private CustomDialog customDialog;
 
 
     @Override
@@ -120,9 +127,7 @@ public class UserFragment extends BaseFragment {
         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         layoutParams.width = screenWidth;
         layout_count.setLayoutParams(layoutParams);
-
-
-
+        customDialog = new CustomDialog(getActivity());
         setData();
 
         initListener();
@@ -174,7 +179,7 @@ public class UserFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.iv_setting,R.id.iv_scanning, R.id.img_avatar, R.id.img_register})
+    @OnClick({R.id.tv_address,R.id.iv_setting,R.id.iv_scanning, R.id.img_avatar, R.id.img_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_avatar:
@@ -191,6 +196,9 @@ public class UserFragment extends BaseFragment {
             case R.id.iv_setting:
                 openActivity(SettingActivity.class);
                 break;
+            case R.id.tv_address:
+                openActivity(AddressManagementActivity.class);
+                break;
         }
     }
     /**
@@ -205,11 +213,20 @@ public class UserFragment extends BaseFragment {
 
             @Override
             public void onFailed(int requestCode, List<String> deniedPermissions) {
-                AndPermission.defaultSettingDialog(getActivity(), 400)
-                        .setTitle("权限申请失败")
-                        .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
-                        .setPositiveButton("好，去设置")
-                        .show();
+                final SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
+                if(customDialog!=null){
+                    customDialog.dialogForPermission(getActivity(), "扫描二维码需要打开相机和文件读写的权限，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
+                        @Override
+                        public void onNegativeClick() {
+                            settingService.cancel();
+                        }
+                    }, new CustomDialog.PositiveOnClick() {
+                        @Override
+                        public void onPositiveClick() {
+                            settingService.execute();
+                        }
+                    });
+                }
             }
         },Permission.CAMERA,Permission.STORAGE);
     }

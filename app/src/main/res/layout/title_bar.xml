@@ -28,23 +28,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:text="标题"/>
 
     <LinearLayout
         android:layout_alignParentRight="true"
         android:id="@+id/ll_right"
+        android:paddingRight="10dp"
         android:visibility="gone"
+        android:paddingLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical">
         <TextView
-            android:layout_marginRight="10dp"
+            android:visibility="gone"
             android:id="@+id/tv_right"
             android:textSize="18sp"
             android:text="提交"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            />
+        <ImageView
+            android:id="@+id/iv_right"
+            android:visibility="gone"
+            android:src="@drawable/icon_add_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 
 </RelativeLayout>

@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gxg.alltils.projectallutils.R;
 import com.socks.library.KLog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -104,6 +108,30 @@ public abstract class BaseFragment extends Fragment {
 
 
     /**
+     * -----------------------EmptyLayout--------------------------
+     */
+    public ImageView ivEmpty;
+    public TextView tvEmptyTitle;
+    public TextView tvEmptyContent;
+    public CardView btnLookingAround;
+    public TextView tvEmptyBtn;
+
+    public View getEmptyView() {
+        View convertView = View.inflate(getActivity(), R.layout.empty_layout, null);
+        ivEmpty = (ImageView) convertView.findViewById(R.id.iv_empty);
+        tvEmptyTitle = (TextView) convertView.findViewById(R.id.tv_empty_title);
+        tvEmptyContent = (TextView) convertView.findViewById(R.id.tv_empty_content);
+        btnLookingAround = (CardView) convertView.findViewById(R.id.btn_looking_around);
+        tvEmptyBtn = (TextView) convertView.findViewById(R.id.tv_empty_btn);
+        return convertView;
+    }
+
+    // ----------------------------EmptyLayout---------------------------------
+    public View getFootView() {
+        return View.inflate(getActivity(), R.layout.not_loading, null);
+    }
+
+    /**
      * 收起键盘
      */
     public void closeInputMethod() {
@@ -119,10 +147,10 @@ public abstract class BaseFragment extends Fragment {
      * 判断权限
      *
      * @param permissionsArray 权限组 根据需要在Permission类找
-     *                    传的时候如    Permission.CAMERA,
-     *                    Permission.STORAGE
+     *                         传的时候如    Permission.CAMERA,
+     *                         Permission.STORAGE
      */
-    public void permissionsJudgment(PermissionCallBack permissionCallBack,String[]... permissionsArray) {
+    public void permissionsJudgment(PermissionCallBack permissionCallBack, String[]... permissionsArray) {
         this.onpermissionCallBack = permissionCallBack;
         AndPermission.with(this)
                 .requestCode(200)
@@ -130,6 +158,7 @@ public abstract class BaseFragment extends Fragment {
                 .callback(listener)
                 .start();
     }
+
     private PermissionCallBack onpermissionCallBack;
 
     public interface PermissionCallBack {
@@ -151,8 +180,8 @@ public abstract class BaseFragment extends Fragment {
             if (requestCode == 200) {
                 // TODO ...
                 KLog.e("权限申请成功");
-                if(onpermissionCallBack!=null){
-                    onpermissionCallBack.onSucceed(requestCode,grantedPermissions);
+                if (onpermissionCallBack != null) {
+                    onpermissionCallBack.onSucceed(requestCode, grantedPermissions);
                 }
             }
         }
@@ -167,8 +196,8 @@ public abstract class BaseFragment extends Fragment {
                 if (!AndPermission.hasAlwaysDeniedPermission(getActivity(), deniedPermissions)) {
                     KLog.e("权限申请失败222222");
 
-                    if(onpermissionCallBack!=null){
-                        onpermissionCallBack.onFailed(requestCode,deniedPermissions);
+                    if (onpermissionCallBack != null) {
+                        onpermissionCallBack.onFailed(requestCode, deniedPermissions);
                     }
 //                    // 第二种：用自定义的提示语。
 //                    AndPermission.defaultSettingDialog(getActivity(), 400)
@@ -194,7 +223,7 @@ public abstract class BaseFragment extends Fragment {
         switch (requestCode) {
             case 400: { // 这个400就是上面defineSettingDialog()的第二个参数。
                 // 你可以在这里检查你需要的权限是否被允许，并做相应的操作。
-                KLog.e("权限申请最终被拒绝了" );
+                KLog.e("权限申请最终被拒绝了");
                 break;
             }
         }

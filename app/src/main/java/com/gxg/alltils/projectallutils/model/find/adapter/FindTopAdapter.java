@@ -25,6 +25,10 @@ public class FindTopAdapter extends BaseAdapter {
         this.mContext = mContext;
     }
 
+    public List<FindTopBean.DatasBean.BrandListBean> getBrandList() {
+        return brandList;
+    }
+
     @Override
     public int getCount() {
         return brandList.size();

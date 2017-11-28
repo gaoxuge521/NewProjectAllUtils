@@ -26,6 +26,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
+
 public class SearchActivity extends BaseActivity {
 
     @Bind(R.id.searchEditText)
@@ -44,7 +45,7 @@ public class SearchActivity extends BaseActivity {
     private List<String> hotWords ; // 热门标签
     private List<String> historyWords ; // 历史搜索
 
-    public static final String SEARCH_VALUE = "Search_Value";
+
 
 
     //TODO 假数据，倒计时记得删除
@@ -83,7 +84,7 @@ public class SearchActivity extends BaseActivity {
             public boolean onTagClick(View view, int position, FlowLayout parent) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString(SEARCH_VALUE,hotWords.get(position));
+                bundle.putString(SearchGoodResultActivity.SEARCH_VALUE,hotWords.get(position));
                 openActivity(SearchGoodResultActivity.class,bundle);
 
                 addHistoryWord(hotWords.get(position));
@@ -95,7 +96,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 Bundle bundle = new Bundle();
-                bundle.putString(SEARCH_VALUE,historyWords.get(position));
+                bundle.putString(SearchGoodResultActivity.SEARCH_VALUE,historyWords.get(position));
                 openActivity(SearchGoodResultActivity.class,bundle);
                 return false;
             }

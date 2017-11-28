@@ -17,6 +17,7 @@ import com.gxg.alltils.projectallutils.model.find.bean.FindTypeBean;
 import com.gxg.alltils.projectallutils.model.find.fragment.FindOtherFragment;
 import com.gxg.alltils.projectallutils.model.find.fragment.FindTopFragment;
 import com.gxg.alltils.projectallutils.utils.GsonUtil;
+import com.gxg.alltils.projectallutils.widght.CustomDialog;
 import com.gxg.alltils.projectallutils.widght.verticaltablayout.VerticalTabLayout;
 import com.gxg.alltils.projectallutils.widght.verticaltablayout.adapter.TabAdapter;
 import com.gxg.alltils.projectallutils.widght.verticaltablayout.widget.QTabView;
@@ -25,6 +26,7 @@ import com.hyphenate.EMCallBack;
 import com.socks.library.KLog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.SettingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,7 @@ public class FindFragment extends BaseFragment {
     RelativeLayout rlHeaderRight;
     private FindTypeBean findTypeBean;
     private FindTypeBean.DatasBean.ClassListBean topbean;
+    private CustomDialog customDialog;
 
     @Override
     protected int setContentView() {
@@ -64,6 +67,7 @@ public class FindFragment extends BaseFragment {
         String id = getArguments().getString("id", "");
 
 
+        customDialog = new CustomDialog(getActivity());
         topbean = new FindTypeBean.DatasBean.ClassListBean();
         topbean.setGc_name("品牌推荐");
 
@@ -133,7 +137,7 @@ public class FindFragment extends BaseFragment {
     private void getTypeData() {
         Map<String, Object> map = new ArrayMap<>();
         map.put("act", "goods_class");
-        HttpHelper.getInstance().request(HttpHelper.jointURL(HttpHelper.BASEURL, map), new HttpHelper.HttpCallBack() {
+        HttpHelper.getInstance().request(HttpHelper.BASEURL, map, new HttpHelper.HttpCallBack() {
             @Override
             public void onSuccess(String result) {
                 findTypeBean = GsonUtil.GsonToObject(result, FindTypeBean.class);
@@ -198,11 +202,21 @@ public class FindFragment extends BaseFragment {
 
             @Override
             public void onFailed(int requestCode, List<String> deniedPermissions) {
-                AndPermission.defaultSettingDialog(getActivity(), 400)
-                        .setTitle("权限申请失败")
-                        .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
-                        .setPositiveButton("好，去设置")
-                        .show();
+
+                final SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
+                if(customDialog!=null){
+                    customDialog.dialogForPermission(getActivity(), "扫描二维码需要打开相机和文件读写的权限，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
+                        @Override
+                        public void onNegativeClick() {
+                            settingService.cancel();
+                        }
+                    }, new CustomDialog.PositiveOnClick() {
+                        @Override
+                        public void onPositiveClick() {
+                            settingService.execute();
+                        }
+                    });
+                }
             }
         },Permission.CAMERA,Permission.STORAGE);
     }
@@ -222,11 +236,20 @@ public class FindFragment extends BaseFragment {
 
             @Override
             public void onFailed(int requestCode, List<String> deniedPermissions) {
-                AndPermission.defaultSettingDialog(getActivity(), 400)
-                        .setTitle("权限申请失败")
-                        .setMessage("登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！")
-                        .setPositiveButton("好，去设置")
-                        .show();
+                final  SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
+                if(customDialog!=null){
+                    customDialog.dialogForPermission(getActivity(), "登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
+                        @Override
+                        public void onNegativeClick() {
+                            settingService.cancel();
+                        }
+                    }, new CustomDialog.PositiveOnClick() {
+                        @Override
+                        public void onPositiveClick() {
+                            settingService.execute();
+                        }
+                    });
+                }
             }
         }, Permission.STORAGE);
     }

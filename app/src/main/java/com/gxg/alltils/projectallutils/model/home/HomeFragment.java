@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gxg.alltils.projectallutils.R;
@@ -30,6 +31,7 @@ import com.gxg.alltils.projectallutils.model.home.adapter.HomeAbzyAdapter;
 import com.gxg.alltils.projectallutils.model.home.adapter.HomeAdapter;
 import com.gxg.alltils.projectallutils.model.home.adapter.HomeShopAdapter;
 import com.gxg.alltils.projectallutils.utils.ScreenSizeUtil;
+import com.gxg.alltils.projectallutils.widght.CustomDialog;
 import com.gxg.alltils.projectallutils.widght.NoticeView;
 import com.hyphenate.EMCallBack;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -42,6 +44,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.socks.library.KLog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.SettingService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +76,8 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
     RelativeLayout rlHeaderRight;
     @Bind(R.id.top_home)
     LinearLayout top_home;
+    @Bind(R.id.iv_back_top)
+    ImageView ivBackTop;
     private HomeAdapter homeAdapter;
     private HomeBean mHomeBean;
     private HomeShopAdapter homeShopAdapter;
@@ -82,6 +87,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
     private HomeAbzyAdapter homeAbzyAdapter;
 
     private int mWidth;//手机屏幕宽度
+    private CustomDialog customDialog;
 
     @Override
     protected int setContentView() {
@@ -225,6 +231,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                         if (position > 0) {
                             top_home.setBackgroundColor(Color.argb(220, 243, 152,
                                     0));
+                            ivBackTop.setVisibility(View.VISIBLE);
                         } else {
                             View firstView = layoutManager.findViewByPosition(position);
                             int top = Math.abs(firstView.getTop());
@@ -232,11 +239,14 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                             int mHeight = getHeight();
                             int mPrecent = top * 220 / mHeight;
                             if (mPrecent <= 220 && mPrecent > 0) {
+                                ivBackTop.setVisibility(View.GONE);
                                 top_home.setBackgroundColor(Color.argb(mPrecent, 243,
                                         152, 0));
                             } else if (mPrecent <= 0) {
+                                ivBackTop.setVisibility(View.GONE);
                                 top_home.setBackgroundColor(Color.argb(0, 243, 152, 0));
                             } else {
+                                ivBackTop.setVisibility(View.VISIBLE);
                                 top_home.setBackgroundColor(Color.argb(220, 243, 152,
                                         0));
                             }
@@ -248,6 +258,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
         });
 
 
+        //验证权限并登陆环信
         toHXpermission(false);
 
     }
@@ -337,7 +348,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
 
     private void initView() {
-
+        customDialog = new CustomDialog(getActivity());
         refresh.setEnableLoadmore(false);
         refresh.setEnableAutoLoadmore(false);
     }
@@ -395,11 +406,7 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                 for (int i = 0; i < roll.size(); i++) {
                     imgs.add(roll.get(i).getContent_value());
                 }
-                if (imgs.size() > 1) {
-                    bannerHome.setCanLoop(true);
-                } else {
-                    bannerHome.setCanLoop(false);
-                }
+
                 bannerHome.setPages(new CBViewHolderCreator<LocalImageHolderView>() {
                     @Override
                     public LocalImageHolderView createHolder() {
@@ -407,7 +414,19 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                     }
                 }, imgs) //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
                         .setPageIndicator(new int[]{R.drawable.icon_banner_nomal, R.drawable.icon_banner_select})
-                        .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+                        .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT).startTurning(3000);
+                if (imgs.size() > 1) {
+                    bannerHome.setCanLoop(true);
+                } else {
+                    bannerHome.setCanLoop(false);
+                }
+
+                bannerHome.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        showToastShort("点击轮播图"+position);
+                    }
+                });
             }
             //商品分类
             if (mHomeBean.getDatalist().getFast().size() > 0) {
@@ -440,8 +459,9 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
             if (mHomeBean.getDatalist().getGroup().size() > 0) {
 //                KLog.e("sss  group"+mHomeBean.getDatalist().getGroup());
                 countdownview.setTag("test");
-                long time = (long) 3 * 60 * 60 * 1000;
-                countdownview.start(time);
+//                countdownview.dynamicShow(new DynamicConfig.Builder().setShowDay(true).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(false).build());
+                long time = (long) 150 * 24 * 60 * 60 * 1000;
+                countdownview.start(60000);
 
 
                 ll_group.setVisibility(View.VISIBLE);
@@ -628,9 +648,13 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
     }
 
 
-    @OnClick({R.id.rl_header_left, R.id.rl_header_center, R.id.rl_header_right})
+    @OnClick({R.id.iv_back_top,R.id.rl_header_left, R.id.rl_header_center, R.id.rl_header_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_back_top:
+                //返回顶部
+                rvHead.scrollToPosition(0);
+                break;
             case R.id.rl_header_left://扫一扫
                toZxing();
                 break;
@@ -657,11 +681,32 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
             @Override
             public void onFailed(int requestCode, List<String> deniedPermissions) {
-                AndPermission.defaultSettingDialog(getActivity(), 400)
-                        .setTitle("权限申请失败")
-                        .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
-                        .setPositiveButton("好，去设置")
-                        .show();
+//                AndPermission.defaultSettingDialog(getActivity(), 400)
+//                        .setTitle("权限申请失败")
+//                        .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
+//                        .setPositiveButton("好，去设置")
+//                        .show();
+
+
+              final  SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
+                if(customDialog!=null){
+                    customDialog.dialogForPermission(getActivity(), "扫描二维码需要打开相机和文件读写的权限，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
+                        @Override
+                        public void onNegativeClick() {
+                            settingService.cancel();
+                        }
+                    }, new CustomDialog.PositiveOnClick() {
+                        @Override
+                        public void onPositiveClick() {
+                            settingService.execute();
+                        }
+                    });
+                }
+
+//                    // 你的dialog点击了确定调用：
+//                    settingService.execute();
+//                    // 你的dialog点击了取消调用：
+//                    settingService.cancel();
             }
         },Permission.CAMERA,Permission.STORAGE);
     }
@@ -680,11 +725,26 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
             @Override
             public void onFailed(int requestCode, List<String> deniedPermissions) {
-                AndPermission.defaultSettingDialog(getActivity(), 400)
-                        .setTitle("权限申请失败")
-                        .setMessage("登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！")
-                        .setPositiveButton("好，去设置")
-                        .show();
+//                AndPermission.defaultSettingDialog(getActivity(), 400)
+//                        .setTitle("权限申请失败")
+//                        .setMessage("登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！")
+//                        .setPositiveButton("好，去设置")
+//                        .show();
+
+                final  SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
+                if(customDialog!=null){
+                    customDialog.dialogForPermission(getActivity(), "登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
+                        @Override
+                        public void onNegativeClick() {
+                            settingService.cancel();
+                        }
+                    }, new CustomDialog.PositiveOnClick() {
+                        @Override
+                        public void onPositiveClick() {
+                            settingService.execute();
+                        }
+                    });
+                }
             }
         }, Permission.STORAGE);
     }

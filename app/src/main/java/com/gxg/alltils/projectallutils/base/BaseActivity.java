@@ -6,9 +6,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gxg.alltils.projectallutils.R;
@@ -40,7 +43,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         ActivityManage.getAppManager().addActivity(this);
         mActivity = this;
 
-        if(getLayoutId() != 0) {
+        if (getLayoutId() != 0) {
             setContentView(getLayoutId());
         }
         ButterKnife.bind(this);
@@ -58,6 +61,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
     }
 
     protected abstract int getLayoutId();
+
     // 初始化ui
     protected abstract void initView();
 
@@ -99,7 +103,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
             intent.putExtras(bundle);
         }
         startActivity(intent);
-        overridePendingTransition(R.anim.activity_in,R.anim.activity_on);
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_on);
     }
 
     /**
@@ -112,7 +116,9 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
     }
 
 
-    /** 收起键盘 */
+    /**
+     * 收起键盘
+     */
     public void closeInputMethod() {
         // 收起键盘
         View view = getWindow().peekDecorView();// 用于判断虚拟软键盘是否是显示的
@@ -123,7 +129,30 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
     }
 
 
+    /**
+     * -----------------------EmptyLayout--------------------------
+     */
+    public ImageView ivEmpty;
+    public TextView tvEmptyTitle;
+    public TextView tvEmptyContent;
+    public CardView btnLookingAround;
+    public TextView tvEmptyBtn;
 
+    public View getEmptyView() {
+        View convertView = View.inflate(mActivity, R.layout.empty_layout, null);
+        ivEmpty = (ImageView) convertView.findViewById(R.id.iv_empty);
+        tvEmptyTitle = (TextView) convertView.findViewById(R.id.tv_empty_title);
+        tvEmptyContent = (TextView) convertView.findViewById(R.id.tv_empty_content);
+        btnLookingAround = (CardView) convertView.findViewById(R.id.btn_looking_around);
+        tvEmptyBtn = (TextView) convertView.findViewById(R.id.tv_empty_btn);
+        return convertView;
+    }
+
+    // ----------------------------EmptyLayout---------------------------------
+
+    public View getFootView() {
+        return View.inflate(this, R.layout.not_loading, null);
+    }
 
     @Override
     public void onClick(View v) {
@@ -134,10 +163,10 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
      * 判断权限
      *
      * @param permissionsArray 权限组 根据需要在Permission类找
-     *                    传的时候如    Permission.CAMERA,
-     *                    Permission.STORAGE
+     *                         传的时候如    Permission.CAMERA,
+     *                         Permission.STORAGE
      */
-    public void permissionsJudgment(PermissionCallBack permissionCallBack,String[]... permissionsArray) {
+    public void permissionsJudgment(PermissionCallBack permissionCallBack, String[]... permissionsArray) {
         this.onpermissionCallBack = permissionCallBack;
         AndPermission.with(this)
                 .requestCode(200)
@@ -145,6 +174,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
                 .callback(listener)
                 .start();
     }
+
     private PermissionCallBack onpermissionCallBack;
 
     public interface PermissionCallBack {
@@ -166,8 +196,8 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
             if (requestCode == 200) {
                 // TODO ...
                 KLog.e("权限申请成功");
-                if(onpermissionCallBack!=null){
-                    onpermissionCallBack.onSucceed(requestCode,grantedPermissions);
+                if (onpermissionCallBack != null) {
+                    onpermissionCallBack.onSucceed(requestCode, grantedPermissions);
                 }
             }
         }
@@ -182,8 +212,8 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
                 if (!AndPermission.hasAlwaysDeniedPermission(mActivity, deniedPermissions)) {
                     KLog.e("权限申请失败222222");
 
-                    if(onpermissionCallBack!=null){
-                        onpermissionCallBack.onFailed(requestCode,deniedPermissions);
+                    if (onpermissionCallBack != null) {
+                        onpermissionCallBack.onFailed(requestCode, deniedPermissions);
                     }
 //                    // 第二种：用自定义的提示语。
 //                    AndPermission.defaultSettingDialog(getActivity(), 400)
@@ -209,7 +239,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         switch (requestCode) {
             case 400: { // 这个400就是上面defineSettingDialog()的第二个参数。
                 // 你可以在这里检查你需要的权限是否被允许，并做相应的操作。
-                KLog.e("权限申请最终被拒绝了" );
+                KLog.e("权限申请最终被拒绝了");
                 break;
             }
         }

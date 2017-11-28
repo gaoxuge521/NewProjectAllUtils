@@ -13,6 +13,9 @@ import com.gxg.alltils.projectallutils.base.BaseActivity;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+/**
+ * 商品筛选，搜索页面
+ */
 public class FilterActivity extends BaseActivity {
 
     @Bind(R.id.back)

@@ -641,7 +641,75 @@ public class CustomDialog {
         dialog.show();
     }
 
-    public void baseDialogForJiuxiCustom(Context context, String title, String content,
+
+    /**
+     * 有标题弹出框
+     *
+     * @param context    环境上下文
+     * @param content    弹出框提示的内容
+     * @param btn_cancel 实现功能的按钮名称（比如：删除）
+     * @param btn_affirm 实现功能的按钮名称（比如：确定）
+     * @param nOnClick   实现功能按钮中的事件
+     * @param pOnClick   实现功能按钮中的事件
+     */
+    public void dialogForPermission(Context context, String content,
+                                         String btn_cancel, String btn_affirm,
+                                         final NegativeOnClick nOnClick, final PositiveOnClick pOnClick) {
+        this.mContext = context;
+        dialog = new Dialog(mContext, R.style.custome_dialog_style);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        View view = layoutInflater.inflate(R.layout.double_button_dialog_for_permission, null);
+        TextView txt_content = (TextView) view.findViewById(R.id.tv_content);
+        txt_content.setText(content);
+
+        if (TextUtils.isEmpty(content)) {
+            txt_content.setVisibility(View.GONE);
+        } else {
+            txt_content.setText(Html.fromHtml(content));
+        }
+
+        LinearLayout ll_cancel = (LinearLayout) view.findViewById(R.id.ll_cancel);
+        LinearLayout ll_affirm = (LinearLayout) view.findViewById(R.id.ll_affirm);
+        TextView txt_cancel = (TextView) view.findViewById(R.id.txt_cancel);
+        txt_cancel.setText(btn_cancel);
+        TextView txt_ensure = (TextView) view.findViewById(R.id.txt_ensure);
+        txt_ensure.setText(btn_affirm);
+        ll_cancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (nOnClick != null) {
+                    nOnClick.onNegativeClick();
+                }
+                dialog.dismiss();
+            }
+        });
+        ll_affirm.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (pOnClick != null) {
+
+                    pOnClick.onPositiveClick();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setContentView(view);
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (0.8 * ScreenSizeUtil.getScreenWidth());
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.CENTER;
+        dialog.getWindow().setAttributes(params);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+
+
+
+    public void baseDialogForEtShopCustom(Context context, String title, String content,
                                          String btn_cancel, String btn_affirm,
                                          final NegativeOnClick nOnClick, final PositiveOnClick pOnClick) {
         baseDialogForJiuxiCustom(context, title, content, btn_cancel, btn_affirm, nOnClick, pOnClick, true);

@@ -17,7 +17,17 @@
         </android.support.v7.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <include
-
         layout="@layout/top_layout_home"/>
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_back_top"
+        android:padding="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_top"/>
 
 </RelativeLayout>

@@ -7,13 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.gxg.alltils.projectallutils.model.ZxingActivity">
 
-    <RelativeLayout
+    <include
         android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/c_663333">
-
-    </RelativeLayout>
+        layout="@layout/title_bar"/>
     <zxing.ZXingView
         android:layout_below="@id/title_bar"
         android:id="@+id/zxing_view"

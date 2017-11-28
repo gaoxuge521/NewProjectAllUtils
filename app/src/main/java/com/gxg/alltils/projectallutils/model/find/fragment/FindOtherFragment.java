@@ -6,12 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.base.BaseFragment;
 import com.gxg.alltils.projectallutils.http.HttpHelper;
 import com.gxg.alltils.projectallutils.model.find.adapter.FindOtherAdapter;
 import com.gxg.alltils.projectallutils.model.find.bean.FindOtherBean;
+import com.gxg.alltils.projectallutils.model.home.activity.SearchGoodResultActivity;
 import com.gxg.alltils.projectallutils.utils.GsonUtil;
 import com.socks.library.KLog;
 
@@ -47,21 +47,31 @@ public class FindOtherFragment extends BaseFragment {
         }
 
         initData();
+        initListener();
 
     }
+
+    private void initListener() {
+        findOtherAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view,   int position) {
+                switch (view.getId()){
+                    case R.id.tv_find_other_title:
+                        Bundle bundle = new Bundle();
+                        bundle.putString(SearchGoodResultActivity.SEARCH_GC_ID,findOtherAdapter.getData().get(position).getGc_id());
+                        openActivity(SearchGoodResultActivity.class,bundle);
+                        break;
+                }
+            }
+        });
+    }
+
 
     private void initData() {
         rvFind_Other.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvFind_Other.setHasFixedSize(true);
         findOtherAdapter = new FindOtherAdapter(findOtherList);
         rvFind_Other.setAdapter(findOtherAdapter);
-        rvFind_Other.addOnItemTouchListener(new OnItemChildClickListener() {
-            @Override
-            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                showToastShort("点击"+position);
-            }
-        });
-
     }
 
 

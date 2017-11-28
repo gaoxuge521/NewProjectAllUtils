@@ -62,13 +62,18 @@ public class SearchGoodResultActivity extends BaseActivity {
     private ListDropDownAdapter listDropDownAdapter;
     //搜索的三个关键key
     private int curpage = 1;
-    private String search_key;//
+
     private String order = "2";
     private String key;
     private SearchGoodBean searchGoodBean;
     private SearchGoodAdapter searchGoodAdapter;
     private SearchGoodStoreCreditBean searchGoodStoreCreditBean;
-
+    public static final String SEARCH_VALUE = "Search_Value";//从SearchActivity传过来的
+    private String search_key;//
+    public static final String SEARCH_BRAND_ID = "Search_brand_id";//从分类传过来的
+    private String search_brand_id;//
+    public static final String SEARCH_GC_ID = "Search_gc_id";//从分类传过来的
+    private String search_gc_id;//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,13 +87,19 @@ public class SearchGoodResultActivity extends BaseActivity {
     @Override
     protected void initView() {
         title.setText("");
+
     }
 
     @Override
     protected void initData() {
-        search_key = getIntent().getStringExtra(SearchActivity.SEARCH_VALUE);
+        search_key = getIntent().getStringExtra(SEARCH_VALUE);
         KLog.e("sss" + search_key);
 
+        search_brand_id = getIntent().getStringExtra(SEARCH_BRAND_ID);
+        KLog.e("sss" + search_brand_id);
+
+        search_gc_id = getIntent().getStringExtra(SEARCH_GC_ID);
+        KLog.e("sss" + search_gc_id);
         //添加数据
         rvSearch.setLayoutManager(new LinearLayoutManager(SearchGoodResultActivity.this));
         searchGoodAdapter = new SearchGoodAdapter(new ArrayList<SearchGoodBean.DatasBean.GoodsListBean>());
@@ -110,7 +121,14 @@ public class SearchGoodResultActivity extends BaseActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("act", "goods");
         map.put("op", "goods_list");
-        map.put("keyword", search_key);
+
+        if(!TextUtils.isEmpty(search_key)){
+            map.put("keyword", search_key);
+        }else   if(!TextUtils.isEmpty(search_brand_id)){
+            map.put("b_id", search_brand_id);
+        }else   if(!TextUtils.isEmpty(search_gc_id)){
+            map.put("gc_id", search_gc_id);
+        }
         map.put("key", key);
         map.put("order", order);
         map.put("gift", "");
@@ -123,15 +141,23 @@ public class SearchGoodResultActivity extends BaseActivity {
         map.put("ci", "");
         map.put("curpage", curpage);
         map.put("page", 10);
-        HttpHelper.getInstance().request(HttpHelper.jointURL(HttpHelper.BASEURL, map), new HttpHelper.HttpCallBack() {
+        HttpHelper.getInstance().request(HttpHelper.BASEURL, map, new HttpHelper.HttpCallBack() {
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)) {
                     searchGoodBean = GsonUtil.GsonToObject(result, SearchGoodBean.class);
                     if (curpage == 1) {
-                        searchGoodAdapter.removeAllFooterView();
+
                         searchGoodAdapter.setEnableLoadMore(true);
                         searchGoodAdapter.setNewData(searchGoodBean.getDatas().getGoods_list());
+                        if (searchGoodBean.getDatas().getGoods_list().size() == 0 || searchGoodBean.getDatas().getGoods_list().size() < 10) {
+                            searchGoodAdapter.setEmptyView(getEmptyView());
+                            tvEmptyTitle.setText("没有此类商品");
+                            tvEmptyContent.setText("去试试别的关键字吧");
+                            btnLookingAround.setVisibility(View.GONE);
+                            searchGoodAdapter.setEnableLoadMore(false);
+                            searchGoodAdapter.removeAllFooterView();
+                        }
                     } else {
                         searchGoodAdapter.addData(searchGoodBean.getDatas().getGoods_list());
                         if (searchGoodBean.getDatas().getGoods_list().size() == 0 || searchGoodBean.getDatas().getGoods_list().size() < 10) {
@@ -139,6 +165,7 @@ public class SearchGoodResultActivity extends BaseActivity {
                             searchGoodAdapter.addFooterView(getFootView());
                         }
                     }
+
                     searchGoodAdapter.loadMoreComplete();
 
                 }
@@ -306,7 +333,5 @@ public class SearchGoodResultActivity extends BaseActivity {
         });
     }
 
-    public View getFootView() {
-        return View.inflate(this, R.layout.not_loading, null);
-    }
+
 }

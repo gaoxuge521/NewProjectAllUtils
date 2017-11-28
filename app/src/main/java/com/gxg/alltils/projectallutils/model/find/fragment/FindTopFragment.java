@@ -2,6 +2,7 @@ package com.gxg.alltils.projectallutils.model.find.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.gxg.alltils.projectallutils.R;
@@ -9,6 +10,7 @@ import com.gxg.alltils.projectallutils.base.BaseFragment;
 import com.gxg.alltils.projectallutils.http.HttpHelper;
 import com.gxg.alltils.projectallutils.model.find.adapter.FindTopAdapter;
 import com.gxg.alltils.projectallutils.model.find.bean.FindTopBean;
+import com.gxg.alltils.projectallutils.model.home.activity.SearchGoodResultActivity;
 import com.gxg.alltils.projectallutils.utils.GsonUtil;
 import com.socks.library.KLog;
 
@@ -25,6 +27,7 @@ public class FindTopFragment extends BaseFragment {
     @Bind(R.id.gv_fm_find_top)
     GridView gvFmFindTop;
     private FindTopBean findTopBean;
+    private FindTopAdapter findTopAdapter;
 
     @Override
     protected int setContentView() {
@@ -34,9 +37,22 @@ public class FindTopFragment extends BaseFragment {
     @Override
     public void setupViews(View view) {
 
+        gvFmFindTop.setEmptyView(getEmptyView());
         getTypeDataTop();
+        initListener();
     }
 
+    private void initListener() {
+        gvFmFindTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString(SearchGoodResultActivity.SEARCH_BRAND_ID,findTopAdapter.getBrandList().get(position).getBrand_id());
+                openActivity(SearchGoodResultActivity.class,bundle);
+            }
+        });
+    }
 
 
     public static FindTopFragment newInstance() {
@@ -59,7 +75,7 @@ public class FindTopFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 findTopBean = GsonUtil.GsonToObject(result, FindTopBean.class);
-                FindTopAdapter findTopAdapter = new FindTopAdapter(getActivity(),findTopBean.getDatas().getBrand_list());
+                findTopAdapter = new FindTopAdapter(getActivity(),findTopBean.getDatas().getBrand_list());
                 gvFmFindTop.setAdapter(findTopAdapter);
             }
 

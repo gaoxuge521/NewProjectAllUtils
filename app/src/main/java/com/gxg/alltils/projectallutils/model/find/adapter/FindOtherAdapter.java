@@ -1,11 +1,16 @@
 package com.gxg.alltils.projectallutils.model.find.adapter;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.model.find.bean.FindOtherBean;
+import com.gxg.alltils.projectallutils.model.home.activity.SearchGoodResultActivity;
 import com.gxg.alltils.projectallutils.widght.MyGridView;
 
 import java.util.List;
@@ -20,12 +25,22 @@ public class FindOtherAdapter extends BaseQuickAdapter<FindOtherBean.DatasBean.C
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FindOtherBean.DatasBean.ClassListBean item) {
+    protected void convert(BaseViewHolder helper, final FindOtherBean.DatasBean.ClassListBean item) {
         helper.setText(R.id.tv_find_other_title,item.getGc_name());
         MyGridView gridView = helper.getView(R.id.gv_fm_find_other);
         FindOtherGridAdapter findOtherGridAdapter = new FindOtherGridAdapter(item.getChild(),mContext);
         gridView.setAdapter(findOtherGridAdapter);
 
-
+        helper.addOnClickListener(R.id.tv_find_other_title);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(mContext, SearchGoodResultActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(SearchGoodResultActivity.SEARCH_GC_ID,item.getChild().get(position).getGc_id());
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
     }
 }

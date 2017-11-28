@@ -49,7 +49,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--配置glie的相关信息-->
+        <!-- 配置glie的相关信息 -->
         <meta-data
             android:name="com.gxg.alltils.projectallutils.imageloader.util.SimpleGlideModule"
             android:value="GlideModule" />
@@ -76,7 +76,7 @@
         <!-- 注册 -->
         <activity android:name=".model.loginregister.RegisterActivity" />
         <!-- 个人信息 -->
-        <activity android:name=".model.loginregister.InformationActivity" />
+        <activity android:name=".model.user.activity.InformationActivity" />
         <!-- 二维码扫描页 -->
         <activity android:name=".model.ZxingActivity" />
         <!-- 环信客服聊天 -->
@@ -204,8 +204,16 @@
             android:value="242354b8456ec35f0860aae5" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- 极光========================================================================================================================相关 -->
 
+
+        <!-- 搜索列表 -->
         <activity android:name=".model.home.activity.SearchGoodResultActivity" />
-        <activity android:name=".model.home.activity.FilterActivity"></activity>
+        <!-- 商品筛选，搜索页面 -->
+        <activity android:name=".model.home.activity.FilterActivity" />
+        <!-- 收货地址管理 -->
+        <activity android:name=".model.user.activity.AddressManagementActivity" />
+        <!-- 添加收货地址 -->
+        <activity android:name=".model.user.activity.AddAddressActivity" />
+        <activity android:name=".model.order.MyOrderActivity"></activity>
     </application>
 
 </manifest>

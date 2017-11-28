@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -127,6 +128,7 @@ public class CountdownView extends View {
         mCustomCountDownTimer = new CustomCountDownTimer(millisecond, countDownInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
+                Log.e("sss", "onTick: "+millisUntilFinished );
                 updateShow(millisUntilFinished);
             }
 
@@ -258,6 +260,7 @@ public class CountdownView extends View {
 
         reSetTime(ms);
         // interval callback
+        Log.e("sss", "updateShow: "+mInterval+"   "+mOnCountdownIntervalListener );
         if (mInterval > 0 && null != mOnCountdownIntervalListener) {
             if (mPreviousIntervalCallbackTime == 0) {
                 mPreviousIntervalCallbackTime = ms;
@@ -266,6 +269,7 @@ public class CountdownView extends View {
                 mOnCountdownIntervalListener.onInterval(this, mRemainTime);
             }
         }
+        Log.e("sss", "updateShow: "+mCountdown.handlerAutoShowTime() +"   "+mCountdown.handlerDayLargeNinetyNine() );
         if (mCountdown.handlerAutoShowTime() || mCountdown.handlerDayLargeNinetyNine()) {
             reLayout();
         } else {
@@ -274,6 +278,7 @@ public class CountdownView extends View {
     }
 
     private void reSetTime(long ms) {
+        Log.e("sss", "reSetTime: "+ms);
         int day = 0;
         int hour;
 

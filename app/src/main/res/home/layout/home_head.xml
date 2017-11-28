@@ -12,7 +12,8 @@
         android:id="@+id/banner_home"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        tools:background="@color/c_DCDCDC">
+        tools:background="@color/c_DCDCDC"
+        app:canLoop="true">
 
     </com.bigkoo.convenientbanner.ConvenientBanner>
 
@@ -82,6 +83,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:scaleType="fitXY" />
+
             <cn.iwgang.countdownview.CountdownView
                 android:layout_marginTop="40dp"
                 android:id="@+id/countdownview"
@@ -102,8 +104,7 @@
                 app:suffixTextSize="8sp"
                 app:suffixHour="时"
                 app:suffixMinute="分"
-                app:suffixSecond="秒"
-               />
+                app:suffixSecond="秒" />
         </RelativeLayout>
 
 

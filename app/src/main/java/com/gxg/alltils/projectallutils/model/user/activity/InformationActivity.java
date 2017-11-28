@@ -1,4 +1,4 @@
-package com.gxg.alltils.projectallutils.model.loginregister;
+package com.gxg.alltils.projectallutils.model.user.activity;
 
 import android.app.Dialog;
 import android.graphics.Color;

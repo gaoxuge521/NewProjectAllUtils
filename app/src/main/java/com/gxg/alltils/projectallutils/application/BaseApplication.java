@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.gxg.alltils.projectallutils.huanxin.controller.HXController;
-import com.socks.library.KLog;
 
 import cn.jpush.android.api.JPushInterface;
 

@@ -50,7 +50,7 @@
     <color name="transparent">#00000000</color>
     <color name="tv_color">#888888</color>
     <color name="color000">#000000</color>
-
+    <color name="f0f0f0">#f0f0f0</color>
 
     <!--图片背景颜色-->
     <color name="img_bg0">#d8c1b1</color>
