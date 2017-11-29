@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,23 @@ public class LoadingViewpageActivity extends Activity {
 
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(getRunningActivityName());
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getRunningActivityName());
+        MobclickAgent.onPause(this);
+    }
+    private String getRunningActivityName() {
+        String contextString = this.toString();
+        return contextString.substring(contextString.lastIndexOf(".") + 1, contextString.indexOf("@"));
+    }
 
     protected void initView() {
 

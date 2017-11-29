@@ -43,6 +43,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
+
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="true"
@@ -226,6 +227,10 @@
             android:name="UMENG_APPKEY"
             android:value="5a1e09e6a40fa37537000012" >
         </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Et_Shop" />
+
         <activity
             android:name=".WBShareActivity"
             android:configChanges="keyboardHidden|orientation"

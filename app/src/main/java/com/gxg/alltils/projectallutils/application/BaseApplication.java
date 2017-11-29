@@ -5,7 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.gxg.alltils.projectallutils.huanxin.controller.HXController;
-import com.umeng.socialize.Config;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -31,7 +31,7 @@ public class BaseApplication extends Application {
         mInstance = this;
 
         //友盟调试模式
-        Config.DEBUG = true;
+//        Config.DEBUG = true;
         //每次都调起第三方的登陆页
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
@@ -51,6 +51,14 @@ public class BaseApplication extends Application {
         //极光推送
         JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
+        //友盟统计功能
+        MobclickAgent.setDebugMode(true); // 设置开启日志,发布时请关闭日志
+        // SDK在统计Fragment时，需要关闭Activity自带的页面统计，
+        // 然后在每个页面中重新集成页面统计的代码(包括调用了 onResume 和 onPause 的Activity)。
+        MobclickAgent.openActivityDurationTrack(false);
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
+
+
         //友盟登陆分享
         PlatformConfig.setWeixin("wx8586895ef72169c9", "7fdacaaa05e891c9b81f9784b6be56f6"); //微信分享
         PlatformConfig.setSinaWeibo("2514514349", "86d079a9d76c688da1f465ed39b8bdc7", "http://sns.whalecloud.com"); //新浪分享

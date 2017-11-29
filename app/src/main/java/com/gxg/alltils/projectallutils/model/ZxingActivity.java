@@ -21,6 +21,7 @@ import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
 import com.socks.library.KLog;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -112,10 +113,23 @@ public class ZxingActivity extends TakePhotoActivity implements QRCodeView.Deleg
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(getRunningActivityName());
+        MobclickAgent.onResume(this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getRunningActivityName());
+        MobclickAgent.onPause(this);
+    }
+    private String getRunningActivityName() {
+        String contextString = this.toString();
+        return contextString.substring(contextString.lastIndexOf(".") + 1, contextString.indexOf("@"));
     }
 
     @Override

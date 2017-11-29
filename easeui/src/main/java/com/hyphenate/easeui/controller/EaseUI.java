@@ -141,7 +141,7 @@ public final class EaseUI {
     void initNotifier(){
         notifier = createNotifier();
         notifier.init(appContext);
-        Log.e("sss" ,"initNotifier: 11111111111111111");
+//        Log.e("sss" ,"initNotifier: 11111111111111111");
     }
     
     private void registerMessageListener() {

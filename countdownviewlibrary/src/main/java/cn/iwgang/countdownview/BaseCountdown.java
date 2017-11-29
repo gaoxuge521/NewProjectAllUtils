@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -94,7 +93,6 @@ class BaseCountdown {
 
         mHasSetIsShowDay = ta.hasValue(R.styleable.CountdownView_isShowDay);
         mHasSetIsShowHour = ta.hasValue(R.styleable.CountdownView_isShowHour);
-        Log.e("sss", "initStyleAttr: "+mHasSetIsShowDay+"  "+mHasSetIsShowHour );
 
         initTempSuffixMargin();
 
@@ -721,7 +719,7 @@ class BaseCountdown {
         boolean isReLayout = false;
         if (isShowDay) {
             // handler large ninety nine
-            Log.e("sss", "handlerDayLargeNinetyNine: "+isDayLargeNinetyNine  +"    "+mDay );
+//            Log.e("sss", "handlerDayLargeNinetyNine: "+isDayLargeNinetyNine  +"    "+mDay );
             if (!isDayLargeNinetyNine && mDay > 99) {
                 isDayLargeNinetyNine = true;
                 isReLayout = true;

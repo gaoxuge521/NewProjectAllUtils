@@ -143,7 +143,7 @@ public class FindFragment extends BaseFragment {
                 findTypeBean = GsonUtil.GsonToObject(result, FindTypeBean.class);
                 if (findTypeBean.getDatas().getClass_list().size() > 0) {
                     findTypeBean.getDatas().getClass_list().add(0, topbean);
-                    KLog.e("sss" + findTypeBean.getDatas().getClass_list().get(0).getGc_name());
+//                    KLog.e("sss" + findTypeBean.getDatas().getClass_list().get(0).getGc_name());
 
                     initFragment();
 

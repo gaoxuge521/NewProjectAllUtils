@@ -108,7 +108,7 @@ public class UserFragment extends BaseFragment {
            KLog.e( new File(avatar).exists()+"    "+ new File(avatar).length());
             new ImageLoaderUtil().loadCircleImg(getActivity(),new ImageLoader.Builder().imgView(img_avatar).url(new File(avatar)).errorHolder(R.drawable.ic_me_touxiang).placeHolder(R.drawable.ic_me_touxiang).build(),2,getResources().getColor(R.color.white));
         }else{
-            KLog.e("sss  没有登陆过"+SharedPreferencesUtils.isLogin(getActivity()));
+//            KLog.e("sss  没有登陆过"+SharedPreferencesUtils.isLogin(getActivity()));
             layout_user_info.setVisibility(View.GONE);
             layout_login.setVisibility(View.VISIBLE);
         }

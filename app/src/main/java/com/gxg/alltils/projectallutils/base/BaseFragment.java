@@ -63,14 +63,34 @@ public abstract class BaseFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-    // long吐司
+    // long吐司在中间显示
     public void showToastLong(String text) {
-        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+        try {
+            Toast toast = new Toast(mActivity);
+            toast.setDuration(Toast.LENGTH_LONG);
+            View toastRoot = View.inflate(mActivity,R.layout.toast_view,null);
+            TextView tv = (TextView) toastRoot.findViewById(R.id.TextViewInfo);
+            tv.setText(""+text+"");
+            toast.setView(toastRoot);
+            toast.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    // long吐司
+    // Short吐司在中间显示
     public void showToastShort(String text) {
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        try {
+            Toast toast = new Toast(mActivity);
+            toast.setDuration(Toast.LENGTH_SHORT);
+            View toastRoot = View.inflate(mActivity,R.layout.toast_view,null);
+            TextView tv = (TextView) toastRoot.findViewById(R.id.TextViewInfo);
+            tv.setText(""+text+"");
+            toast.setView(toastRoot);
+            toast.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void openActivityAndCloseThis(Class<?> targetActivityClass) {
@@ -144,13 +164,29 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 判断权限
+     * 判断权限，以权限组的方式申请
      *
      * @param permissionsArray 权限组 根据需要在Permission类找
      *                         传的时候如    Permission.CAMERA,
      *                         Permission.STORAGE
      */
     public void permissionsJudgment(PermissionCallBack permissionCallBack, String[]... permissionsArray) {
+        this.onpermissionCallBack = permissionCallBack;
+        AndPermission.with(this)
+                .requestCode(200)
+                .permission(permissionsArray)
+                .callback(listener)
+                .start();
+    }
+
+    /**
+     * 判断权限，以单个权限的方式申请
+     *
+     * @param permissionsArray 权限组 根据需要在Permission类找
+     *                         传的时候如    Permission.CAMERA,
+     *                         Permission.STORAGE
+     */
+    public void permissionsJudgment(PermissionCallBack permissionCallBack, String... permissionsArray) {
         this.onpermissionCallBack = permissionCallBack;
         AndPermission.with(this)
                 .requestCode(200)
@@ -190,28 +226,9 @@ public abstract class BaseFragment extends Fragment {
         public void onFailed(int requestCode, List<String> deniedPermissions) {
             // 权限申请失败回调。
             if (requestCode == 200) {
-                // TODO ...
-                KLog.e("权限申请失败" + deniedPermissions.toString());
-                // 是否有不再提示并拒绝的权限。
-                if (!AndPermission.hasAlwaysDeniedPermission(getActivity(), deniedPermissions)) {
-                    KLog.e("权限申请失败222222");
-
-                    if (onpermissionCallBack != null) {
-                        onpermissionCallBack.onFailed(requestCode, deniedPermissions);
-                    }
-//                    // 第二种：用自定义的提示语。
-//                    AndPermission.defaultSettingDialog(getActivity(), 400)
-//                            .setTitle("权限申请失败")
-//                            .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
-//                            .setPositiveButton("好，去设置")
-//                            .show();
-
-//                    // 第三种：自定义dialog样式。
-//                    SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
-//                    // 你的dialog点击了确定调用：
-//                    settingService.execute();
-//                    // 你的dialog点击了取消调用：
-//                    settingService.cancel();
+                KLog.e("权限申请失败"+deniedPermissions);
+                if (onpermissionCallBack != null) {
+                    onpermissionCallBack.onFailed(requestCode, deniedPermissions);
                 }
             }
         }

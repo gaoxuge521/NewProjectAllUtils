@@ -225,4 +225,13 @@ public class MainActivity extends BaseActivity {
             System.exit(0);
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KLog.e("sss "+requestCode);
+        if(requestCode==400){
+
+        }
+    }
 }

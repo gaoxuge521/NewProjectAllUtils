@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.gxg.alltils.projectallutils.R;
 import com.gxg.alltils.projectallutils.utils.ActivityManage;
 import com.socks.library.KLog;
+import com.umeng.analytics.MobclickAgent;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -51,6 +52,26 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         initData();
         initListener();
 
+    }
+
+    //友盟统计功能
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(getRunningActivityName());
+        MobclickAgent.onResume(mActivity);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getRunningActivityName());
+        MobclickAgent.onPause(mActivity);
+    }
+
+    private String getRunningActivityName() {
+        String contextString = mActivity.toString();
+        return contextString.substring(contextString.lastIndexOf(".") + 1, contextString.indexOf("@"));
     }
 
     @Override
@@ -160,13 +181,29 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
     }
 
     /**
-     * 判断权限
+     * 判断权限，以权限组的方式申请
      *
      * @param permissionsArray 权限组 根据需要在Permission类找
      *                         传的时候如    Permission.CAMERA,
      *                         Permission.STORAGE
      */
     public void permissionsJudgment(PermissionCallBack permissionCallBack, String[]... permissionsArray) {
+        this.onpermissionCallBack = permissionCallBack;
+        AndPermission.with(this)
+                .requestCode(200)
+                .permission(permissionsArray)
+                .callback(listener)
+                .start();
+    }
+
+    /**
+     * 判断权限，以单个权限的方式申请
+     *
+     * @param permissionsArray 权限组 根据需要在Permission类找
+     *                         传的时候如    Permission.CAMERA,
+     *                         Permission.STORAGE
+     */
+    public void permissionsJudgment(PermissionCallBack permissionCallBack, String... permissionsArray) {
         this.onpermissionCallBack = permissionCallBack;
         AndPermission.with(this)
                 .requestCode(200)
@@ -208,26 +245,8 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
             if (requestCode == 200) {
                 // TODO ...
                 KLog.e("权限申请失败" + deniedPermissions.toString());
-                // 是否有不再提示并拒绝的权限。
-                if (!AndPermission.hasAlwaysDeniedPermission(mActivity, deniedPermissions)) {
-                    KLog.e("权限申请失败222222");
-
-                    if (onpermissionCallBack != null) {
-                        onpermissionCallBack.onFailed(requestCode, deniedPermissions);
-                    }
-//                    // 第二种：用自定义的提示语。
-//                    AndPermission.defaultSettingDialog(getActivity(), 400)
-//                            .setTitle("权限申请失败")
-//                            .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
-//                            .setPositiveButton("好，去设置")
-//                            .show();
-
-//                    // 第三种：自定义dialog样式。
-//                    SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
-//                    // 你的dialog点击了确定调用：
-//                    settingService.execute();
-//                    // 你的dialog点击了取消调用：
-//                    settingService.cancel();
+                if (onpermissionCallBack != null) {
+                    onpermissionCallBack.onFailed(requestCode, deniedPermissions);
                 }
             }
         }

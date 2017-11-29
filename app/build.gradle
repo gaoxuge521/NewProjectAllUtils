@@ -14,7 +14,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.gxg.alltils.projectallutils"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -125,5 +125,5 @@ dependencies {
     compile 'com.zhy:flowlayout-lib:1.0.1'
     compile 'q.rorbin:badgeview:1.0.2'
     testCompile 'junit:junit:4.12'
-    compile 'com.google.android:multidex:0.1'
+//    compile 'com.google.android:multidex:0.1'
 }

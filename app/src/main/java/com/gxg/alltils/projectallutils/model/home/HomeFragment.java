@@ -1,5 +1,6 @@
 package com.gxg.alltils.projectallutils.model.home;
 
+import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -681,13 +682,6 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
             @Override
             public void onFailed(int requestCode, List<String> deniedPermissions) {
-//                AndPermission.defaultSettingDialog(getActivity(), 400)
-//                        .setTitle("权限申请失败")
-//                        .setMessage("扫描二维码需要打开相机和散光灯的权限，请在设置中授权！")
-//                        .setPositiveButton("好，去设置")
-//                        .show();
-
-
               final  SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
                 if(customDialog!=null){
                     customDialog.dialogForPermission(getActivity(), "扫描二维码需要打开相机和文件读写的权限，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
@@ -702,11 +696,6 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
                         }
                     });
                 }
-
-//                    // 你的dialog点击了确定调用：
-//                    settingService.execute();
-//                    // 你的dialog点击了取消调用：
-//                    settingService.cancel();
             }
         },Permission.CAMERA,Permission.STORAGE);
     }
@@ -725,28 +714,43 @@ public class HomeFragment extends BaseFragment implements CountdownView.OnCountd
 
             @Override
             public void onFailed(int requestCode, List<String> deniedPermissions) {
-//                AndPermission.defaultSettingDialog(getActivity(), 400)
-//                        .setTitle("权限申请失败")
-//                        .setMessage("登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！")
-//                        .setPositiveButton("好，去设置")
-//                        .show();
+                // 是否有不再提示并拒绝的权限。
+                if (!AndPermission.hasAlwaysDeniedPermission(mActivity, deniedPermissions)) {
+                    KLog.e("没有不再提示并拒绝的权限222222");
+                    showPermissionDialog();
+                }else{
+                    // 有不再提示并拒绝的权限。
+                    KLog.e("有不再提示并拒绝的权限222222");
 
-                final  SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
-                if(customDialog!=null){
-                    customDialog.dialogForPermission(getActivity(), "登陆客服聊天需要读写权限以便保存聊天记录，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
-                        @Override
-                        public void onNegativeClick() {
-                            settingService.cancel();
-                        }
-                    }, new CustomDialog.PositiveOnClick() {
-                        @Override
-                        public void onPositiveClick() {
-                            settingService.execute();
-                        }
-                    });
+                    if(isToHx){
+                        showPermissionDialog();
+                    }else{
+                        showToastLong("当前应用缺少必要权限，可能会影响您的正常使用。请在设置中授权！");
+                    }
                 }
+
             }
-        }, Permission.STORAGE);
+        }, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE);
+    }
+
+    /**
+     * 显示添加权限的dialog
+     */
+    private void showPermissionDialog() {
+        final SettingService settingService = AndPermission.defineSettingDialog(getActivity(), 400);
+        if(customDialog!=null){
+            customDialog.dialogForPermission(getActivity(), "当前应用缺少必要权限，请在设置中授权！", "取消", "去设置", new CustomDialog.NegativeOnClick() {
+                @Override
+                public void onNegativeClick() {
+                    settingService.cancel();
+                }
+            }, new CustomDialog.PositiveOnClick() {
+                @Override
+                public void onPositiveClick() {
+                    settingService.execute();
+                }
+            });
+        }
     }
 
     /**

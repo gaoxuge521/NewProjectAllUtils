@@ -16,6 +16,7 @@ import com.gxg.alltils.projectallutils.utils.Contants;
 import com.gxg.alltils.projectallutils.utils.SharedPreferencesUtils;
 import com.gxg.alltils.projectallutils.utils.WeakHandler;
 import com.socks.library.KLog;
+import com.umeng.analytics.MobclickAgent;
 
 public class WelcomeActivity extends Activity {
     private int MSG_INIT_OK = 1;
@@ -106,6 +107,24 @@ public class WelcomeActivity extends Activity {
                 gotoNext();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(getRunningActivityName());
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getRunningActivityName());
+        MobclickAgent.onPause(this);
+    }
+    private String getRunningActivityName() {
+        String contextString = this.toString();
+        return contextString.substring(contextString.lastIndexOf(".") + 1, contextString.indexOf("@"));
     }
 
     private void initSystem() {
