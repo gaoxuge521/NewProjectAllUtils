@@ -94,6 +94,8 @@ public class SearchGoodAdapter extends BaseQuickAdapter<SearchGoodBean.DatasBean
         //添加点击事件
         helper.addOnClickListener(R.id.tv_search_good_store_name);//点击显示商店信息
         helper.addOnClickListener(R.id.ll_store_credit);//点击显示商品信息
+        helper.addOnClickListener(R.id.ll_goods);//跳转商品详情
+        helper.addOnClickListener(R.id.iv_search_good_item);//跳转商品详情
 
 
     }

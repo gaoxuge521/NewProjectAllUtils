@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //qq 微信 微博 QQ空间 朋友圈
+    <string-array name="shares">
+        <item>QQ</item>
+        <item>微信</item>
+        <item>微博</item>
+        <item>QQ空间</item>
+        <item>朋友圈</item>
+    </string-array>
+</resources>

@@ -105,7 +105,6 @@ public class SearchGoodResultActivity extends BaseActivity {
         searchGoodAdapter = new SearchGoodAdapter(new ArrayList<SearchGoodBean.DatasBean.GoodsListBean>());
         rvSearch.setAdapter(searchGoodAdapter);
 
-
         // 初始化排序的pop
         initCityPop();
 
@@ -208,6 +207,11 @@ public class SearchGoodResultActivity extends BaseActivity {
                         break;
                     case R.id.ll_store_credit:
                         searchGoodAdapter.setShowStore(null, position, false);
+                        break;
+                    case R.id.iv_search_good_item:
+                    case R.id.ll_goods:
+                        Bundle bundle = new Bundle();
+                        openActivity(GoodDetailActivity.class,bundle);
                         break;
                 }
             }

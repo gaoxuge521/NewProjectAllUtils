@@ -18,6 +18,8 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true // dex突破65535的限制
+        resConfigs "zh" //鉴于本app只应用于国内,设置语言环境为中文以减小APK
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -35,6 +37,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    signingConfigs {
+        debug {
+            storeFile file('projectallutils.jks')
+            storePassword "123456"
+            keyAlias "projectallutils"
+            keyPassword "123456"
+        }
+
+        release {
+            storeFile file('projectallutils.jks')
+            storePassword "123456"
+            keyAlias "projectallutils"
+            keyPassword "123456"
+        }
+    }
+
+
+
     lintOptions {
         disable 'MissingTranslation'
         abortOnError false
@@ -104,4 +125,5 @@ dependencies {
     compile 'com.zhy:flowlayout-lib:1.0.1'
     compile 'q.rorbin:badgeview:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.android:multidex:0.1'
 }

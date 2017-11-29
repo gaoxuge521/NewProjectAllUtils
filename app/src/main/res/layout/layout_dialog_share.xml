@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <!--<ImageView-->
+        <!--android:layout_gravity="end"-->
+        <!--android:id="@+id/iv_dialog_close"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/ease_chat_location_normal"-->
+      <!--/>-->
+
+    <GridView
+        android:paddingTop="5dp"
+        android:paddingBottom="27dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:id="@+id/gv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:scrollbars="none" />
+</LinearLayout>
